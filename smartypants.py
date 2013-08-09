@@ -1102,9 +1102,9 @@ if __name__ == "__main__":
 		lang = sys.argv.pop(1)
 	except IndexError:
 		lang = "en"
-	docstring_html = publish_string(docs[lang], writer_name='html')
+	docstring_html = publish_string(docs[lang], writer_name='html', settings_overrides={'output_encoding': 'unicode'})
 
-	print(docstring_html.decode())
+	print(docstring_html.encode("utf-8"))
 
 
 	# Unit test output goes out stderr.  No worries.
