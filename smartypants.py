@@ -226,6 +226,12 @@ To Do list
 Version History
 ===============
 
+1.5_1.5: Sat, 13 Aug 2005 15:50:24 -0400
+	- Fix bogus magical quotation when there is no hint that the 
+	  user wants it, e.g., in "21st century".  Thanks to Nathan Hamblen.
+	- Be smarter about quotes before terminating numbers in an en-dash'ed
+	  range.
+
 1.5_1.4: Thu, 10 Feb 2005 20:24:36 -0500
 	- Fix a date-processing bug, as reported by jacob childress.
 	- Begin a test-suite for ensuring correct output.
@@ -565,7 +571,7 @@ def educateQuotes(str):
 	str = re.sub(r"""'"(?=\w)""", """&#8216;&#8220;""", str)
 
 	# Special case for decade abbreviations (the '80s):
-	str = re.sub(r"""\b(?=\d{2}s)""", r"""&#8217;""", str)
+	str = re.sub(r"""\b'(?=\d{2}s)""", r"""&#8217;""", str)
 
 	close_class = r"""[^\ \t\r\n\[\{\(\-]"""
 	dec_dashes = r"""&#8211;|&#8212;"""
@@ -588,7 +594,7 @@ def educateQuotes(str):
 	closing_single_quotes_regex = re.compile(r"""
 			(%s)
 			'
-			(?!\s | s\b)
+			(?!\s | s\b | \d)
 			""" % (close_class,), re.VERBOSE)
 	str = closing_single_quotes_regex.sub(r"""\1&#8217;""", str)
 
@@ -674,7 +680,8 @@ def educateDashes(str):
 	            an em-dash HTML entity.
 	"""
 
-	str = re.sub(r"""--""", r"""&#8212;""", str)
+	str = re.sub(r"""---""", r"""&#8211;""", str) # en  (yes, backwards)
+	str = re.sub(r"""--""", r"""&#8212;""", str) # em (yes, backwards)
 	return str
 
 
@@ -687,8 +694,8 @@ def educateDashesOldSchool(str):
 	            an em-dash HTML entity.
 	"""
 
-	str = re.sub(r"""---""", r"""&#8212;""", str)    # em
-	str = re.sub(r"""--""", r"""&#8211;""", str)    # en
+	str = re.sub(r"""---""", r"""&#8212;""", str)    # em (yes, backwards)
+	str = re.sub(r"""--""", r"""&#8211;""", str)    # en (yes, backwards)
 	return str
 
 
@@ -845,10 +852,17 @@ if __name__ == "__main__":
 		# the default attribute is "1", which means "all".
 
 		def test_dates(self):
-			self.assertEqual(sp("1440-80s"), "1440-&#8217;80s")
-			self.assertEqual(sp("1960s"), "1960s")
-			self.assertEqual(sp("one two 60s"), "one two &#8217;60s")
-			self.assertEqual(sp("60s"), "&#8217;60s")
+			self.assertEqual(sp("1440-80's"), "1440-80&#8217;s")
+			self.assertEqual(sp("1440-'80s"), "1440-&#8216;80s")
+			self.assertEqual(sp("1440---'80s"), "1440&#8211;&#8216;80s")
+			self.assertEqual(sp("1960s"), "1960s")  # no effect.
+			self.assertEqual(sp("1960's"), "1960&#8217;s")
+			self.assertEqual(sp("one two '60s"), "one two &#8216;60s")
+			self.assertEqual(sp("'60s"), "&#8216;60s")
+
+		def test_ordinal_numbers(self):
+			self.assertEqual(sp("21st century"), "21st century")  # no effect.
+			self.assertEqual(sp("3rd"), "3rd")  # no effect.
 
 		def test_educated_quotes(self):
 			self.assertEqual(sp('''"Isn't this fun?"'''), '''&#8220;Isn&#8217;t this fun?&#8221;''')
@@ -859,6 +873,6 @@ if __name__ == "__main__":
 
 
 __author__ = "Chad Miller <smartypantspy@chad.org>"
-__version__ = "1.5_1.4: Thu, 10 Feb 2005 20:24:36 -0500"
+__version__ = "1.5_1.5: Sat, 13 Aug 2005 15:50:24 -0400"
 __url__ = "http://wiki.chad.org/SmartyPantsPy"
 __description__ = "Smart-quotes, smart-ellipses, and smart-dashes for weblog entries in pyblosxom"
