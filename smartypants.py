@@ -19,7 +19,7 @@ Synopsis
 
 A smart-quotes plugin for Pyblosxom_.
 
-The original "SmartyPants" is a free web publishing plug-in for Movable Type,
+The priginal "SmartyPants" is a free web publishing plug-in for Movable Type,
 Blosxom, and BBEdit that easily translates plain ASCII punctuation characters
 into "smart" typographic punctuation HTML entities.
 
@@ -226,12 +226,18 @@ Version History
 1.5_1.0: Tue, 09 Mar 2004 08:08:35 -0500
 	- Initial release
 
+1.5_1.1: Sun, 14 Mar 2004 14:38:28 -0500
+	- Support upcoming pyblosxom 0.9 plugin verification feature.
+
 Version Information
 -------------------
 
 Version numbers will track the SmartyPants_ version numbers, with the addition
 of an underscore and the smartypants.py version on the end.
 
+New versions will be available at `http://wiki.chad.org/SmartyPantsPy`_
+
+.. _http://wiki.chad.org/SmartyPantsPy: http://wiki.chad.org/SmartyPantsPy
 
 Authors
 =======
@@ -241,12 +247,12 @@ Authors
 ported it to Python to use with Pyblosxom_.
 
 
-Additional SmartyPants Credits
-==============================
+Additional Credits
+==================
 
-Portions of the SmartyPants plug-in are based on Brad Choate's nifty MTRegex
-plug-in.  `Brad Choate`_ also contributed a few bits of source code to
-SmartyPants.  Brad Choate is a fine hacker indeed.
+Portions of the SmartyPants original work are based on Brad Choate's nifty
+MTRegex plug-in.  `Brad Choate`_ also contributed a few bits of source code to
+this plug-in.  Brad Choate is a fine hacker indeed.
 
 `Jeremy Hedley`_ and `Charles Wiltgen`_ deserve mention for exemplary beta
 testing of the original SmartyPants.
@@ -342,7 +348,12 @@ import re, string
 
 tags_to_skip_regex = re.compile("<(/)?(?:pre|code|kbd|script|math)[^>]*>")
 
-# the pre-output callback for every entry
+
+def verify_installation(request):
+	return 1
+	# assert the plugin is functional
+
+
 def cb_story(args):
 	global default_smartypants_attr
 
@@ -358,6 +369,8 @@ def cb_story(args):
 	args["entry"]["body"] = smartyPants(args["entry"].getData(), attributes)
 	args["entry"]["title"] = smartyPants(args["entry"]["title"], attributes)
 
+
+### interal functions below here
 
 def smartyPants(text, attr=default_smartypants_attr):
 	convert_quot = False  # should we translate &quot; entities into normal quotes?
@@ -422,7 +435,7 @@ def smartyPants(text, attr=default_smartypants_attr):
 
 	tokens = _tokenize(text)
 	result = []
-	in_pre = False  # Keep track of when we're inside <pre> or <code> tags.
+	in_pre = False
 
 	prev_token_last_char = ""
 	# This is a cheat, used to get some context
@@ -792,7 +805,7 @@ if __name__ == "__main__":
 
 
 
-__author__ = "Chad Miller <smartypantspy@chad.org>"
-__version__ = "1.5_1.0  Tue, 09 Mar 2004 08:08:57 -0500"
+__author__ = "Chad Miller <pysmartypants@chad.org>"
+__version__ = "1.5_1.1  Sun, 14 Mar 2004 14:38:28 -0500"
 __url__ = "http://wiki.chad.org/SmartyPantsPy"
 __description__ = "Smart-quotes, smart-ellipses, and smart-dashes for weblog entries in pyblosxom"
