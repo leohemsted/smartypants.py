@@ -150,6 +150,9 @@ example, to educate normal quotes and em-dashes, but not ellipses or
 	regular quotes so SmartyPants can educate them, you should pass the
 	following to the smarty_pants attribute:
 
+The ``smartypants_forbidden_flavours`` list contains pyblosxom flavours for 
+which no Smarty Pants rendering will occur.
+
 
 Caveats
 =======
@@ -223,8 +226,14 @@ To Do list
 Version History
 ===============
 
+1.5_1.3: Wed, 15 Sep 2004 18:25:58 -0400
+	- Abort processing if the flavour is in forbidden-list.  Default of 
+	  [ "rss" ]   (Idea of Wolfgang SCHNERRING.)
+	- Remove stray virgules from en-dashes.  Patch by Wolfgang SCHNERRING.
+
 1.5_1.2: Mon, 24 May 2004 08:14:54 -0400
-	- Some single quotes weren't replaced properly.  Diff-tesuji played by Benjamin GEIGER.
+	- Some single quotes weren't replaced properly.  Diff-tesuji played
+	  by Benjamin GEIGER.
 
 1.5_1.1: Sun, 14 Mar 2004 14:38:28 -0500
 	- Support upcoming pyblosxom 0.9 plugin verification feature.
@@ -361,6 +370,11 @@ def cb_story(args):
 	global default_smartypants_attr
 
 	try:
+		forbidden_flavours = args["entry"]["smartypants_forbidden_flavours"]
+	except KeyError:
+		forbidden_flavours = [ "rss" ]
+
+	try:
 		attributes = args["entry"]["smartypants_attributes"]
 	except KeyError:
 		attributes = default_smartypants_attr
@@ -368,8 +382,13 @@ def cb_story(args):
 	if attributes is None:
 		attributes = default_smartypants_attr
 
+	entryData = args["entry"].getData()
+
+	if args["request"]["flavour"] in forbidden_flavours:
+		return
+
 	# FIXME: make these configurable, perhaps?
-	args["entry"]["body"] = smartyPants(args["entry"].getData(), attributes)
+	args["entry"]["body"] = smartyPants(entryData, attributes)
 	args["entry"]["title"] = smartyPants(args["entry"]["title"], attributes)
 
 
@@ -659,7 +678,7 @@ def educateDashesOldSchool(str):
 	"""
 
 	str = re.sub(r"""---""", r"""&#8212;""", str)    # em
-	str = re.sub(r"""--""", r"""/&#8211;""", str)    # en
+	str = re.sub(r"""--""", r"""&#8211;""", str)    # en
 	return str
 
 
@@ -679,7 +698,7 @@ def educateDashesOldSchoolInverted(str):
 	            Swartz for the idea.)
 	"""
 	str = re.sub(r"""---""", r"""&#8211;""", str)    # em
-	str = re.sub(r"""--""", r"""/&#8212;""", str)    # en
+	str = re.sub(r"""--""", r"""&#8212;""", str)    # en
 	return str
 
 
@@ -808,7 +827,7 @@ if __name__ == "__main__":
 
 
 
-__author__ = "Chad Miller <smartypantsy@chad.org>"
-__version__ = "1.5_1.2: Mon, 24 May 2004 08:14:54 -0400"
+__author__ = "Chad Miller <smartypantspy@chad.org>"
+__version__ = "1.5_1.3: Wed, 15 Sep 2004 18:25:58 -0400"
 __url__ = "http://wiki.chad.org/SmartyPantsPy"
 __description__ = "Smart-quotes, smart-ellipses, and smart-dashes for weblog entries in pyblosxom"
