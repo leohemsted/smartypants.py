@@ -4,7 +4,6 @@ HEADER.html: HEADER.en.html
 	mv $< $@
 
 HEADER.%.html: smartypants.py
-	python $< $* >/dev/null
 	python3 $< $* >$@
 
 checksums: emit
