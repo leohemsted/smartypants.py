@@ -384,8 +384,12 @@ def cb_story(args):
 
 	entryData = args["entry"].getData()
 
-	if args["request"]["flavour"] in forbidden_flavours:
-		return
+	try:
+		if args["request"]["flavour"] in forbidden_flavours:
+			return
+	except KeyError:
+		if "&lt;" in args["entry"]["body"][0:15]:  # sniff the stream
+			return  # abort if it looks like escaped HTML.  FIXME
 
 	# FIXME: make these configurable, perhaps?
 	args["entry"]["body"] = smartyPants(entryData, attributes)
