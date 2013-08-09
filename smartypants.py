@@ -1145,6 +1145,6 @@ if __name__ == "__main__":
 
 
 __author__ = "Chad Miller <smartypantspy@chad.org>"
-__version__ = "1.5_1.6: Fri, 27 Jul 2007 07:06:40 -0400"
+__version__ = "1.5_1.7: Fri, 09 Aug 2013 07:34:16 -0400"
 __url__ = "http://wiki.chad.org/SmartyPantsPy"
 __description__ = "Smart-quotes, smart-ellipses, and smart-dashes for weblog entries in pyblosxom"
