@@ -1104,7 +1104,7 @@ if __name__ == "__main__":
 		lang = "en"
 	docstring_html = publish_string(docs[lang], writer_name='html')
 
-	print(docstring_html)
+	print(docstring_html.decode())
 
 
 	# Unit test output goes out stderr.  No worries.
