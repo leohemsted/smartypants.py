@@ -4,4 +4,4 @@ HEADER.html: HEADER.en.html
 	mv $< $@
 
 HEADER.%.html: smartypants.py
-	python $< $* >$@
+	python3 $< $* >$@

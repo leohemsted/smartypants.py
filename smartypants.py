@@ -233,6 +233,7 @@ Version History
 1.5_1.7: Fri, 09 Aug 2013 07:34:16 -0400
 	- Add HBS language translation. Patch by by Vera Djuraskovic from
 	  Webhostinggeeks.com
+	- Add Python3 support.  
 1.5_1.6: Fri, 27 Jul 2007 07:06:40 -0400
 	- Fixed bug where blocks of precious unalterable text was instead
 	  interpreted.  Thanks to Le Roux and Dirk van Oosterbosch.
@@ -1103,7 +1104,7 @@ if __name__ == "__main__":
 		lang = "en"
 	docstring_html = publish_string(docs[lang], writer_name='html')
 
-	print docstring_html
+	print(docstring_html)
 
 
 	# Unit test output goes out stderr.  No worries.
