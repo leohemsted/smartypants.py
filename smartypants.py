@@ -223,11 +223,14 @@ To Do list
 Version History
 ===============
 
-1.5_1.0: Tue, 09 Mar 2004 08:08:35 -0500
-	- Initial release
+1.5_1.2: Mon, 24 May 2004 08:14:54 -0400
+	- Some single quotes weren't replaced properly.  Diff-tesuji played by Benjamin GEIGER.
 
 1.5_1.1: Sun, 14 Mar 2004 14:38:28 -0500
 	- Support upcoming pyblosxom 0.9 plugin verification feature.
+
+1.5_1.0: Tue, 09 Mar 2004 08:08:35 -0500
+	- Initial release
 
 Version Information
 -------------------
@@ -556,7 +559,7 @@ def educateQuotes(str):
 	closing_single_quotes_regex = re.compile(r"""
 			(%s)
 			'
-			(?=\s | s\b)
+			(?!\s | s\b)
 			""" % (close_class,), re.VERBOSE)
 	str = closing_single_quotes_regex.sub(r"""\1&#8217;""", str)
 
@@ -568,7 +571,7 @@ def educateQuotes(str):
 	str = closing_single_quotes_regex.sub(r"""\1&#8217;\2""", str)
 
 	# Any remaining single quotes should be opening ones:
-	re.sub(r"""'""", r"""&#8216;""", str)
+	str = re.sub(r"""'""", r"""&#8216;""", str)
 
 	# Get most opening double quotes:
 	opening_double_quotes_regex = re.compile(r"""
@@ -600,7 +603,7 @@ def educateQuotes(str):
 	str = closing_double_quotes_regex.sub(r"""\1&#8221;""", str)
 
 	# Any remaining quotes should be opening ones.
-	str = re.sub(r'"', r"""&#8220;<!--fallthrough case-->""", str)
+	str = re.sub(r'"', r"""&#8220;""", str)
 
 	return str
 
@@ -805,7 +808,7 @@ if __name__ == "__main__":
 
 
 
-__author__ = "Chad Miller <pysmartypants@chad.org>"
-__version__ = "1.5_1.1  Sun, 14 Mar 2004 14:38:28 -0500"
+__author__ = "Chad Miller <smartypantsy@chad.org>"
+__version__ = "1.5_1.2: Mon, 24 May 2004 08:14:54 -0400"
 __url__ = "http://wiki.chad.org/SmartyPantsPy"
 __description__ = "Smart-quotes, smart-ellipses, and smart-dashes for weblog entries in pyblosxom"
