@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 r"""
 ==============
 smartypants.py
@@ -8,7 +10,7 @@ SmartyPants ported to Python
 ----------------------------
 
 Ported by `Chad Miller`_
-Copyright (c) 2004 Chad Miller
+Copyright (c) 2004, 2007 Chad Miller
 
 original `SmartyPants`_ by `John Gruber`_
 Copyright (c) 2003 John Gruber
@@ -226,6 +228,10 @@ To Do list
 Version History
 ===============
 
+1.5_1.6: Fri, 27 Jul 2007 07:06:40 -0400
+	- Fixed bug where blocks of precious unalterable text was instead
+	  interpreted.  Thanks to Le Roux and Dirk van Oosterbosch.
+	
 1.5_1.5: Sat, 13 Aug 2005 15:50:24 -0400
 	- Fix bogus magical quotation when there is no hint that the 
 	  user wants it, e.g., in "21st century".  Thanks to Nathan Hamblen.
@@ -370,7 +376,7 @@ default_smartypants_attr = "1"
 
 import re
 
-tags_to_skip_regex = re.compile("<(/)?(?:pre|code|kbd|script|math)[^>]*>")
+tags_to_skip_regex = re.compile(r"<(/)?(pre|code|kbd|script|math)[^>]*>", re.I)
 
 
 def verify_installation(request):
@@ -428,6 +434,7 @@ def smartyPants(text, attr=default_smartypants_attr):
 	# e : ellipses
 	# w : convert &quot; entities to " for Dreamweaver users
 
+	skipped_tag_stack = []
 	do_dashes = "0"
 	do_backticks = "0"
 	do_quotes = "0"
@@ -485,13 +492,22 @@ def smartyPants(text, attr=default_smartypants_attr):
 
 	for cur_token in tokens:
 		if cur_token[0] == "tag":
-			# Don't mess with quotes inside tags.
+			# Don't mess with quotes inside some tags.  This does not handle self <closing/> tags!
 			result.append(cur_token[1])
-			close_match = tags_to_skip_regex.match(cur_token[1])
-			if close_match is not None and close_match.group(1) == "":
-				in_pre = True
-			else:
-				in_pre = False
+			skip_match = tags_to_skip_regex.match(cur_token[1])
+			if skip_match is not None:
+				if not skip_match.group(1):
+					skipped_tag_stack.append(skip_match.group(2).lower())
+					in_pre = True
+				else:
+					if len(skipped_tag_stack) > 0:
+						if skip_match.group(2).lower() == skipped_tag_stack[-1]:
+							skipped_tag_stack.pop()
+						else:
+							pass
+							# This close doesn't match the open.  This isn't XHTML.  We should barf here.
+					if len(skipped_tag_stack) == 0:
+						in_pre = False
 		else:
 			t = cur_token[1]
 			last_char = t[-1:] # Remember last char of this token before processing.
@@ -814,7 +830,7 @@ def _tokenize(str):
 
 	previous_end = 0
 	while token_match is not None:
-		if token_match.group(1) != "":
+		if token_match.group(1):
 			tokens.append(['text', token_match.group(1)])
 
 		tokens.append(['tag', token_match.group(2)])
@@ -860,6 +876,15 @@ if __name__ == "__main__":
 			self.assertEqual(sp("one two '60s"), "one two &#8216;60s")
 			self.assertEqual(sp("'60s"), "&#8216;60s")
 
+		def test_skip_tags(self):
+			self.assertEqual(
+				sp("""<script type="text/javascript">\n<!--\nvar href = "http://www.google.com";\nvar linktext = "google";\ndocument.write('<a href="' + href + '">' + linktext + "</a>");\n//-->\n</script>"""), 
+				   """<script type="text/javascript">\n<!--\nvar href = "http://www.google.com";\nvar linktext = "google";\ndocument.write('<a href="' + href + '">' + linktext + "</a>");\n//-->\n</script>""")
+			self.assertEqual(
+				sp("""<p>He said &quot;Let's write some code.&quot; This code here <code>if True:\n\tprint &quot;Okay&quot;</code> is python code.</p>"""), 
+				   """<p>He said &#8220;Let&#8217;s write some code.&#8221; This code here <code>if True:\n\tprint &quot;Okay&quot;</code> is python code.</p>""")
+
+
 		def test_ordinal_numbers(self):
 			self.assertEqual(sp("21st century"), "21st century")  # no effect.
 			self.assertEqual(sp("3rd"), "3rd")  # no effect.
@@ -873,6 +898,6 @@ if __name__ == "__main__":
 
 
 __author__ = "Chad Miller <smartypantspy@chad.org>"
-__version__ = "1.5_1.5: Sat, 13 Aug 2005 15:50:24 -0400"
+__version__ = "1.5_1.6: Fri, 27 Jul 2007 07:06:40 -0400"
 __url__ = "http://wiki.chad.org/SmartyPantsPy"
 __description__ = "Smart-quotes, smart-ellipses, and smart-dashes for weblog entries in pyblosxom"
