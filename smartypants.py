@@ -1,4 +1,4 @@
-"""
+r"""
 ==============
 smartypants.py
 ==============
@@ -226,6 +226,12 @@ To Do list
 Version History
 ===============
 
+1.5_1.4: Thu, 10 Feb 2005 20:24:36 -0500
+	- Fix a date-processing bug, as reported by jacob childress.
+	- Begin a test-suite for ensuring correct output.
+	- Removed import of "string", since I didn't really need it.
+	  (This was my first every Python program.  Sue me!)
+
 1.5_1.3: Wed, 15 Sep 2004 18:25:58 -0400
 	- Abort processing if the flavour is in forbidden-list.  Default of 
 	  [ "rss" ]   (Idea of Wolfgang SCHNERRING.)
@@ -356,7 +362,7 @@ smartypants.py license::
 
 default_smartypants_attr = "1"
 
-import re, string
+import re
 
 tags_to_skip_regex = re.compile("<(/)?(?:pre|code|kbd|script|math)[^>]*>")
 
@@ -532,7 +538,7 @@ def smartyPants(text, attr=default_smartypants_attr):
 			prev_token_last_char = last_char
 			result.append(t)
 
-	return string.join(result, "")
+	return "".join(result)
 
 
 def educateQuotes(str):
@@ -559,7 +565,7 @@ def educateQuotes(str):
 	str = re.sub(r"""'"(?=\w)""", """&#8216;&#8220;""", str)
 
 	# Special case for decade abbreviations (the '80s):
-	str = re.sub(r"""(?=\d{2}s)""", r"""&#8217;/""", str)
+	str = re.sub(r"""\b(?=\d{2}s)""", r"""&#8217;""", str)
 
 	close_class = r"""[^\ \t\r\n\[\{\(\-]"""
 	dec_dashes = r"""&#8211;|&#8212;"""
@@ -747,7 +753,7 @@ def stupefyEntities(str):
 
 
 def processEscapes(str):
-	"""
+	r"""
 	Parameter:  String.
 	Returns:    The string, with after processing the following backslash
 	            escape sequences. This is useful if you want to force a "dumb"
@@ -791,7 +797,7 @@ def _tokenize(str):
 	tokens = []
 
 	depth = 6
-	nested_tags = string.join(['(?:<(?:[^<>]',] * depth, "|") + (')*>)' * depth)
+	nested_tags = "|".join(['(?:<(?:[^<>]',] * depth) + (')*>)' * depth)
 	#match = r"""(?: <! ( -- .*? -- \s* )+ > ) |  # comments
 	#		(?: <\? .*? \?> ) |  # directives
 	#		%s  # nested tags       """ % (nested_tags,)
@@ -817,7 +823,9 @@ def _tokenize(str):
 
 
 if __name__ == "__main__":
+
 	import locale
+
 	try:
 		locale.setlocale(locale.LC_ALL, '')
 	except:
@@ -829,9 +837,28 @@ if __name__ == "__main__":
 	print docstring_html
 
 
+	# Unit test output goes out stderr.  No worries.
+	import unittest
+	sp = smartyPants
+
+	class TestSmartypantsAllAttributes(unittest.TestCase):
+		# the default attribute is "1", which means "all".
+
+		def test_dates(self):
+			self.assertEqual(sp("1440-80s"), "1440-&#8217;80s")
+			self.assertEqual(sp("1960s"), "1960s")
+			self.assertEqual(sp("one two 60s"), "one two &#8217;60s")
+			self.assertEqual(sp("60s"), "&#8217;60s")
+
+		def test_educated_quotes(self):
+			self.assertEqual(sp('''"Isn't this fun?"'''), '''&#8220;Isn&#8217;t this fun?&#8221;''')
+
+	unittest.main()
+
+
 
 
 __author__ = "Chad Miller <smartypantspy@chad.org>"
-__version__ = "1.5_1.3: Wed, 15 Sep 2004 18:25:58 -0400"
+__version__ = "1.5_1.4: Thu, 10 Feb 2005 20:24:36 -0500"
 __url__ = "http://wiki.chad.org/SmartyPantsPy"
 __description__ = "Smart-quotes, smart-ellipses, and smart-dashes for weblog entries in pyblosxom"
