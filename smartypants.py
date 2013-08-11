@@ -377,6 +377,13 @@ smartypants.py license::
 
 """
 
+__author__ = 'Yu-Jie Lin'
+__email__ = 'livibetter@gmail.com'
+__version__ = '1.7.0dev'
+__license__ = 'BSD License'
+__url__ = 'https://bitbucket.org/livibetter/smartypants.py'
+__description__ = 'Smart-quotes, smart-ellipses, and smart-dashes'
+
 default_smartypants_attr = "1"
 
 import re
@@ -898,11 +905,3 @@ if __name__ == "__main__":
 			self.assertEqual(sp('''"Isn't this fun?"'''), '''&#8220;Isn&#8217;t this fun?&#8221;''')
 
 	unittest.main()
-
-
-
-
-__author__ = "Chad Miller <smartypantspy@chad.org>"
-__version__ = "1.5_1.6: Fri, 27 Jul 2007 07:06:40 -0400"
-__url__ = "http://wiki.chad.org/SmartyPantsPy"
-__description__ = "Smart-quotes, smart-ellipses, and smart-dashes for weblog entries in pyblosxom"
