@@ -15,7 +15,7 @@ default_smartypants_attr = "1"
 
 import re
 
-tags_to_skip_regex = re.compile(r"<(/)?(pre|code|kbd|script|math)[^>]*>", re.I)
+tags_to_skip_regex = re.compile('<(/)?(pre|code|kbd|script|math)[^>]*>', re.I)
 
 
 def verify_installation(request):
@@ -230,19 +230,19 @@ def educateQuotes(text):
     # Special case if the very first character is a quote
     # followed by punctuation at a non-word-break. Close the quotes by brute
     # force:
-    text = re.sub(r"""^'(?=%s\\B)""" % (punct_class,), r"""&#8217;""", text)
-    text = re.sub(r"""^"(?=%s\\B)""" % (punct_class,), r"""&#8221;""", text)
+    text = re.sub(r"""^'(?=%s\\B)""" % (punct_class,), '&#8217;', text)
+    text = re.sub(r"""^"(?=%s\\B)""" % (punct_class,), '&#8221;', text)
 
     # Special case for double sets of quotes, e.g.:
     #   <p>He said, "'Quoted' words in a larger quote."</p>
-    text = re.sub(r""""'(?=\w)""", """&#8220;&#8216;""", text)
-    text = re.sub(r"""'"(?=\w)""", """&#8216;&#8220;""", text)
+    text = re.sub(r""""'(?=\w)""", '&#8220;&#8216;', text)
+    text = re.sub(r"""'"(?=\w)""", '&#8216;&#8220;', text)
 
     # Special case for decade abbreviations (the '80s):
-    text = re.sub(r"""\b'(?=\d{2}s)""", r"""&#8217;""", text)
+    text = re.sub(r"""\b'(?=\d{2}s)""", '&#8217;', text)
 
-    close_class = r"""[^\ \t\r\n\[\{\(\-]"""
-    dec_dashes = r"""&#8211;|&#8212;"""
+    close_class = r'[^\ \t\r\n\[\{\(\-]'
+    dec_dashes = '&#8211;|&#8212;'
 
     # Get most opening single quotes:
     opening_single_quotes_regex = re.compile(r"""
@@ -257,24 +257,24 @@ def educateQuotes(text):
             '                 # the quote
             (?=\w)            # followed by a word character
             """ % (dec_dashes,), re.VERBOSE)
-    text = opening_single_quotes_regex.sub(r"""\1&#8216;""", text)
+    text = opening_single_quotes_regex.sub(r'\1&#8216;', text)
 
     closing_single_quotes_regex = re.compile(r"""
             (%s)
             '
             (?!\s | s\b | \d)
             """ % (close_class,), re.VERBOSE)
-    text = closing_single_quotes_regex.sub(r"""\1&#8217;""", text)
+    text = closing_single_quotes_regex.sub(r'\1&#8217;', text)
 
     closing_single_quotes_regex = re.compile(r"""
             (%s)
             '
             (\s | s\b)
             """ % (close_class,), re.VERBOSE)
-    text = closing_single_quotes_regex.sub(r"""\1&#8217;\2""", text)
+    text = closing_single_quotes_regex.sub(r'\1&#8217;\2', text)
 
     # Any remaining single quotes should be opening ones:
-    text = re.sub(r"""'""", r"""&#8216;""", text)
+    text = re.sub("'", '&#8216;', text)
 
     # Get most opening double quotes:
     opening_double_quotes_regex = re.compile(r"""
@@ -289,7 +289,7 @@ def educateQuotes(text):
             "                 # the quote
             (?=\w)            # followed by a word character
             """ % (dec_dashes,), re.VERBOSE)
-    text = opening_double_quotes_regex.sub(r"""\1&#8220;""", text)
+    text = opening_double_quotes_regex.sub(r'\1&#8220;', text)
 
     # Double closing quotes:
     closing_double_quotes_regex = re.compile(r"""
@@ -297,16 +297,16 @@ def educateQuotes(text):
             "
             (?=\s)
             """ % (close_class,), re.VERBOSE)
-    text = closing_double_quotes_regex.sub(r"""&#8221;""", text)
+    text = closing_double_quotes_regex.sub('&#8221;', text)
 
     closing_double_quotes_regex = re.compile(r"""
             (%s)   # character that indicates the quote should be closing
             "
             """ % (close_class,), re.VERBOSE)
-    text = closing_double_quotes_regex.sub(r"""\1&#8221;""", text)
+    text = closing_double_quotes_regex.sub(r'\1&#8221;', text)
 
     # Any remaining quotes should be opening ones.
-    text = re.sub(r'"', r"""&#8220;""", text)
+    text = re.sub('"', '&#8220;', text)
 
     return text
 
@@ -320,8 +320,8 @@ def educateBackticks(text):
     Example output: &#8220;Isn't this fun?&#8221;
     """
 
-    text = re.sub(r"""``""", r"""&#8220;""", text)
-    text = re.sub(r"""''""", r"""&#8221;""", text)
+    text = re.sub('``', '&#8220;', text)
+    text = re.sub("''", '&#8221;', text)
     return text
 
 
@@ -335,8 +335,8 @@ def educateSingleBackticks(text):
     Example output: &#8216;Isn&#8217;t this fun?&#8217;
     """
 
-    text = re.sub(r"""`""", r"""&#8216;""", text)
-    text = re.sub(r"""'""", r"""&#8217;""", text)
+    text = re.sub('`', '&#8216;', text)
+    text = re.sub("'", '&#8217;', text)
     return text
 
 
@@ -348,8 +348,8 @@ def educateDashes(text):
                 an em-dash HTML entity.
     """
 
-    text = re.sub(r"""---""", r"""&#8211;""", text)  # en  (yes, backwards)
-    text = re.sub(r"""--""", r"""&#8212;""", text)   # em (yes, backwards)
+    text = re.sub('---', '&#8211;', text)  # en  (yes, backwards)
+    text = re.sub('--', '&#8212;', text)   # em (yes, backwards)
     return text
 
 
@@ -362,8 +362,8 @@ def educateDashesOldSchool(text):
                 an em-dash HTML entity.
     """
 
-    text = re.sub(r"""---""", r"""&#8212;""", text)    # em (yes, backwards)
-    text = re.sub(r"""--""", r"""&#8211;""", text)    # en (yes, backwards)
+    text = re.sub('---', '&#8212;', text)    # em (yes, backwards)
+    text = re.sub('--', '&#8211;', text)    # en (yes, backwards)
     return text
 
 
@@ -382,8 +382,9 @@ def educateDashesOldSchoolInverted(text):
                 the shortcut should be shorter to type. (Thanks to Aaron
                 Swartz for the idea.)
     """
-    text = re.sub(r"""---""", r"""&#8211;""", text)    # em
-    text = re.sub(r"""--""", r"""&#8212;""", text)    # en
+
+    text = re.sub('---', '&#8211;', text)    # em
+    text = re.sub('--', '&#8212;', text)    # en
     return text
 
 
@@ -397,8 +398,8 @@ def educateEllipses(text):
     Example output: Huh&#8230;?
     """
 
-    text = re.sub(r"""\.\.\.""", r"""&#8230;""", text)
-    text = re.sub(r"""\. \. \.""", r"""&#8230;""", text)
+    text = re.sub(r"""\.\.\.""", '&#8230;', text)
+    text = re.sub(r"""\. \. \.""", '&#8230;', text)
     return text
 
 
@@ -412,16 +413,16 @@ def stupefyEntities(text):
     Example output: "Hello -- world."
     """
 
-    text = re.sub(r"""&#8211;""", r"""-""", text)  # en-dash
-    text = re.sub(r"""&#8212;""", r"""--""", text)  # em-dash
+    text = re.sub('&#8211;', '-', text)  # en-dash
+    text = re.sub('&#8212;', '--', text)  # em-dash
 
-    text = re.sub(r"""&#8216;""", r"""'""", text)  # open single quote
-    text = re.sub(r"""&#8217;""", r"""'""", text)  # close single quote
+    text = re.sub('&#8216;', "'", text)  # open single quote
+    text = re.sub('&#8217;', "'", text)  # close single quote
 
-    text = re.sub(r"""&#8220;""", r'''"''', text)  # open double quote
-    text = re.sub(r"""&#8221;""", r'''"''', text)  # close double quote
+    text = re.sub('&#8220;', '"', text)  # open double quote
+    text = re.sub('&#8221;', '"', text)  # close double quote
 
-    text = re.sub(r"""&#8230;""", r"""...""", text)  # ellipsis
+    text = re.sub('&#8230;', '...', text)  # ellipsis
 
     return text
 
@@ -442,12 +443,13 @@ def processEscapes(text):
                 \-      &#45;
                 \`      &#96;
     """
-    text = re.sub(r"""\\\\""", r"""&#92;""", text)
-    text = re.sub(r'''\\"''', r"""&#34;""", text)
-    text = re.sub(r"""\\'""", r"""&#39;""", text)
-    text = re.sub(r"""\\\.""", r"""&#46;""", text)
-    text = re.sub(r"""\\-""", r"""&#45;""", text)
-    text = re.sub(r"""\\`""", r"""&#96;""", text)
+
+    text = re.sub(r'\\\\', '&#92;', text)
+    text = re.sub(r'\\"', '&#34;', text)
+    text = re.sub(r"\\'", '&#39;', text)
+    text = re.sub(r'\\\.', '&#46;', text)
+    text = re.sub(r'\\-', '&#45;', text)
+    text = re.sub(r'\\`', '&#96;', text)
 
     return text
 
@@ -468,7 +470,7 @@ def _tokenize(text):
 
     tokens = []
 
-    tag_soup = re.compile(r"""([^<]*)(<[^>]*>)""")
+    tag_soup = re.compile('([^<]*)(<[^>]*>)')
 
     token_match = tag_soup.search(text)
 
