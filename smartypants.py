@@ -1,8 +1,6 @@
 #!/usr/bin/python
-# coding: utf-8
 
-docs = dict()
-docs["en"] = r"""
+r"""
 ==============
 smartypants.py
 ==============
@@ -230,9 +228,6 @@ To Do list
 Version History
 ===============
 
-1.5_1.7: Fri, 09 Aug 2013 07:34:16 -0400
-	- Add HBS language translation. Patch by by Vera Djuraskovic from
-	  Webhostinggeeks.com
 1.5_1.6: Fri, 27 Jul 2007 07:06:40 -0400
 	- Fixed bug where blocks of precious unalterable text was instead
 	  interpreted.  Thanks to Le Roux and Dirk van Oosterbosch.
@@ -365,253 +360,17 @@ smartypants.py license::
 	theory of liability, whether in contract, strict liability, or tort
 	(including negligence or otherwise) arising in any way out of the use
 	of this software, even if advised of the possibility of such damage.
-"""
 
 
-_refs = """
-.. _Brad Choate: http://bradchoate.com/
-.. _Jeremy Hedley: http://antipixel.com/
-.. _Charles Wiltgen: http://playbacktime.com/
-.. _Rael Dornfest: http://raelity.org/
+
 .. _John Gruber: http://daringfireball.net/
 .. _Chad Miller: http://web.chad.org/
+
 .. _Pyblosxom: http://roughingit.subtlehints.net/pyblosxom
 .. _SmartyPants: http://daringfireball.net/projects/smartypants/
 .. _Movable Type: http://www.movabletype.org/
+
 """
-
-
-docs["hbs"] = r"""
-SmartyPants priključen u Python
--------------------------------
-
-Priključio `Chad Miller`_
-Copyright (c) 2004, 2007, 2012 Chad Miller
-
-naziv originala `SmartyPants`_ autor `John Gruber`_
-Copyright (c) 2003 John Gruber
-
-Izvor
-=====
-
-Pronađeno u Bazaar odeljku na http://web.chad.org/projects/smartypants.py/ .
-
-
-Kratak pregled
-==============
-
-Dodatak sa tipografskim navodnicima za Pyblosxom_.
-
-Originalni "SmartyPants" je besplatan web dodatak za Movable Type,
-Blosxom i BBEdit koji lako prevodi obične ASCII znake interpunkcije u “pametne” tipografske HTML entitete interpunkcije.
-
-Оvaj softver, *smartypants.py*, nastoji da bude funkcionalan priključak 
-SmartyPants-a za Python, za korišćenje uz Pyblosxom_.
-
-
-Opis
-====
-
-SmartyPants može obavljati sledeće transformacije:
-
-- Ravne navodnike ( " i ' ) u "uvijene" HTML entitete navodnika
-- Ulevo nagnute navodnike (\`\`ovako'') u "uvijene" HTML entitete navodnika
-- Crtice (``--`` i ``---``) u entitete kratke i duge crtice
-- Tri tačke (``...`` ili ``. . .``) u elipsaste entitete
-
-To znači da možete da pišete, uređujete i čuvate vaše postove pomoću
-običnih starih ASCII ravnih navodnika, običnih crtica i običnih tačaka, ali
-vaš objavljeni post (i krajnji HTML rezultat) pojaviće se sa pametnim navodnicima,
-dugim crticama i odgovarajućim elipsama.
-
-SmartyPants ne modifikuje karaktere u okviru ``<pre>``, ``<code>``, ``<kbd>``,
-``<math>`` ili ``<script>`` blokova oznaka. Tipično, ove oznake se upotrebljavaju da 
-prikažu tekst tamo gde pametni navodnici i druga “pametna interpunkcija” ne bi bila
-odgovarajuća, kao što je izvorni kod ili označavanje primera.
-
-
-Kose crte u izlaznoj sekvenci
-=============================
-
-Ako morate da koristite dosledne ravne navodnike (ili obične povlake i tačke), 
-SmartyPants prihvata sledeće izlazne sekvence sa ulevo nagnutim kosim crtama kako bi
-izazvao pojavu ne-pametne interpunkcije. To čini tako što transformiše izlaznu
-sekvencu u decimalno kodirani HTML entitet:
-
-(FIXME: tabela ovde)
-
-
-
-
-
-
-Sasvim je glupo što postoji prekinuta veza između vizuelnog izgleda i oznake tabele onda kada
-su angažovani specijalni karakteri.
-
-
-komentar Izlaz Vrednost Karakter
-
-
-Оvo je korisno, na primer, kada želite da upotrebite ravne navodnike kao
-oznake za dužinu stopa i inča: 6'2" tall; a 17" iMac.
-
-Оpcije
-======
-
-Za korisnike Pyblosxoma, ``smartypants_attributes`` atribut je tamo gde 
-određujete opcije konfiguracije.
-
-Brojčane vrednosti su najlakši način za konfiguraciju ponašanja SmartyPants-a.
-
-"0"
-Potiskuje sve transformacije (ne radi ništa).
-"1" 
-Izvodi podrazumevane SmartyPants transformacije: navodnike (uključujući i \`\`kose crte''), duge crtice i elipse. "``--``" (crtica crtica) se koristi da označi
-dugu crticu; ne postoji podrška za kratku crticu.
-
-
-"2"
-Isto kao za smarty_pants="1", osim što koristi staro stenografsko
-kucanje za crtice: "``--``" (crtica crtica) za kratku crticu, "``---``" (crtica 
-crtica crtica) za dugu crticu.
-
-"3"
-Isto kao za smarty_pants="2", osim što invertuje stenografiju za 
-crtice: "``--``" (crtica crtica) za kratku crticu, i "``---``" (crtica 
-crtica crtica) za dugu crticu.
-
-"-1"
-Režim pretvaranja. Obrće SmartyPants proces transformacije, pretvarajući
-HTML entitete koje proizvede SmartyPants u njihove ASCII ekvivalente.
-Npr. "&#8220;" se pretvara u obične duple navodnike (“), "&#8212;" se
-pretvara u dve crtice itd.
-
-
-Sledeće vrednosti atributa pojedinačnih karaktera mogu se kombinovati kako bi
-se aktivirale individualne transformacije iz okvira smarty_pants atributa. Na primer, 
-za obrazovanje normalnih navodnika i dugih crtica, ali ne elipsa ili \`\`nagnutih'' 
-navodnika:
-
-``py['smartypants_attributes'] = "1"``
-
-"q"
-Obrazuje normalne znakove navoda: (") i (').
-
-"b"
-Obrazuje duple \`\`nagnute'' znakove navoda.
-
-"B"
-Obrazuje duple \`\`nagnute'' znakove navoda i \`pojedinačne' navodnike.
-
-"d"
-Obrazuje dugu crticu.
-
-"D"
-Obrazuje dugu crticu i kratku crticu pomoću starog stenografskog
-kucanja: (crtica crtica) za kratku crticu, (crtica crtica crtica) za dugu crticu
-
-"i"
-Obrazuje dugu crticu i kratku crticu pomoću invertovanog starog stenografskog
-kucanja: (crtica crtica) za dugu crticu, (crtica crtica crtica) za kratku crticu
-
-"e"
-Obrazuje elipse.
-
-"w" 
-Prevodi svaku instancu ``&quot;`` u normalne karaktere duplih navodnika.
-To ne bi trebalo da ima značaja za većinu ljudi, ali je od posebnog značaja
-za svakoga ko piše postove pomoću Dreamweavera, jer Dreamweaver
-neobjašnjivo koristi taj entitet da bi predstavio dosledni karakter duplih navodnika.
-SmartyPants obrazuje samo normalne navodnike, ne entitete (jer se obično
-entiteti koriste za eksplicitnu svrhu predstavljanja određenih karaktera koje
-označavaju). Opcija “w” se mora upotrebiti zajedno sa jednom (ili obe) drugom
-opcijom navodnika ("q" ili "b"). Na taj način, ako želite da primenite sve SmartyPants
-transformacije (navodnike, kratke i duge crtice i elipse) i da prevedete ``&quot;``
-entitete u regularne navodnike tako da SmartyPants može da ih obrazuje, treba
-da prenesete sledeće u smarty_pants atribut:
-
-Lista ``smartypants_forbidden_flavours`` sadrži pyblosxom zabranjene flavore za koje neće doći do SmartyPants rasterizacije.
-
-
-Upozorenja
-==========
-
-Zašto možda ne bi trebalo da koristite pametne navodnike u vašem web blogu
---------------------------------------------------------------------------
-
-Kao prvo, možda vas neće interesovati.
-
-Uobičajeno, mentalno stabilne osobe ne obraćaju pažnju na tipografsku interpunkciju
-koju koriste. Mnogi programeri i tipografski stručnjaci planu i neugodno reaguju kada se 
-susretnu sa, recimo, restoranskim natpisom koji koristi ravan apostrof za pisanje "Joe's".
-
-Ako ste vi osoba koju jednostavno nije briga, možete tako i da nastavite. Korišćenje ravnih navodnika -- i čuvanje 7-bitnog ASCII generalnog podešavanja karaktera -- svakako je
-jednostavniji način funkcionisanja.
-Čak iako mi *jeste* stalo do tačne tipografije, ipak možda treba dvaput da razmislite pre
-obrazovanja karaktera navodnika na vašem blogu. Jedan sporedan efekat objavljivanja HTML entiteta uvijenih navodnika jeste taj što to čini vaš web blog unekoliko težim za ostale da ga citiraju koristeći opciju preslikavanja (copy-paste). Dešava se da, kada neko prekopira tekst sa vašeg bloga, kopirani tekst sadrži 8-bitne uvijene znakove navoda (kao i 8-bitne karaktere za dugu crticu i elipsu, ako koristite te opcije). Ovi karakteri nisu standardni u svim metodama kodiranja teksta, zbog čega se moraju kodirati kao HTML entiteti.
-
-Oni koji kopiraju tekst sa vašeg bloga možda ipak neće primetiti da koristite uvijene navodnike i pokušaće da preslikaju 8-bitne karaktere iskopirane iz pretraživača u mejl poruku ili u njihov sopstveni blog. Kada se preslikaju kao sirovi “pametni navodnici”, ovi karakteri će se verovatno raskomadati do neprepoznavanja.
-
-Znajući sve to, moje mišljenje je da svaki pristojan uređivač teksta ili program za mejl olakšava pretvaranje pametnih navodnika u 7-bitne ekvivalente i smatram da nije moj problem ako koristite loš uređivač teksta ili loš program za mejl.
-
-
-Algoritamski nedostaci
-----------------------
-
-Jedna od situacija u kojima će navodnici postati uvijeni na pogrešan način jeste
-kada se apostrofi koriste na početku vodećih skraćivanja. Na primer:
-
-``'Twas the night before Christmas.`` (T’s’ desilo noć pred Božić)
-
-U navedenom primeru SmartyPants će pretvoriti apostrof u otvarajući pojedinačni
-znak navoda, a u stvari bi trebalo da bude zatvarajući. Mislim da se ovaj problem ne
-može rešiti u opštem smislu -- svaki word procesor koji sam isprobao to radi pogrešno.
-U takvim slučajevima najbolje je upotrebiti ispravan HTML entitet za zatvaranje pojedinačnih navoda (``&#8217;``) ručno.
-
-
-Greške
-======
-
-Da biste prijavili greške ili zahteve za svojstva (osim tema izlistanih u navedenom odeljku o upozorenjima), pošaljite mejl na smartypantspy@chad.org
-
-Ako greška podrazumeva pogrešno uvijanje navodnika, molim vas pošaljite primer koji to ilustruje.
-
-Radna lista
------------
-
-- Obezbediti funkciju za korišćenje u okviru šablona za bilo kakvo citiranje.
-
-Informacije o verziji
----------------------
-
-Brojevi verzije će pratiti SmartyPants_ brojeve verzije uz dodatak podvlačenja i smartypants.py verzije na kraju.
-
-Nove verzije će biti dostupne na `http://wiki.chad.org/SmartyPantsPy`_
-
-.. _http://wiki.chad.org/SmartyPantsPy: http://wiki.chad.org/SmartyPantsPy
-
-Аutori
-======
-
-`John Gruber`_ je odradio najteži posao u pisanju ovog softvera u Perlu za
-`Movable Type`_ i skoro sve od ove korisne dokumentacije. `Chad Miller`_
-ju je priključio u Python za korišćenje uz Pyblosxom_.
-
-
-Dodatne zasluge
-==================
-
-Delovi SmartyPants originalnog rada bazirani su na veštom MTRegex dodatku Brada Choatea `Brad Choate`_ takođe je doprineo sa nekim delovima izvornog koda za ovaj dodatak. Brad Choate je zaista odličan haker.
-
-`Jeremy Hedley`_ i `Charles Wiltgen`_ zaslužuju da budu pomenuti zbog primernog beta testiranja originalnog SmartyPants-a.
-
-`Rael Dornfest`_ priključio je SmartyPants u Blosxom
-"""
-
-for _k in docs:
-	docs[_k] += _refs
-__docs__ = docs["en"]
-
 
 default_smartypants_attr = "1"
 
@@ -1088,7 +847,6 @@ def _tokenize(str):
 
 if __name__ == "__main__":
 
-	import sys
 	import locale
 
 	try:
@@ -1097,11 +855,7 @@ if __name__ == "__main__":
 		pass
 
 	from docutils.core import publish_string
-	try:
-		lang = sys.argv.pop(1)
-	except IndexError:
-		lang = "en"
-	docstring_html = publish_string(docs[lang], writer_name='html')
+	docstring_html = publish_string(__doc__, writer_name='html')
 
 	print docstring_html
 
