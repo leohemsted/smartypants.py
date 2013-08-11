@@ -1,0 +1,38 @@
+CHANGES
+=======
+
+1.5_1.7: Fri, 09 Aug 2013 07:34:16 -0400
+    - Add HBS language translation. Patch by by Vera Djuraskovic from
+      Webhostinggeeks.com
+    - Add Python3 support.
+
+1.5_1.6: Fri, 27 Jul 2007 07:06:40 -0400
+    - Fixed bug where blocks of precious unalterable text was instead
+      interpreted.  Thanks to Le Roux and Dirk van Oosterbosch.
+
+1.5_1.5: Sat, 13 Aug 2005 15:50:24 -0400
+    - Fix bogus magical quotation when there is no hint that the
+      user wants it, e.g., in "21st century".  Thanks to Nathan Hamblen.
+    - Be smarter about quotes before terminating numbers in an en-dash'ed
+      range.
+
+1.5_1.4: Thu, 10 Feb 2005 20:24:36 -0500
+    - Fix a date-processing bug, as reported by jacob childress.
+    - Begin a test-suite for ensuring correct output.
+    - Removed import of "string", since I didn't really need it.
+      (This was my first every Python program.  Sue me!)
+
+1.5_1.3: Wed, 15 Sep 2004 18:25:58 -0400
+    - Abort processing if the flavour is in forbidden-list.  Default of
+      [ "rss" ]   (Idea of Wolfgang SCHNERRING.)
+    - Remove stray virgules from en-dashes.  Patch by Wolfgang SCHNERRING.
+
+1.5_1.2: Mon, 24 May 2004 08:14:54 -0400
+    - Some single quotes weren't replaced properly.  Diff-tesuji played
+      by Benjamin GEIGER.
+
+1.5_1.1: Sun, 14 Mar 2004 14:38:28 -0500
+    - Support upcoming pyblosxom 0.9 plugin verification feature.
+
+1.5_1.0: Tue, 09 Mar 2004 08:08:35 -0500
+    - Initial release
