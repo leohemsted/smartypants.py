@@ -1,5 +1,7 @@
+import doctest
 import unittest
 
+import smartypants
 from smartypants import smartyPants as sp
 
 
@@ -51,3 +53,9 @@ document.write('<a href="' + href + '">' + linktext + "</a>");
 
         self.assertEqual(sp('"Isn\'t this fun?"'),
                          '&#8220;Isn&#8217;t this fun?&#8221;')
+
+
+def load_tests(loader, tests, pattern):
+
+    tests.addTests(doctest.DocTestSuite(smartypants))
+    return tests

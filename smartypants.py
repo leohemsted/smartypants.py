@@ -221,8 +221,8 @@ def educateQuotes(text):
 
     Returns:    The string, with "educated" curly quote HTML entities.
 
-    Example input:  "Isn't this fun?"
-    Example output: &#8220;Isn&#8217;t this fun?&#8221;
+    >>> print(educateQuotes('"Isn\\'t this fun?"'))
+    &#8220;Isn&#8217;t this fun?&#8221;
     """
 
     punct_class = r"""[!"#\$\%'()*+,-.\/:;<=>?\@\[\\\]\^_`{|}~]"""
@@ -316,8 +316,9 @@ def educateBackticks(text):
     Parameter:  String.
     Returns:    The string, with ``backticks'' -style double quotes
                 translated into HTML curly quote entities.
-    Example input:  ``Isn't this fun?''
-    Example output: &#8220;Isn't this fun?&#8221;
+
+    >>> print(educateBackticks("``Isn't this fun?''"))
+    &#8220;Isn't this fun?&#8221;
     """
 
     text = re.sub('``', '&#8220;', text)
@@ -331,8 +332,8 @@ def educateSingleBackticks(text):
     Returns:    The string, with `backticks' -style single quotes
                 translated into HTML curly quote entities.
 
-    Example input:  `Isn't this fun?'
-    Example output: &#8216;Isn&#8217;t this fun?&#8217;
+    >>> print(educateSingleBackticks("`Isn't this fun?'"))
+    &#8216;Isn&#8217;t this fun?&#8217;
     """
 
     text = re.sub('`', '&#8216;', text)
@@ -394,8 +395,8 @@ def educateEllipses(text):
     Returns:    The string, with each instance of "..." translated to
                 an ellipsis HTML entity.
 
-    Example input:  Huh...?
-    Example output: Huh&#8230;?
+    >>> print(educateEllipses('Huh...?'))
+    Huh&#8230;?
     """
 
     text = re.sub(r"""\.\.\.""", '&#8230;', text)
@@ -409,8 +410,8 @@ def stupefyEntities(text):
     Returns:    The string, with each SmartyPants HTML entity translated to
                 its ASCII counterpart.
 
-    Example input:  &#8220;Hello &#8212; world.&#8221;
-    Example output: "Hello -- world."
+    >>> print(stupefyEntities('&#8220;Hello &#8212; world.&#8221;'))
+    "Hello -- world."
     """
 
     text = re.sub('&#8211;', '-', text)  # en-dash
