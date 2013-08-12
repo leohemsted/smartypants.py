@@ -7,10 +7,15 @@ from distutils.core import Command, setup
 from unittest import TestLoader, TextTestRunner
 import sys
 
+CLI_script = 'smartypants'
+module_name = 'smartypants'
+module_file = 'smartypants.py'
+
+CHECK_FILES = ('.', CLI_script)
+
 # scripts to be exculded from checking
 EXCLUDE_SCRIPTS = ()
 
-script_name = 'smartypants.py'
 
 # ============================================================================
 
@@ -76,7 +81,7 @@ class cmd_pep8(Command):
         print('Results')
         print('=======')
         print()
-        report = p8.check_files('.')
+        report = p8.check_files(CHECK_FILES)
 
         print()
         print('Statistics')
@@ -132,7 +137,7 @@ class cmd_pyflakes(Command):
         print('Results')
         print('=======')
         print()
-        warnings = api.checkRecursive('.', reporter)
+        warnings = api.checkRecursive(CHECK_FILES, reporter)
         print()
         print('Total warnings: %d' % warnings)
 
@@ -166,7 +171,7 @@ class cmd_pylint(Command):
         print()
         print('Exclude:', EXCLUDE_SCRIPTS)
 
-        files = ['setup.py', script_name] + glob('tests/*.py')
+        files = ['setup.py', CLI_script, module_file] + glob('tests/*.py')
         args = [
             '--ignore=%s' % ','.join(EXCLUDE_SCRIPTS),
             '--output-format=colorized',
@@ -178,7 +183,7 @@ class cmd_pylint(Command):
 
 # ============================================================================
 
-with open(script_name) as f:
+with open(module_file) as f:
     meta = dict(
         (k.strip(' _'), eval(v)) for k, v in
         # There will be a '\n', with eval(), it's safe to ignore
@@ -203,6 +208,7 @@ with open(script_name) as f:
 classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
+    'Intended Audience :: End Users/Desktop',
     'License :: OSI Approved :: BSD License',
     'Operating System :: OS Independent',
     'Programming Language :: Python :: 2',
@@ -211,7 +217,7 @@ classifiers = [
 ]
 
 setup_d = dict(
-    name='smartypants',
+    name=module_name,
     cmdclass={
         'pep8': cmd_pep8,
         'pyflakes': cmd_pyflakes,
@@ -219,7 +225,8 @@ setup_d = dict(
         'test': cmd_test,
     },
     classifiers=classifiers,
-    py_modules=['smartypants'],
+    py_modules=[module_name],
+    scripts=[CLI_script],
     **meta
 )
 

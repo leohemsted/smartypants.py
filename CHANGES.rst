@@ -10,6 +10,7 @@ Versions without timestamps mean they are future releases.
     - deprecate Pyblosxom support
     - add Python 3 support
     - add unittest and checks
+    - add CLI script
 
 ----
 

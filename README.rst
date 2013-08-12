@@ -2,10 +2,13 @@
 smartypants.py
 ==============
 
+.. contents:: **Contents**
+
+
 Synopsis
 ========
 
-The priginal "SmartyPants" is a free web publishing plug-in for Movable Type,
+The original "SmartyPants" is a free web publishing plug-in for Movable Type,
 Blosxom, and BBEdit that easily translates plain ASCII punctuation characters
 into "smart" typographic punctuation HTML entities.
 
@@ -32,6 +35,41 @@ SmartyPants does not modify characters within ``<pre>``, ``<code>``, ``<kbd>``,
 ``<math>`` or ``<script>`` tag blocks. Typically, these tags are used to
 display text where smart quotes and other "smart punctuation" would not be
 appropriate, such as source code or example markup.
+
+
+Installation
+============
+
+smartypants.py can be installed vi pip::
+
+  $ pip install smartypants
+
+
+Usage
+=====
+
+As module
+---------
+
+.. code:: python
+
+  import smartypants
+
+  text = '"SmartyPants" is smart, so is <code>smartypants.py</code> -- a Python port'
+  print(smartypants.smartyPants(text))
+
+It outputs::
+
+  &#8220;SmartyPants&#8221; is smart, so is <code>smartypants.py</code> &#8212; a Python port
+
+
+Via CLI
+-------
+
+.. code:: sh
+
+  $ echo '"SmartyPants" is smart, so is <code>smartypants.py</code> -- a Python port' | smartypants
+  &#8220;SmartyPants&#8221; is smart, so is <code>smartypants.py</code> &#8212; a Python port
 
 
 Backslash Escapes
@@ -92,11 +130,19 @@ Numeric values are the easiest way to configure SmartyPants' behavior:
 
 
 The following single-character attribute values can be combined to toggle
-individual transformations from within the smarty_pants attribute. For
+individual transformations from within the SmartyPants attributes. For
 example, to educate normal quotes and em-dashes, but not ellipses or
 \`\`backticks'' -style quotes:
 
-``py['smartypants_attributes'] = "1"``
+.. code:: python
+
+  smartypants.smartyPants(text, '1')
+
+In CLI:
+
+.. code:: sh
+
+  echo "$text" | smartypants -a '1'
 
 "q"
     Educates normal quote characters: (") and (').
@@ -179,9 +225,9 @@ Algorithmic Shortcomings
 ------------------------
 
 One situation in which quotes will get curled the wrong way is when
-apostrophes are used at the start of leading contractions. For example:
+apostrophes are used at the start of leading contractions. For example::
 
-``'Twas the night before Christmas.``
+  'Twas the night before Christmas.
 
 In the case above, SmartyPants will turn the apostrophe into an opening
 single-quote, when in fact it should be a closing one. I don't think
