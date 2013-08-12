@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+# Copyright (c) 2013 Yu-Jie Lin
+# Licensed under the BSD License, for detailed license information, see COPYING
+
+from __future__ import print_function
+import argparse
+import sys
+
+import smartypants
+
+
+def main():
+
+    parser = argparse.ArgumentParser(description='SmartyPants in Python')
+    parser.add_argument('-a', '--attr',
+                        default=smartypants.default_smartypants_attr,
+                        help='processing attributes (Default: %(default)s)')
+    parser.add_argument('files', metavar='FILE', type=argparse.FileType('r'),
+                        nargs='*', help='files to be processed ')
+    args = parser.parse_args()
+
+    if args.files:
+        for f in args.files:
+            print(smartypants.smartyPants(f.read(), args.attr), end='')
+    else:
+        print(smartypants.smartyPants(sys.stdin.read(), args.attr), end='')
+
+
+if __name__ == '__main__':
+    main()
