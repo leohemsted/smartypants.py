@@ -2,18 +2,11 @@
 smartypants.py
 ==============
 
+smartypants.py is a Python port of SmartyPants_.
+
+.. _SmartyPants: http://daringfireball.net/projects/smartypants/
+
 .. contents:: **Contents**
-
-
-Synopsis
-========
-
-The original "SmartyPants" is a free web publishing plug-in for Movable Type,
-Blosxom, and BBEdit that easily translates plain ASCII punctuation characters
-into "smart" typographic punctuation HTML entities.
-
-This software, *smartypants.py*, endeavours to be a functional port of
-SmartyPants to Python.
 
 
 Description
@@ -240,27 +233,25 @@ Bugs
 ====
 
 To file bug reports or feature requests (other than topics listed in the
-Caveats section above) please send email to: mailto:smartypantspy@chad.org
+Caveats_ section above), please `open an issue`__.
 
-If the bug involves quotes being curled the wrong way, please send example
-text to illustrate.
+__ https://bitbucket.org/livibetter/smartypants.py/issues/new
 
-To Do list
-----------
-
-- Provide a function for use within templates to quote anything at all.
+If the bug involves quotes being curled the wrong way, please add example text
+to illustrate.
 
 
-Authors
+History
 =======
 
 `John Gruber`_ did all of the hard work of writing this software in Perl for
 `Movable Type`_ and almost all of this useful documentation.  `Chad Miller`_
 ported it to Python to use with Pyblosxom_.
 
-
-Additional Credits
-==================
+.. _John Gruber: http://daringfireball.net/
+.. _Movable Type: http://www.movabletype.org/
+.. _Chad Miller: http://web.chad.org/
+.. _Pyblosxom: http://pyblosxom.github.io/
 
 Portions of the SmartyPants original work are based on Brad Choate's nifty
 MTRegex plug-in.  `Brad Choate`_ also contributed a few bits of source code to
@@ -276,6 +267,14 @@ testing of the original SmartyPants.
 .. _Charles Wiltgen: http://playbacktime.com/
 .. _Rael Dornfest: http://raelity.org/
 
+It was later packaged for PyPI by Hao Lian.
+
+Since August 2013, smartypants.py has been managed by `Yu-Jie Lin`_ after
+contacted Chad Miller and Hao Lian. Lin took the project manager role and the
+package ownership on PyPI. It has also officially supported Python 3.
+
+.. _Yu-Jie Lin: http://yjl.im/
+
 
 Copyright and License
 =====================
@@ -286,10 +285,3 @@ Copyright and License
   Copyright (c) 2004, 2005, 2007, 2013 Chad Miller
   Copyright (c) 2003 John Gruber
   Licensed under the BSD License, for detailed license information, see COPYING
-
-.. _John Gruber: http://daringfireball.net/
-.. _Chad Miller: http://web.chad.org/
-
-.. _Pyblosxom: http://roughingit.subtlehints.net/pyblosxom
-.. _SmartyPants: http://daringfireball.net/projects/smartypants/
-.. _Movable Type: http://www.movabletype.org/
