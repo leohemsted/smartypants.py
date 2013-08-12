@@ -36,9 +36,26 @@ document.write('<a href="' + href + '">' + linktext + "</a>");
 </script>'''
         self.assertEqual(T, E)
 
-        T = sp("<p>He said &quot;Let's write some code.&quot; This code here "
-               "<code>if True:\n\tprint &quot;Okay&quot;</code> is "
-               "python code.</p>")
+    def test_convert_quot(self):
+
+        TEXT = (
+            "<p>He said &quot;Let's write some code.&quot; "
+            "This code here <code>if True:\n\tprint &quot;Okay&quot;</code> "
+            "is python code.</p>")
+
+        T = sp(TEXT)
+        E = ("<p>He said &quot;Let&#8217;s write some code.&quot; "
+             "This code here <code>if True:\n\tprint &quot;Okay&quot;</code> "
+             "is python code.</p>")
+        self.assertEqual(T, E)
+
+        T = sp(TEXT, 'w')
+        E = ('<p>He said "Let\'s write some code." '
+             "This code here <code>if True:\n\tprint &quot;Okay&quot;</code> "
+             "is python code.</p>")
+        self.assertEqual(T, E)
+
+        T = sp(TEXT, 'qw')
         E = ("<p>He said &#8220;Let&#8217;s write some code.&#8221; "
              "This code here <code>if True:\n\tprint &quot;Okay&quot;</code> "
              "is python code.</p>")

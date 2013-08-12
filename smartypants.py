@@ -57,7 +57,7 @@ def cb_story(args):
 
 def smartyPants(text, attr=default_smartypants_attr):
     # should we translate &quot; entities into normal quotes?
-    convert_quot = False
+    convert_quot = 0
 
     # Parse attributes:
     # 0 : do nothing
@@ -122,7 +122,7 @@ def smartyPants(text, attr=default_smartypants_attr):
             elif c == "e":
                 do_ellipses = 1
             elif c == "w":
-                convert_quot = "1"
+                convert_quot = 1
             else:
                 pass
                 # ignore unknown option
@@ -167,7 +167,7 @@ def smartyPants(text, attr=default_smartypants_attr):
             if not in_pre:
                 t = processEscapes(t)
 
-                if convert_quot != "0":
+                if convert_quot:
                     t = re.sub('&quot;', '"', t)
 
                 if do_dashes:
