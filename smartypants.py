@@ -145,7 +145,7 @@ def smartyPants(text, attr=default_smartypants_attr):
             # self <closing/> tags!
             result.append(cur_token[1])
             skip_match = tags_to_skip_regex.match(cur_token[1])
-            if skip_match is not None:
+            if skip_match:
                 if not skip_match.group(1):
                     skipped_tag_stack.append(skip_match.group(2).lower())
                     in_pre = True
@@ -170,7 +170,7 @@ def smartyPants(text, attr=default_smartypants_attr):
                 if convert_quot != "0":
                     t = re.sub('&quot;', '"', t)
 
-                if do_dashes != 0:
+                if do_dashes:
                     if do_dashes == 1:
                         t = educateDashes(t)
                     if do_dashes == 2:
@@ -178,17 +178,17 @@ def smartyPants(text, attr=default_smartypants_attr):
                     if do_dashes == 3:
                         t = educateDashesOldSchoolInverted(t)
 
-                if do_ellipses != 0:
+                if do_ellipses:
                     t = educateEllipses(t)
 
                 # Note: backticks need to be processed before quotes.
-                if do_backticks != 0:
+                if do_backticks:
                     t = educateBackticks(t)
 
                 if do_backticks == 2:
                     t = educateSingleBackticks(t)
 
-                if do_quotes != 0:
+                if do_quotes:
                     if t == "'":
                         # Special case: single-character ' token
                         if re.match("\S", prev_token_last_char):
@@ -476,7 +476,7 @@ def _tokenize(text):
     token_match = tag_soup.search(text)
 
     previous_end = 0
-    while token_match is not None:
+    while token_match:
         if token_match.group(1):
             tokens.append(['text', token_match.group(1)])
 
