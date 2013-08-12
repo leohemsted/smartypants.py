@@ -2,7 +2,7 @@
 # Copyright (c) 2013 Yu-Jie Lin
 # Copyright (c) 2004, 2005, 2007, 2013 Chad Miller
 # Copyright (c) 2003 John Gruber
-# For detail license information, See COPYING
+# Licensed under the BSD License, for detailed license information, see COPYING
 
 __author__ = 'Yu-Jie Lin'
 __email__ = 'livibetter@gmail.com'
@@ -14,16 +14,26 @@ __description__ = 'Smart-quotes, smart-ellipses, and smart-dashes'
 default_smartypants_attr = "1"
 
 import re
+import warnings
 
 tags_to_skip_regex = re.compile('<(/)?(pre|code|kbd|script|math)[^>]*>', re.I)
 
 
 def verify_installation(request):
+
+    msg = 'Pyblosxom support will be removed at Version 2.0.0'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
     return 1
     # assert the plugin is functional
 
 
 def cb_story(args):
+
+    msg = 'Pyblosxom support will be removed at Version 2.0.0'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
+
     global default_smartypants_attr
 
     try:

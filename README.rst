@@ -2,28 +2,15 @@
 smartypants.py
 ==============
 
-----------------------------
-SmartyPants ported to Python
-----------------------------
-
-Ported by `Chad Miller`_
-Copyright (c) 2004, 2007 Chad Miller
-
-original `SmartyPants`_ by `John Gruber`_
-Copyright (c) 2003 John Gruber
-
-
 Synopsis
 ========
-
-A smart-quotes plugin for Pyblosxom_.
 
 The priginal "SmartyPants" is a free web publishing plug-in for Movable Type,
 Blosxom, and BBEdit that easily translates plain ASCII punctuation characters
 into "smart" typographic punctuation HTML entities.
 
 This software, *smartypants.py*, endeavours to be a functional port of
-SmartyPants to Python, for use with Pyblosxom_.
+SmartyPants to Python.
 
 
 Description
@@ -76,9 +63,6 @@ foot and inch marks: 6'2" tall; a 17" iMac.
 
 Options
 =======
-
-For Pyblosxom users, the ``smartypants_attributes`` attribute is where you
-specify configuration options.
 
 Numeric values are the easiest way to configure SmartyPants' behavior:
 
@@ -150,9 +134,6 @@ example, to educate normal quotes and em-dashes, but not ellipses or
     and em-dashes, and ellipses) and also translate ``&quot;`` entities into
     regular quotes so SmartyPants can educate them, you should pass the
     following to the smarty_pants attribute:
-
-The ``smartypants_forbidden_flavours`` list contains pyblosxom flavours for
-which no Smarty Pants rendering will occur.
 
 
 Caveats
@@ -253,70 +234,12 @@ testing of the original SmartyPants.
 Copyright and License
 =====================
 
-SmartyPants_ license::
+::
 
-    Copyright (c) 2003 John Gruber
-    (http://daringfireball.net/)
-    All rights reserved.
-
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are
-    met:
-
-    *   Redistributions of source code must retain the above copyright
-        notice, this list of conditions and the following disclaimer.
-
-    *   Redistributions in binary form must reproduce the above copyright
-        notice, this list of conditions and the following disclaimer in
-        the documentation and/or other materials provided with the
-        distribution.
-
-    *   Neither the name "SmartyPants" nor the names of its contributors
-        may be used to endorse or promote products derived from this
-        software without specific prior written permission.
-
-    This software is provided by the copyright holders and contributors "as
-    is" and any express or implied warranties, including, but not limited
-    to, the implied warranties of merchantability and fitness for a
-    particular purpose are disclaimed. In no event shall the copyright
-    owner or contributors be liable for any direct, indirect, incidental,
-    special, exemplary, or consequential damages (including, but not
-    limited to, procurement of substitute goods or services; loss of use,
-    data, or profits; or business interruption) however caused and on any
-    theory of liability, whether in contract, strict liability, or tort
-    (including negligence or otherwise) arising in any way out of the use
-    of this software, even if advised of the possibility of such damage.
-
-
-smartypants.py license::
-
-    smartypants.py is a derivative work of SmartyPants.
-
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are
-    met:
-
-    *   Redistributions of source code must retain the above copyright
-        notice, this list of conditions and the following disclaimer.
-
-    *   Redistributions in binary form must reproduce the above copyright
-        notice, this list of conditions and the following disclaimer in
-        the documentation and/or other materials provided with the
-        distribution.
-
-    This software is provided by the copyright holders and contributors "as
-    is" and any express or implied warranties, including, but not limited
-    to, the implied warranties of merchantability and fitness for a
-    particular purpose are disclaimed. In no event shall the copyright
-    owner or contributors be liable for any direct, indirect, incidental,
-    special, exemplary, or consequential damages (including, but not
-    limited to, procurement of substitute goods or services; loss of use,
-    data, or profits; or business interruption) however caused and on any
-    theory of liability, whether in contract, strict liability, or tort
-    (including negligence or otherwise) arising in any way out of the use
-    of this software, even if advised of the possibility of such damage.
-
-
+  Copyright (c) 2013 Yu-Jie Lin
+  Copyright (c) 2004, 2005, 2007, 2013 Chad Miller
+  Copyright (c) 2003 John Gruber
+  Licensed under the BSD License, for detailed license information, see COPYING
 
 .. _John Gruber: http://daringfireball.net/
 .. _Chad Miller: http://web.chad.org/

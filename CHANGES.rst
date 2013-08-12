@@ -1,6 +1,28 @@
 CHANGES
 =======
 
+Versions without timestamps mean they are future releases.
+
+2.0.0:
+    - drop Pyblosxom support
+
+1.7.0:
+    - deprecate Pyblosxom support
+    - add Python 3 support
+    - add unittest and checks
+
+----
+
+The following releases were made by Hao Lian:
+
+1.6.0.3: 2009-04-21
+
+1.6.0.2: 2008-12-20
+
+----
+
+The following releases were made by Chad Miller:
+
 1.5_1.7: Fri, 09 Aug 2013 07:34:16 -0400
     - Add HBS language translation. Patch by by Vera Djuraskovic from
       Webhostinggeeks.com
