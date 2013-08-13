@@ -14,8 +14,8 @@ Description
 
 SmartyPants can perform the following transformations:
 
-- Straight quotes ( " and ' ) into "curly" quote HTML entities
-- Backticks-style quotes (\`\`like this'') into "curly" quote HTML entities
+- Straight quotes (``"`` and ``'``) into “curly” quote HTML entities
+- Backticks-style quotes (````like this''``) into “curly” quote HTML entities
 - Dashes (``--`` and ``---``) into en- and em-dash entities
 - Three consecutive dots (``...`` or ``. . .``) into an ellipsis entity
 
@@ -73,21 +73,21 @@ periods), SmartyPants accepts the following backslash escape sequences
 to force non-smart punctuation. It does so by transforming the escape
 sequence into a decimal-encoded HTML entity:
 
-+--------+-------+-----------+
-| Escape | Value | Character |
-+========+=======+===========+
-| ``\\`` | &#92; | \\        |
-+--------+-------+-----------+
-| ``\"`` | &#34; | "         |
-+--------+-------+-----------+
-| ``\'`` | &#39; | '         |
-+--------+-------+-----------+
-| ``\.`` | &#46; | .         |
-+--------+-------+-----------+
-| ``\-`` | &#45; | \-        |
-+--------+-------+-----------+
-| ``\``` | &#96; | \`        |
-+--------+-------+-----------+
++--------+----------+-------------+
+| Escape | Value    | Character   |
++========+==========+=============+
+| ``\\`` | ``#92;`` | ``\``       |
++--------+----------+-------------+
+| ``\"`` | ``#34;`` | ``"``       |
++--------+----------+-------------+
+| ``\'`` | ``#39;`` | ``'``       |
++--------+----------+-------------+
+| ``\.`` | ``#46;`` | ``.``       |
++--------+----------+-------------+
+| ``\-`` | ``#45;`` | ``-``       |
++--------+----------+-------------+
+| ``\``` | ``#96;`` | ``\```      |
++--------+----------+-------------+
 
 This is useful, for example, when you want to use straight quotes as
 foot and inch marks: 6'2" tall; a 17" iMac.
@@ -95,72 +95,71 @@ foot and inch marks: 6'2" tall; a 17" iMac.
 Options
 =======
 
-Numeric values are the easiest way to configure SmartyPants' behavior:
-
-"0"
-    Suppress all transformations. (Do nothing.)
-"1"
-    Performs default SmartyPants transformations: quotes (including
-    \`\`backticks'' -style), em-dashes, and ellipses. "``--``" (dash dash)
-    is used to signify an em-dash; there is no support for en-dashes.
-
-"2"
-    Same as smarty_pants="1", except that it uses the old-school typewriter
-    shorthand for dashes:  "``--``" (dash dash) for en-dashes, "``---``"
-    (dash dash dash)
-    for em-dashes.
-
-"3"
-    Same as smarty_pants="2", but inverts the shorthand for dashes:
-    "``--``" (dash dash) for em-dashes, and "``---``" (dash dash dash) for
-    en-dashes.
-
-"-1"
-    Stupefy mode. Reverses the SmartyPants transformation process, turning
-    the HTML entities produced by SmartyPants into their ASCII equivalents.
-    E.g.  "&#8220;" is turned into a simple double-quote ("), "&#8212;" is
-    turned into two dashes, etc.
-
-
-The following single-character attribute values can be combined to toggle
-individual transformations from within the SmartyPants attributes. For
-example, to educate normal quotes and em-dashes, but not ellipses or
-\`\`backticks'' -style quotes:
+smartypants.py only accepts SmartyPants attributes, which are represented by
+a string and can be inputed like:
 
 .. code:: python
 
-  smartypants.smartyPants(text, '1')
+  smartypants.smartyPants(text, attrs)
 
 In CLI:
 
 .. code:: sh
 
-  echo "$text" | smartypants -a '1'
+  echo "$text" | smartypants -a "$attrs"
 
-"q"
+The attribute value can be:
+
+``"0"``
+    Suppress all transformations. (Do nothing.)
+``"1"`` (Default)
+    Performs default SmartyPants transformations: quotes (including
+    \`\`backticks''-style), em-dashes, and ellipses. ``--`` (dash dash)
+    is used to signify an em-dash; there is no support for en-dashes.
+
+``"2"``
+    Same as ``"1"``, except that it uses the old-school typewriter shorthand
+    for dashes: ``--`` (dash dash) for en-dashes, ``---`` (dash dash dash) for
+    em-dashes.
+
+``"3"``
+    Same as ``"2"``, but inverts the shorthand for dashes: ``--`` (dash dash)
+    for em-dashes, and ``---`` (dash dash dash) for en-dashes.
+
+``"-1"``
+    Stupefy mode. Reverses the SmartyPants transformation process, turning
+    the HTML entities produced by SmartyPants into their ASCII equivalents.
+    E.g.  ``&#8220;`` is turned into a simple double-quote ("), ``&#8212;`` is
+    turned into two dashes, etc.
+
+Besides the single-character attribute as listed above. The following
+single-character attribute values can be combined to toggle individual
+transformations from within the SmartyPants attributes:
+
+``"q"``
     Educates normal quote characters: (") and (').
 
-"b"
-    Educates \`\`backticks'' -style double quotes.
+``"b"``
+    Educates \`\`backticks''-style double quotes.
 
-"B"
-    Educates \`\`backticks'' -style double quotes and \`single' quotes.
+``"B"``
+    Educates \`\`backticks''-style double quotes and \`single' quotes.
 
-"d"
+``"d"``
     Educates em-dashes.
 
-"D"
+``"D"``
     Educates em-dashes and en-dashes, using old-school typewriter shorthand:
     (dash dash) for en-dashes, (dash dash dash) for em-dashes.
 
-"i"
+``"i"``
     Educates em-dashes and en-dashes, using inverted old-school typewriter
     shorthand: (dash dash) for em-dashes, (dash dash dash) for en-dashes.
 
-"e"
+``"e"``
     Educates ellipses.
 
-"w"
+``"w"``
     Translates any instance of ``&quot;`` into a normal double-quote character.
     This should be of no interest to most people, but of particular interest
     to anyone who writes their posts using Dreamweaver, as Dreamweaver
@@ -171,8 +170,7 @@ In CLI:
     conjunction with one (or both) of the other quote options ("q" or "b").
     Thus, if you wish to apply all SmartyPants transformations (quotes, en-
     and em-dashes, and ellipses) and also translate ``&quot;`` entities into
-    regular quotes so SmartyPants can educate them, you should pass the
-    following to the smarty_pants attribute:
+    regular quotes so SmartyPants can educate them.
 
 
 Caveats
