@@ -23,6 +23,7 @@ $(VENV_PY2_CMD) $(VENV_PY3_CMD):
 	$@ $(INSTALL_TEST_DIR)
 	./setup.py sdist --dist-dir $(INSTALL_TEST_DIR)
 	$(INSTALL_TEST_DIR)/bin/pip install $(INSTALL_TEST_DIR)/*.tar.gz
-	. $(INSTALL_TEST_DIR)/bin/activate ; $(SCRIPT) --version ; type $(SCRIPT)
+	. $(INSTALL_TEST_DIR)/bin/activate ; type $(SCRIPT)
+	$(INSTALL_TEST_DIR)/bin/$(SCRIPT) --version
 
 .PHONY: build upload install_test $(VENV_PY2_CMD) $(VENV_PY3_CMD)
