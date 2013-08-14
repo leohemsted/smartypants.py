@@ -6,6 +6,9 @@ Versions without timestamps mean they are future releases.
 2.0.0:
     - drop Pyblosxom support
 
+1.7.1: 2013-08-14T06:45:59Z
+    - fix README-PyPI.rst missing while installing
+
 1.7.0: 2013-08-14T05:51:20Z
     - deprecate Pyblosxom support
     - add Python 3 support
