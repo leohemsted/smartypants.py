@@ -11,6 +11,11 @@ Versions without timestamps mean they are future releases.
 
 1.7.0: 2013-08-14T05:51:20Z
     - deprecate Pyblosxom support
+    - fix ``convert_quot`` always enabled
+
+      It was always turned on. To have same effect of previous ``1`` attr,
+      equivalent attrs are ``qbdew``. Now ``1`` means ``qbde``.
+
     - add Python 3 support
     - add unittest and checks
     - add CLI script
