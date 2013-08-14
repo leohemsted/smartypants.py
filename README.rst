@@ -41,8 +41,7 @@ smartypants.py can be installed vi pip::
 Usage
 =====
 
-As module
----------
+Using as module:
 
 .. code:: python
 
@@ -51,17 +50,16 @@ As module
   text = '"SmartyPants" is smart, so is <code>smartypants.py</code> -- a Python port'
   print(smartypants.smartyPants(text))
 
-It outputs::
 
-  &#8220;SmartyPants&#8221; is smart, so is <code>smartypants.py</code> &#8212; a Python port
-
-
-Via CLI
--------
+smartypants.py ships with a command-line script called ``smartypants``, it can be invoked like:
 
 .. code:: sh
 
   $ echo '"SmartyPants" is smart, so is <code>smartypants.py</code> -- a Python port' | smartypants
+
+
+Both produce same output::
+
   &#8220;SmartyPants&#8221; is smart, so is <code>smartypants.py</code> &#8212; a Python port
 
 
@@ -173,65 +171,10 @@ transformations from within the SmartyPants attributes:
     regular quotes so SmartyPants can educate them.
 
 
-Caveats
-=======
-
-Why You Might Not Want to Use Smart Quotes in Your Weblog
----------------------------------------------------------
-
-For one thing, you might not care.
-
-Most normal, mentally stable individuals do not take notice of proper
-typographic punctuation. Many design and typography nerds, however, break
-out in a nasty rash when they encounter, say, a restaurant sign that uses
-a straight apostrophe to spell "Joe's".
-
-If you're the sort of person who just doesn't care, you might well want to
-continue not caring. Using straight quotes -- and sticking to the 7-bit
-ASCII character set in general -- is certainly a simpler way to live.
-
-Even if you I *do* care about accurate typography, you still might want to
-think twice before educating the quote characters in your weblog. One side
-effect of publishing curly quote HTML entities is that it makes your
-weblog a bit harder for others to quote from using copy-and-paste. What
-happens is that when someone copies text from your blog, the copied text
-contains the 8-bit curly quote characters (as well as the 8-bit characters
-for em-dashes and ellipses, if you use these options). These characters
-are not standard across different text encoding methods, which is why they
-need to be encoded as HTML entities.
-
-People copying text from your weblog, however, may not notice that you're
-using curly quotes, and they'll go ahead and paste the unencoded 8-bit
-characters copied from their browser into an email message or their own
-weblog. When pasted as raw "smart quotes", these characters are likely to
-get mangled beyond recognition.
-
-That said, my own opinion is that any decent text editor or email client
-makes it easy to stupefy smart quote characters into their 7-bit
-equivalents, and I don't consider it my problem if you're using an
-indecent text editor or email client.
-
-
-Algorithmic Shortcomings
-------------------------
-
-One situation in which quotes will get curled the wrong way is when
-apostrophes are used at the start of leading contractions. For example::
-
-  'Twas the night before Christmas.
-
-In the case above, SmartyPants will turn the apostrophe into an opening
-single-quote, when in fact it should be a closing one. I don't think
-this problem can be solved in the general case -- every word processor
-I've tried gets this wrong as well. In such cases, it's best to use the
-proper HTML entity for closing single-quotes (``&#8217;``) by hand.
-
-
 Bugs
 ====
 
-To file bug reports or feature requests (other than topics listed in the
-Caveats_ section above), please `open an issue`__.
+To file bug reports or feature requests, please `open an issue`__.
 
 __ https://bitbucket.org/livibetter/smartypants.py/issues/new
 

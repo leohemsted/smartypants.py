@@ -190,20 +190,13 @@ with open(module_file) as f:
         (line.split('=') for line in f if line.startswith('__'))
     )
 
-    # renaming meta-data keys
-    meta_renames = [
-        ('website', 'url'),
-        ('email', 'author_email'),
-    ]
-    for old, new in meta_renames:
-        if old in meta:
-            meta[new] = meta[old]
-            del meta[old]
-
     # keep these
     meta_keys = ['name', 'description', 'version', 'license', 'url', 'author',
                  'author_email']
     meta = dict([m for m in meta.items() if m[0] in meta_keys])
+
+with open('README-PyPI.rst') as f:
+    long_description = f.read()
 
 classifiers = [
     'Development Status :: 5 - Production/Stable',
@@ -218,6 +211,7 @@ classifiers = [
 
 setup_d = dict(
     name=module_name,
+    long_description=long_description,
     cmdclass={
         'pep8': cmd_pep8,
         'pyflakes': cmd_pyflakes,

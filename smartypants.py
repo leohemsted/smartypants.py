@@ -5,11 +5,11 @@
 # Licensed under the BSD License, for detailed license information, see COPYING
 
 __author__ = 'Yu-Jie Lin'
-__email__ = 'livibetter@gmail.com'
+__author_email__ = 'livibetter@gmail.com'
 __version__ = '1.7.0dev'
 __license__ = 'BSD License'
 __url__ = 'https://bitbucket.org/livibetter/smartypants.py'
-__description__ = 'Smart-quotes, smart-ellipses, and smart-dashes'
+__description__ = 'Python with the SmartyPants'
 
 default_smartypants_attr = "1"
 
