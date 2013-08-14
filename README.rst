@@ -93,71 +93,33 @@ foot and inch marks: 6'2" tall; a 17" iMac.
 Options
 =======
 
-smartypants.py only accepts SmartyPants attributes, which are represented by
-a string and can be inputed like:
+smartypants.py only accepts SmartyPants attributes, which are accessible via
+``smartypants.Attr``:
 
-.. code:: python
-
-  smartypants.smartyPants(text, attrs)
-
-In CLI:
-
-.. code:: sh
-
-  echo "$text" | smartypants -a "$attrs"
-
-The attribute value can be:
-
-``"0"``
-    Suppress all transformations. (Do nothing.)
-``"1"`` (Default)
-    Performs default SmartyPants transformations: quotes (including
-    \`\`backticks''-style), em-dashes, and ellipses. ``--`` (dash dash)
-    is used to signify an em-dash; there is no support for en-dashes.
-
-``"2"``
-    Same as ``"1"``, except that it uses the old-school typewriter shorthand
-    for dashes: ``--`` (dash dash) for en-dashes, ``---`` (dash dash dash) for
-    em-dashes.
-
-``"3"``
-    Same as ``"2"``, but inverts the shorthand for dashes: ``--`` (dash dash)
-    for em-dashes, and ``---`` (dash dash dash) for en-dashes.
-
-``"-1"``
-    Stupefy mode. Reverses the SmartyPants transformation process, turning
-    the HTML entities produced by SmartyPants into their ASCII equivalents.
-    E.g.  ``&#8220;`` is turned into a simple double-quote ("), ``&#8212;`` is
-    turned into two dashes, etc.
-
-Besides the single-character attribute as listed above. The following
-single-character attribute values can be combined to toggle individual
-transformations from within the SmartyPants attributes:
-
-``"q"``
+``Attr.q``
     Educates normal quote characters: (") and (').
 
-``"b"``
+``Attr.b``
     Educates \`\`backticks''-style double quotes.
 
-``"B"``
+``Attr.B``
     Educates \`\`backticks''-style double quotes and \`single' quotes.
 
-``"d"``
+``Attr.d``
     Educates em-dashes.
 
-``"D"``
+``Attr.D``
     Educates em-dashes and en-dashes, using old-school typewriter shorthand:
     (dash dash) for en-dashes, (dash dash dash) for em-dashes.
 
-``"i"``
+``Attr.i``
     Educates em-dashes and en-dashes, using inverted old-school typewriter
     shorthand: (dash dash) for em-dashes, (dash dash dash) for en-dashes.
 
-``"e"``
+``Attr.e``
     Educates ellipses.
 
-``"w"``
+``Attr.w``
     Translates any instance of ``&quot;`` into a normal double-quote character.
     This should be of no interest to most people, but of particular interest
     to anyone who writes their posts using Dreamweaver, as Dreamweaver
@@ -169,6 +131,54 @@ transformations from within the SmartyPants attributes:
     Thus, if you wish to apply all SmartyPants transformations (quotes, en-
     and em-dashes, and ellipses) and also translate ``&quot;`` entities into
     regular quotes so SmartyPants can educate them.
+
+``Attr.s``
+    Stupefy mode. Reverses the SmartyPants transformation process, turning
+    the HTML entities produced by SmartyPants into their ASCII equivalents.
+    E.g.  ``&#8220;`` is turned into a simple double-quote ("), ``&#8212;`` is
+    turned into two dashes, etc.
+
+``Attr.set0``
+    Suppress all transformations. (Do nothing.)
+
+``Attr.set1`` = ``Attr.q | Attr.b | Attr.d | Attr.e`` (Default)
+    Performs default SmartyPants transformations: quotes (including
+    \`\`backticks''-style), em-dashes, and ellipses. ``--`` (dash dash)
+    is used to signify an em-dash; there is no support for en-dashes.
+
+``Attr.set2`` = ``Attr.q | Attr.b | Attr.D | Attr.e``
+    Same as ``Attr.set1``, except that it uses the old-school typewriter shorthand
+    for dashes: ``--`` (dash dash) for en-dashes, ``---`` (dash dash dash) for
+    em-dashes.
+
+``Attr.set3`` = ``Attr.q | Attr.b | Attr.i | Attr.e``
+    Same as ``Attr.set2``, but inverts the shorthand for dashes: ``--`` (dash dash)
+    for em-dashes, and ``---`` (dash dash dash) for en-dashes.
+
+``Attr.default`` = ``Attr.set1``
+    Will be the default argument value of ``smartyPants()`` once ``default_smartypants_attr`` removed at Version 2.0.0.
+
+To use these attributes, simply using bitwise or:
+
+.. code:: python
+
+  from smartypants import Attr
+
+  attrs = Attr.q | Attr.d
+  smartypants.smartyPants(text, attrs)
+
+  attrs = Attr.set1 | Attr.w
+  smartypants.smartyPants(text, attrs)
+
+When using in command-line, use only the attribute names and drop ``set``:
+
+.. code:: sh
+
+  attrs="qd"
+  echo "$text" | smartypants -a "$attrs"
+
+  attrs="1w"
+  echo "$text" | smartypants -a "$attrs"
 
 
 Bugs

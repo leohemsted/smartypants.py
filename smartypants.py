@@ -11,10 +11,37 @@ __license__ = 'BSD License'
 __url__ = 'https://bitbucket.org/livibetter/smartypants.py'
 __description__ = 'Python with the SmartyPants'
 
-default_smartypants_attr = "1"
-
 import re
 import warnings
+
+
+class Attr:
+
+    q = 0b000000001         # quotes
+
+    b = 0b000000010         # backtick quotes (``double'' only)
+    B = 0b000000110         # backtick quotes (``double'' and `single')
+    mask_b = b | B
+
+    d = 0b000001000         # dashes
+    D = 0b000011000         # old school dashes
+    i = 0b000101000         # inverted old school dashes
+    mask_d = d | D | i
+
+    e = 0b001000000         # ellipses
+    w = 0b010000000         # convert &quot; entities to "
+
+    s = 0b100000000         # special "stupefy" mode.
+
+    set0 = 0                # do nothing
+    set1 = q | b | d | e    # set all
+    set2 = q | b | D | e    # set all, using old school en- and em- dash
+                            # shortcuts
+    set3 = q | b | i | e    # set all, using inverted old school en & em- dash
+                            # shortcuts
+    default = set1
+
+default_smartypants_attr = Attr.default
 
 tags_to_skip_regex = re.compile('<(/)?(pre|code|kbd|script|math)[^>]*>', re.I)
 
@@ -66,76 +93,21 @@ def cb_story(args):
 ### interal functions below here
 
 def smartyPants(text, attr=default_smartypants_attr):
-    # should we translate &quot; entities into normal quotes?
-    convert_quot = 0
+    """
+    SmartyPants function
 
-    # Parse attributes:
-    # 0 : do nothing
-    # 1 : set all
-    # 2 : set all, using old school en- and em- dash shortcuts
-    # 3 : set all, using inverted old school en and em- dash shortcuts
-    #
-    # q : quotes
-    # b : backtick quotes (``double'' only)
-    # B : backtick quotes (``double'' and `single')
-    # d : dashes
-    # D : old school dashes
-    # i : inverted old school dashes
-    # e : ellipses
-    # w : convert &quot; entities to " for Dreamweaver users
-
+    >>> print(smartyPants('"foo" -- bar'))
+    &#8220;foo&#8221; &#8212; bar
+    >>> print(smartyPants('"foo" -- bar', Attr.d))
+    "foo" &#8212; bar
+    """
     skipped_tag_stack = []
-    do_dashes = 0
-    do_backticks = 0
-    do_quotes = 0
-    do_ellipses = 0
-    do_stupefy = 0
-
-    if attr == "0":
-        # Do nothing.
-        return text
-    elif attr == "1":
-        do_quotes = 1
-        do_backticks = 1
-        do_dashes = 1
-        do_ellipses = 1
-    elif attr == "2":
-        # Do everything, turn all options on, use old school dash shorthand.
-        do_quotes = 1
-        do_backticks = 1
-        do_dashes = 2
-        do_ellipses = 1
-    elif attr == "3":
-        # Do everything, turn all options on, use inverted old school dash
-        # shorthand.
-        do_quotes = 1
-        do_backticks = 1
-        do_dashes = 3
-        do_ellipses = 1
-    elif attr == "-1":
-        # Special "stupefy" mode.
-        do_stupefy = 1
-    else:
-        for c in attr:
-            if c == "q":
-                do_quotes = 1
-            elif c == "b":
-                do_backticks = 1
-            elif c == "B":
-                do_backticks = 2
-            elif c == "d":
-                do_dashes = 1
-            elif c == "D":
-                do_dashes = 2
-            elif c == "i":
-                do_dashes = 3
-            elif c == "e":
-                do_ellipses = 1
-            elif c == "w":
-                convert_quot = 1
-            else:
-                pass
-                # ignore unknown option
+    do_quotes = attr & Attr.q
+    do_backticks = attr & Attr.mask_b
+    do_dashes = attr & Attr.mask_d
+    do_ellipses = attr & Attr.e
+    do_stupefy = attr & Attr.s
+    convert_quot = attr & Attr.w
 
     tokens = _tokenize(text)
     result = []
@@ -181,21 +153,21 @@ def smartyPants(text, attr=default_smartypants_attr):
                     t = re.sub('&quot;', '"', t)
 
                 if do_dashes:
-                    if do_dashes == 1:
+                    if do_dashes == Attr.d:
                         t = educateDashes(t)
-                    if do_dashes == 2:
+                    if do_dashes == Attr.D:
                         t = educateDashesOldSchool(t)
-                    if do_dashes == 3:
+                    if do_dashes == Attr.i:
                         t = educateDashesOldSchoolInverted(t)
 
                 if do_ellipses:
                     t = educateEllipses(t)
 
                 # Note: backticks need to be processed before quotes.
-                if do_backticks:
+                if do_backticks == Attr.b:
                     t = educateBackticks(t)
 
-                if do_backticks == 2:
+                if do_backticks == Attr.B:
                     t = educateSingleBackticks(t)
 
                 if do_quotes:
@@ -216,7 +188,7 @@ def smartyPants(text, attr=default_smartypants_attr):
                         # Normal case:
                         t = educateQuotes(t)
 
-                if do_stupefy == 1:
+                if do_stupefy:
                     t = stupefyEntities(t)
 
             prev_token_last_char = last_char
