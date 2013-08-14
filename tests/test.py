@@ -2,7 +2,7 @@ import doctest
 import unittest
 
 import smartypants
-from smartypants import smartyPants as sp
+from smartypants import Attr, smartyPants as sp
 
 
 class TestSmartypantsAllAttributes(unittest.TestCase):
@@ -49,13 +49,13 @@ document.write('<a href="' + href + '">' + linktext + "</a>");
              "is python code.</p>")
         self.assertEqual(T, E)
 
-        T = sp(TEXT, 'w')
+        T = sp(TEXT, Attr.w)
         E = ('<p>He said "Let\'s write some code." '
              "This code here <code>if True:\n\tprint &quot;Okay&quot;</code> "
              "is python code.</p>")
         self.assertEqual(T, E)
 
-        T = sp(TEXT, 'qw')
+        T = sp(TEXT, Attr.q | Attr.w)
         E = ("<p>He said &#8220;Let&#8217;s write some code.&#8221; "
              "This code here <code>if True:\n\tprint &quot;Okay&quot;</code> "
              "is python code.</p>")
