@@ -11,7 +11,8 @@ import smartypants
 
 def main():
 
-    parser = argparse.ArgumentParser(description='SmartyPants in Python')
+    parser = argparse.ArgumentParser(description=smartypants.__description__,
+                                     version=smartypants.__version__)
     parser.add_argument('-a', '--attr',
                         default=smartypants.default_smartypants_attr,
                         help='processing attributes (Default: %(default)s)')
