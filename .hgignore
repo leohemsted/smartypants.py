@@ -1,3 +1,4 @@
 syntax: glob
+build
 dist
 MANIFEST
