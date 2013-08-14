@@ -8,6 +8,7 @@ Versions without timestamps mean they are future releases.
 
 development:
     - add ``--version``
+    - add ``install_test`` target for checking package installation
 
 1.7.1: 2013-08-14T06:45:59Z
     - fix README-PyPI.rst missing while installing
