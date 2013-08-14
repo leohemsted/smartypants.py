@@ -6,7 +6,7 @@ Versions without timestamps mean they are future releases.
 2.0.0:
     - drop Pyblosxom support
 
-1.7.0:
+1.7.0: 2013-08-14T05:51:20Z
     - deprecate Pyblosxom support
     - add Python 3 support
     - add unittest and checks
