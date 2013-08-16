@@ -1,6 +1,8 @@
 PACKAGE=smartypants
 SCRIPT=smartypants
 
+PY2_CMD=python2
+PY3_CMD=python3
 INSTALL_TEST_DIR=/tmp/$(PACKAGE)_install_test
 # if version or naming isn't matched to environment, for example, Python 2.6,
 # run the following to override:
@@ -16,9 +18,18 @@ build:
 upload:
 	$(BUILD_CMD) upload
 
+test: test_pep8 test_pyflakes test_test install_test
+
+test_%:
+	@echo '========================================================================================='
+	$(PY2_CMD) setup.py $(subst test_,,$@)
+	@echo '-----------------------------------------------------------------------------------------'
+	$(PY3_CMD) setup.py $(subst test_,,$@)
+
 install_test: $(VENV_PY2_CMD) $(VENV_PY3_CMD)
 
 $(VENV_PY2_CMD) $(VENV_PY3_CMD):
+	@echo '========================================================================================='
 	rm -rf $(INSTALL_TEST_DIR)
 	$@ $(INSTALL_TEST_DIR)
 	./setup.py sdist --dist-dir $(INSTALL_TEST_DIR)
