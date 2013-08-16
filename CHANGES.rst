@@ -5,15 +5,20 @@ Versions without timestamps mean they are future releases.
 
 2.0.0:
     - drop Pyblosxom support
-    - use ``Attr.default`` instead of ``default_smartypants_attr``
+    - drop str-type ``attr``
+        - use ``Attr.default`` instead of ``default_smartypants_attr``
 
 development:
     - add ``--version``
     - add ``install_test`` target for checking package installation
-    - redesign attr input with new ``Attr`` class
+    - add ``test`` target for all tests
+    - deprecate str-type ``attr`` with:
+        - redesign attr input with new ``Attr`` class
+            - ``"-1"`` now is ``Attr.s`` (``"s"``)
+        - ``_str_attr_to_int()`` to handle str-type before the removal
 
 1.7.1: 2013-08-14T06:45:59Z
-    - fix README-PyPI.rst missing while installing
+    - fix ``README-PyPI.rst`` missing while installing
 
 1.7.0: 2013-08-14T05:51:20Z
     - deprecate Pyblosxom support
@@ -31,8 +36,9 @@ development:
 The following releases were made by Hao Lian:
 
 1.6.0.3: 2009-04-21
-
+    - ``smartypants.py`` exactly the same as 1.5_1.6
 1.6.0.2: 2008-12-20
+    - ``smartypants.py`` exactly the same as 1.5_1.6
 
 ----
 

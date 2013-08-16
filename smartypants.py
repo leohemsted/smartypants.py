@@ -92,6 +92,35 @@ def cb_story(args):
 
 ### interal functions below here
 
+def _str_attr_to_int(str_attr):
+    """
+    Convert deprecated str-type attr into int
+
+    >>> f = _str_attr_to_int
+    >>> f('q') == Attr.q
+    True
+    >>> f('1') == Attr.set1
+    True
+    >>> with warnings.catch_warnings(record=True) as w:
+    ...     f('bz')
+    ...     len(w)
+    ...     print(w[-1].message)
+    2
+    1
+    Unknown attribute: z
+    """
+    attr = 0
+    for c in str_attr:
+        if '0' <= c <= '3':
+            c = 'set' + c
+        if not hasattr(Attr, c):
+            warnings.warn('Unknown attribute: %s' % c, Warning)
+            continue
+        attr |= getattr(Attr, c)
+
+    return attr
+
+
 def smartyPants(text, attr=default_smartypants_attr):
     """
     SmartyPants function
@@ -102,6 +131,13 @@ def smartyPants(text, attr=default_smartypants_attr):
     "foo" &#8212; bar
     """
     skipped_tag_stack = []
+
+    if isinstance(attr, str):
+        msg = 'str-type attr will be removed at Version 2.0.0'
+        warnings.filterwarnings('once', msg, DeprecationWarning)
+        warnings.warn(msg, DeprecationWarning)
+        attr = _str_attr_to_int(attr)
+
     do_quotes = attr & Attr.q
     do_backticks = attr & Attr.mask_b
     do_dashes = attr & Attr.mask_d
