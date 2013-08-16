@@ -5,9 +5,9 @@
 from __future__ import print_function
 import argparse
 import sys
+import warnings
 
 import smartypants
-from smartypants import Attr
 
 
 def main():
@@ -20,14 +20,11 @@ def main():
                         nargs='*', help='files to be processed ')
     args = parser.parse_args()
 
-    attr = 0
-    for c in args.attr:
-        if '0' <= c <= '3':
-            c = 'set' + c
-        if not hasattr(Attr, c):
-            print('Unknown attribute: %s' % c, file=sys.stderr)
+    with warnings.catch_warnings(record=True) as w:
+        attr = smartypants._str_attr_to_int(args.attr)
+        if len(w):
+            print(w[-1].message)
             sys.exit(1)
-        attr |= getattr(Attr, c)
 
     if args.files:
         for f in args.files:

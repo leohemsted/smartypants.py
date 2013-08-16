@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# Copyright (c) 2013 Yu-Jie Lin
+# Licensed under the BSD License, for detailed license information, see COPYING
+
 import doctest
 import unittest
 
@@ -6,7 +10,6 @@ from smartypants import Attr, smartyPants as sp
 
 
 class TestSmartypantsAllAttributes(unittest.TestCase):
-    # the default attribute is "1", which means "all".
 
     def test_dates(self):
 
@@ -70,6 +73,18 @@ document.write('<a href="' + href + '">' + linktext + "</a>");
 
         self.assertEqual(sp('"Isn\'t this fun?"'),
                          '&#8220;Isn&#8217;t this fun?&#8221;')
+
+    def test_deprecated_str_attr(self):
+
+        TEXT = '"foo" -- bar'
+
+        T = sp(TEXT, 'q')
+        E = '&#8220;foo&#8221; -- bar'
+        self.assertEquals(T, E)
+
+        T = sp(TEXT, 'qd')
+        E = '&#8220;foo&#8221; &#8212; bar'
+        self.assertEquals(T, E)
 
 
 def load_tests(loader, tests, pattern):
