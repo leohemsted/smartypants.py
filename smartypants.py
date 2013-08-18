@@ -15,7 +15,7 @@ import re
 import warnings
 
 
-class Attr:
+class _Attr(object):
 
     q = 0b000000001         # quotes
 
@@ -39,9 +39,23 @@ class Attr:
                             # shortcuts
     set3 = q | b | i | e    # set all, using inverted old school en & em- dash
                             # shortcuts
-    default = set1
 
-default_smartypants_attr = Attr.default
+    @property
+    def default(self):
+
+        global default_smartypants_attr
+        return default_smartypants_attr
+
+    @default.setter
+    def default(self, attr):
+
+        global default_smartypants_attr
+        default_smartypants_attr = attr
+
+
+Attr = _Attr()
+
+default_smartypants_attr = Attr.set1
 
 tags_to_skip_regex = re.compile('<(/)?(pre|code|kbd|script|math)[^>]*>', re.I)
 
@@ -121,7 +135,7 @@ def _str_attr_to_int(str_attr):
     return attr
 
 
-def smartyPants(text, attr=default_smartypants_attr):
+def smartyPants(text, attr=None):
     """
     SmartyPants function
 
@@ -131,6 +145,9 @@ def smartyPants(text, attr=default_smartypants_attr):
     "foo" &#8212; bar
     """
     skipped_tag_stack = []
+
+    if attr is None:
+        attr = Attr.default
 
     if isinstance(attr, str):
         msg = 'str-type attr will be removed at Version 2.0.0'
