@@ -154,7 +154,8 @@ def _str_attr_to_int(str_attr):
 
 def smartyPants(text, attr=None):
 
-    msg = 'smartyPants() will be removed at Version 2.0.0, use smartypants()'
+    msg = ('smartyPants function will be removed at Version 2.0.0, '
+           'use smartypants, instead')
     warnings.filterwarnings('once', msg, DeprecationWarning)
     warnings.warn(msg, DeprecationWarning)
 
