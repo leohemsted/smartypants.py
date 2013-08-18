@@ -54,10 +54,29 @@ class _Attr(object):
 
 
 Attr = _Attr()
-
 default_smartypants_attr = Attr.set1
 
-tags_to_skip_regex = re.compile('<(/)?(pre|code|kbd|script|math)[^>]*>', re.I)
+
+tags_to_skip = ['pre', 'samp', 'code', 'tt', 'kbd', 'script', 'math']
+
+
+def _tags_to_skip_regex(tags=None):
+    """
+    Convert a list of skipped tags into regular expression
+
+    >>> f = _tags_to_skip_regex
+    >>> print(f().pattern)
+    <(/)?(pre|code|tt|kbd|script|math)[^>]*>
+    >>> print(f(['foo', 'bar']).pattern)
+    <(/)?(foo|bar)[^>]*>
+    """
+    if tags is None:
+        tags = tags_to_skip
+
+    if isinstance(tags, (list, tuple)):
+        tags = '|'.join(tags)
+
+    return re.compile('<(/)?(%s)[^>]*>' % tags, re.I)
 
 
 def verify_installation(request):
@@ -103,8 +122,6 @@ def cb_story(args):
     args["entry"]["body"] = smartypants(entryData, attributes)
     args["entry"]["title"] = smartypants(args["entry"]["title"], attributes)
 
-
-### interal functions below here
 
 def _str_attr_to_int(str_attr):
     """
@@ -182,6 +199,8 @@ def smartypants(text, attr=None):
     # the last character of the previous text
     # token, to use as context to curl single-
     # character quote tokens correctly.
+
+    tags_to_skip_regex = _tags_to_skip_regex()
 
     for cur_token in tokens:
         if cur_token[0] == "tag":
