@@ -194,7 +194,7 @@ be smart with them:
 
 .. code:: python
 
-  tags_to_skip = ['pre', 'samp', 'code', 'tt', 'kbd', 'script', 'math']
+  tags_to_skip = ['pre', 'samp', 'code', 'tt', 'kbd', 'script', 'style', 'math']
 
 If you need to change, for example, adding additional tags and remove one of
 them:
@@ -205,7 +205,7 @@ them:
   >>> tags.append('a')
   >>> tags.remove('code')
   >>> tags
-  ['pre', 'samp', 'tt', 'kbd', 'script', 'math', 'a']
+  ['pre', 'samp', 'tt', 'kbd', 'script', 'style', 'math', 'a']
 
 The ``tags_to_skip`` is compiled into a regular expression for being used by
 ``smartypants()``. You could actually overwrite ``_tags_to_skip_regex()`` and
