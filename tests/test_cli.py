@@ -48,6 +48,26 @@ class TestCLI(unittest.TestCase):
         output = self._p([CLI_SCRIPT, '--attr', 'b'], T)
         self.assertEquals(output, E)
 
+    def test_skipped_elements(self):
+
+        T = '<a>"foo"</a> <b>"bar"</b>'
+
+        E = '<a>&#8220;foo&#8221;</a> <b>&#8220;bar&#8221;</b>'
+        output = self._p([CLI_SCRIPT], T)
+        self.assertEquals(output, E)
+
+        E = '<a>"foo"</a> <b>&#8220;bar&#8221;</b>'
+        output = self._p([CLI_SCRIPT, '--skip', 'a'], T)
+        self.assertEquals(output, E)
+
+        E = '<a>&#8220;foo&#8221;</a> <b>"bar"</b>'
+        output = self._p([CLI_SCRIPT, '--skip', 'b'], T)
+        self.assertEquals(output, E)
+
+        E = T
+        output = self._p([CLI_SCRIPT, '--skip', 'a,b'], T)
+        self.assertEquals(output, E)
+
     def test_file(self):
 
         T = '"foobar"'
