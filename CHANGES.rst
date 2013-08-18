@@ -13,7 +13,7 @@ development:
     - add ``install_test`` target for checking package installation
     - add ``test`` target for all tests
     - deprecate str-type ``attr`` with:
-        - redesign attr input with new ``Attr`` class
+        - redesign attr input with new ``Attr`` object
             - ``"-1"`` now is ``Attr.s`` (``"s"``)
         - ``_str_attr_to_int()`` to handle str-type before the removal
 

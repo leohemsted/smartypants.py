@@ -9,7 +9,27 @@ import smartypants
 from smartypants import Attr, smartyPants as sp
 
 
-class TestSmartypantsAllAttributes(unittest.TestCase):
+class SmartyPantsTestCase(unittest.TestCase):
+
+    def test_change_default_attr(self):
+
+        TEXT = '"foo" -- bar'
+
+        attr = Attr.q
+        Attr.default = attr
+        self.assertEqual(Attr.default, attr)
+
+        T = sp(TEXT)
+        E = '&#8220;foo&#8221; -- bar'
+        self.assertEquals(T, E)
+
+        attr = Attr.q | Attr.d
+        Attr.default = attr
+        self.assertEqual(Attr.default, attr)
+
+        T = sp(TEXT)
+        E = '&#8220;foo&#8221; &#8212; bar'
+        self.assertEquals(T, E)
 
     def test_dates(self):
 

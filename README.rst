@@ -156,7 +156,7 @@ smartypants.py only accepts SmartyPants attributes, which are accessible via
     for em-dashes, and ``---`` (dash dash dash) for en-dashes.
 
 ``Attr.default`` = ``Attr.set1``
-    Will be the default argument value of ``smartyPants()`` once ``default_smartypants_attr`` removed at Version 2.0.0.
+    Default attributes.
 
 To use these attributes, simply using bitwise or:
 
