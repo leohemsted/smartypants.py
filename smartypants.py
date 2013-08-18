@@ -66,7 +66,7 @@ def _tags_to_skip_regex(tags=None):
 
     >>> f = _tags_to_skip_regex
     >>> print(f().pattern)
-    <(/)?(pre|code|tt|kbd|script|math)[^>]*>
+    <(/)?(pre|samp|code|tt|kbd|script|math)[^>]*>
     >>> print(f(['foo', 'bar']).pattern)
     <(/)?(foo|bar)[^>]*>
     """
