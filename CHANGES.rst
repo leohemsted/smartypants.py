@@ -10,7 +10,9 @@ Versions without timestamps mean they are future releases.
     - drop ``smartyPants()``
 
 development:
-    - add ``--version``
+    - command-line
+        - add ``--version``
+        - add ``--skip`` for skipped elements
     - add Makefile:
         - ``test_pep8``, ``test_pyflakes``, and ``test_test`` (unittest)
           targets
