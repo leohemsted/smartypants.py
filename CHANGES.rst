@@ -11,8 +11,11 @@ Versions without timestamps mean they are future releases.
 
 development:
     - add ``--version``
-    - add ``install_test`` target for checking package installation
-    - add ``test`` target for all tests
+    - add Makefile:
+        - ``test_pep8``, ``test_pyflakes``, and ``test_test`` (unittest)
+          targets
+        - ``install_test`` target for checking package installation
+        - ``test`` target for all tests above
     - add ``samp`` and ``tt`` to be skipped HTML elements
     - remove ``tags_to_skip_regex`` and add ``tags_to_skip`` as a list of
       skipped HTML with a helper function to compile a regular expreesion
