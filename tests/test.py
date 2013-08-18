@@ -6,7 +6,7 @@ import doctest
 import unittest
 
 import smartypants
-from smartypants import Attr, smartyPants as sp
+from smartypants import Attr, smartypants as sp
 
 
 class SmartyPantsTestCase(unittest.TestCase):

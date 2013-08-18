@@ -48,7 +48,7 @@ Using as module:
   import smartypants
 
   text = '"SmartyPants" is smart, so is <code>smartypants.py</code> -- a Python port'
-  print(smartypants.smartyPants(text))
+  print(smartypants.smartypants(text))
 
 
 smartypants.py ships with a command-line script called ``smartypants``, it can be invoked like:
@@ -165,10 +165,10 @@ To use these attributes, simply using bitwise or:
   from smartypants import Attr
 
   attrs = Attr.q | Attr.d
-  smartypants.smartyPants(text, attrs)
+  smartypants.smartypants(text, attrs)
 
   attrs = Attr.set1 | Attr.w
-  smartypants.smartyPants(text, attrs)
+  smartypants.smartypants(text, attrs)
 
 When using in command-line, use only the attribute names and drop ``set``:
 

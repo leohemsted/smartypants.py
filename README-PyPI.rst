@@ -25,7 +25,7 @@ To use it as a module:
   import smartypants
 
   text = '"SmartyPants" is smart, so is <code>smartypants.py</code> -- a Python port'
-  print(smartypants.smartyPants(text))
+  print(smartypants.smartypants(text))
 
 To use the command-line script ``smartypants``:
 

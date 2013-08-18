@@ -100,8 +100,8 @@ def cb_story(args):
             return  # abort if it looks like escaped HTML.  FIXME
 
     # FIXME: make these configurable, perhaps?
-    args["entry"]["body"] = smartyPants(entryData, attributes)
-    args["entry"]["title"] = smartyPants(args["entry"]["title"], attributes)
+    args["entry"]["body"] = smartypants(entryData, attributes)
+    args["entry"]["title"] = smartypants(args["entry"]["title"], attributes)
 
 
 ### interal functions below here
@@ -136,12 +136,21 @@ def _str_attr_to_int(str_attr):
 
 
 def smartyPants(text, attr=None):
+
+    msg = 'smartyPants() will be removed at Version 2.0.0, use smartypants()'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
+
+    smartypants(text, attr)
+
+
+def smartypants(text, attr=None):
     """
     SmartyPants function
 
-    >>> print(smartyPants('"foo" -- bar'))
+    >>> print(smartypants('"foo" -- bar'))
     &#8220;foo&#8221; &#8212; bar
-    >>> print(smartyPants('"foo" -- bar', Attr.d))
+    >>> print(smartypants('"foo" -- bar', Attr.d))
     "foo" &#8212; bar
     """
     skipped_tag_stack = []
