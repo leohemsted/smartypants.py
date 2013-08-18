@@ -7,6 +7,8 @@ smartypants.py is a Python port of SmartyPants_.
 .. _SmartyPants: http://daringfireball.net/projects/smartypants/
 
 .. contents:: **Contents**
+  :local:
+  :backlinks: top
 
 
 Description
@@ -24,10 +26,10 @@ ASCII straight quotes, plain dashes, and plain dots, but your published
 posts (and final HTML output) will appear with smart quotes, em-dashes,
 and proper ellipses.
 
-SmartyPants does not modify characters within ``<pre>``, ``<code>``, ``<kbd>``,
-``<math>`` or ``<script>`` tag blocks. Typically, these tags are used to
-display text where smart quotes and other "smart punctuation" would not be
-appropriate, such as source code or example markup.
+SmartyPants does not modify contents in some HTML element, see `Skipped HTML
+Elements`_. Typically, these tags are used to display text where smart quotes
+and other "smart punctuation" would not be appropriate, such as source code or
+example markup.
 
 
 Installation
@@ -93,7 +95,10 @@ foot and inch marks: 6'2" tall; a 17" iMac.
 Options
 =======
 
-smartypants.py only accepts SmartyPants attributes, which are accessible via
+Attributes
+----------
+
+``smartypants()`` only accepts SmartyPants attributes, which are accessible via
 ``smartypants.Attr``:
 
 ``Attr.q``
@@ -181,6 +186,31 @@ When using in command-line, use only the attribute names and drop ``set``:
   echo "$text" | smartypants -a "$attrs"
 
 
+Skipped HTML elements
+---------------------
+
+By default, there are a few HTML elements that ``smartypants()`` do not try to
+be smart with them:
+
+.. code:: python
+
+  tags_to_skip = ['pre', 'samp', 'code', 'tt', 'kbd', 'script', 'math']
+
+If you need to change, for example, adding additional tags and remove one of
+them:
+
+.. code:: python
+
+  >>> from smartypants import tags_to_skip as tags
+  >>> tags.append('a')
+  >>> tags.remove('code')
+  >>> tags
+  ['pre', 'samp', 'tt', 'kbd', 'script', 'math', 'a']
+
+The ``tags_to_skip`` is compiled into a regular expression for being used by
+``smartypants()``. You could actually overwrite ``_tags_to_skip_regex()`` and
+return your own regular expression.
+
 Bugs
 ====
 
@@ -194,6 +224,8 @@ to illustrate.
 
 History
 =======
+
+*For changelog, please see CHANGES.rst*
 
 `John Gruber`_ did all of the hard work of writing this software in Perl for
 `Movable Type`_ and almost all of this useful documentation.  `Chad Miller`_
@@ -227,8 +259,8 @@ package ownership on PyPI. It has also officially supported Python 3.
 .. _Yu-Jie Lin: http://yjl.im/
 
 
-Copyright and License
-=====================
+Copyright
+=========
 
 ::
 

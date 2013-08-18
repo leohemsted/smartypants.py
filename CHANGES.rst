@@ -13,6 +13,9 @@ development:
     - add ``--version``
     - add ``install_test`` target for checking package installation
     - add ``test`` target for all tests
+    - add ``samp`` and ``tt`` to be skipped HTML elements
+    - remove ``tags_to_skip_regex`` and add ``tags_to_skip`` as a list of
+      skipped HTML with a helper function to compile a regular expreesion
     - deprecate str-type ``attr`` with:
         - redesign attr input with new ``Attr`` object
             - ``"-1"`` now is ``Attr.s`` (``"s"``)
