@@ -28,9 +28,9 @@ def main():
 
     if args.files:
         for f in args.files:
-            print(smartypants.smartyPants(f.read(), attr), end='')
+            print(smartypants.smartypants(f.read(), attr), end='')
     else:
-        print(smartypants.smartyPants(sys.stdin.read(), attr), end='')
+        print(smartypants.smartypants(sys.stdin.read(), attr), end='')
 
 
 if __name__ == '__main__':

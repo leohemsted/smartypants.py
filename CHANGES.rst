@@ -7,6 +7,7 @@ Versions without timestamps mean they are future releases.
     - drop Pyblosxom support
     - drop str-type ``attr``
         - use ``Attr.default`` instead of ``default_smartypants_attr``
+    - drop ``smartyPants()``
 
 development:
     - add ``--version``
@@ -16,6 +17,7 @@ development:
         - redesign attr input with new ``Attr`` object
             - ``"-1"`` now is ``Attr.s`` (``"s"``)
         - ``_str_attr_to_int()`` to handle str-type before the removal
+    - deprecate function name ``smartyPants``, now ``smartypants``
 
 1.7.1: 2013-08-14T06:45:59Z
     - fix ``README-PyPI.rst`` missing while installing
