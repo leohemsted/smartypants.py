@@ -1,3 +1,6 @@
+# Copyright (c) 2013 Yu-Jie Lin
+# Licensed under the BSD License, for detailed license information, see COPYING
+
 PACKAGE=smartypants
 SCRIPT=smartypants
 
