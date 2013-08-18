@@ -10,6 +10,8 @@ Versions without timestamps mean they are future releases.
     - drop ``smartyPants()``
 
 development:
+
+1.8.0: 2013-08-18T11:47:27Z
     - command-line
         - add ``--version``
         - add ``--skip`` for skipped elements
