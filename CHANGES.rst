@@ -18,7 +18,7 @@ development:
           targets
         - ``install_test`` target for checking package installation
         - ``test`` target for all tests above
-    - add ``samp`` and ``tt`` to be skipped HTML elements
+    - add ``style``, ``samp``, and ``tt`` to be skipped HTML elements
     - remove ``tags_to_skip_regex`` and add ``tags_to_skip`` as a list of
       skipped HTML with a helper function to compile a regular expreesion
     - deprecate str-type ``attr`` with:

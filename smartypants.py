@@ -57,7 +57,7 @@ Attr = _Attr()
 default_smartypants_attr = Attr.set1
 
 
-tags_to_skip = ['pre', 'samp', 'code', 'tt', 'kbd', 'script', 'math']
+tags_to_skip = ['pre', 'samp', 'code', 'tt', 'kbd', 'script', 'style', 'math']
 
 
 def _tags_to_skip_regex(tags=None):
@@ -65,8 +65,6 @@ def _tags_to_skip_regex(tags=None):
     Convert a list of skipped tags into regular expression
 
     >>> f = _tags_to_skip_regex
-    >>> print(f().pattern)
-    <(/)?(pre|samp|code|tt|kbd|script|math)[^>]*>
     >>> print(f(['foo', 'bar']).pattern)
     <(/)?(foo|bar)[^>]*>
     """
