@@ -157,7 +157,7 @@ def smartyPants(text, attr=None):
     warnings.filterwarnings('once', msg, DeprecationWarning)
     warnings.warn(msg, DeprecationWarning)
 
-    smartypants(text, attr)
+    return smartypants(text, attr)
 
 
 def smartypants(text, attr=None):

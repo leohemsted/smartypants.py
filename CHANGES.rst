@@ -11,6 +11,9 @@ Versions without timestamps mean they are future releases.
 
 development:
 
+    - fix deprecated ``smartyPants`` returns nothing (#2)
+    - add test file for deprecated stuff
+
 1.8.0: 2013-08-18T11:47:27Z
     - command-line
         - add ``--version``
