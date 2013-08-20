@@ -6,7 +6,7 @@
 
 __author__ = 'Yu-Jie Lin'
 __author_email__ = 'livibetter@gmail.com'
-__version__ = '1.8.0'
+__version__ = '1.8.1'
 __license__ = 'BSD License'
 __url__ = 'https://bitbucket.org/livibetter/smartypants.py'
 __description__ = 'Python with the SmartyPants'
@@ -157,7 +157,7 @@ def smartyPants(text, attr=None):
     warnings.filterwarnings('once', msg, DeprecationWarning)
     warnings.warn(msg, DeprecationWarning)
 
-    smartypants(text, attr)
+    return smartypants(text, attr)
 
 
 def smartypants(text, attr=None):
