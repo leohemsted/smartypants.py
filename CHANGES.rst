@@ -11,6 +11,8 @@ Versions without timestamps mean they are future releases.
 
 development:
 
+1.8.1: 2013-08-20T02:27:35Z
+
     - fix deprecated ``smartyPants`` returns nothing (#2)
     - add test file for deprecated stuff
 
