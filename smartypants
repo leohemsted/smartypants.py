@@ -18,7 +18,7 @@ def main():
                         help='processing attributes (Default: %(default)s)')
     parser.add_argument('-s', '--skip',
                         default=','.join(smartypants.tags_to_skip),
-                        help='processing attributes (Default: %(default)s)')
+                        help='skip HTML elements (Default: %(default)s)')
     parser.add_argument('files', metavar='FILE', type=argparse.FileType('r'),
                         nargs='*', help='files to be processed ')
     args = parser.parse_args()
