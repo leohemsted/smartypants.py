@@ -1,5 +1,5 @@
-References
-==========
+Reference
+=========
 
 .. automodule:: smartypants
    :members:

@@ -24,7 +24,7 @@ import warnings
 
 class _Attr(object):
     """
-    class used to initalize module attribute :attr:`Attr`
+    class for instantiation of module attribute :attr:`Attr`.
     """
     q = 0b000000001
     """

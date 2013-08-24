@@ -14,7 +14,7 @@ Contents:
    introduction
    usage
    command-line
-   references
+   reference
    history
    changes
    copyright
