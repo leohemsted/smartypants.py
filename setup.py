@@ -232,14 +232,17 @@ setup_d = dict(
         'pyflakes': cmd_pyflakes,
         'pylint': cmd_pylint,
         'test': cmd_test,
-        'build_sphinx': BuildDoc,
-        'upload_sphinx': UploadDoc,
     },
     classifiers=classifiers,
     py_modules=[module_name],
     scripts=[CLI_script],
     **meta
 )
+
+if BuildDoc:
+    setup_d['cmdclass']['build_sphinx'] = BuildDoc
+if UploadDoc:
+    setup_d['cmdclass']['upload_sphinx'] = UploadDoc
 
 if __name__ == '__main__':
     setup(**setup_d)
