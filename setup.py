@@ -7,6 +7,18 @@ from distutils.core import Command, setup
 from unittest import TestLoader, TextTestRunner
 import sys
 
+try:
+    from sphinx.setup_command import BuildDoc
+except ImportError:
+    # No need of Sphinx for normal users
+    BuildDoc = None
+try:
+    from sphinx_pypi_upload import UploadDoc
+except ImportError:
+    # Sphinx-PyPI-upload not compatible with Python 3
+    UploadDoc = None
+
+
 CLI_script = 'smartypants'
 module_name = 'smartypants'
 module_file = 'smartypants.py'
@@ -14,7 +26,10 @@ module_file = 'smartypants.py'
 CHECK_FILES = ('.', CLI_script)
 
 # scripts to be exculded from checking
-EXCLUDE_SCRIPTS = ()
+EXCLUDE_SCRIPTS = (
+    'conf.py',  # <- docs/conf.py is a auto-generated disaster of PEP8
+    'smartypants_command.py',
+)
 
 
 # ============================================================================
@@ -195,7 +210,7 @@ with open(module_file) as f:
                  'author_email']
     meta = dict([m for m in meta.items() if m[0] in meta_keys])
 
-with open('README-PyPI.rst') as f:
+with open('README.rst') as f:
     long_description = f.read()
 
 classifiers = [
@@ -217,6 +232,8 @@ setup_d = dict(
         'pyflakes': cmd_pyflakes,
         'pylint': cmd_pylint,
         'test': cmd_test,
+        'build_sphinx': BuildDoc,
+        'upload_sphinx': UploadDoc,
     },
     classifiers=classifiers,
     py_modules=[module_name],

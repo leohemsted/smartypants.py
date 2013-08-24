@@ -10,6 +10,13 @@ Versions without timestamps mean they are future releases.
     - drop ``smartyPants()``
 
 development:
+    - add documentation generation
+    - setup.py
+        - add ``build_sphinx`` and ``upload_sphinx`` commands
+    - Makefile
+        - add ``doc`` for documentation generation
+        - add ``upload_doc`` for uploading to PyPI
+        - add ``clean`` for cleaning up built files
 
 1.8.1: 2013-08-20T02:27:35Z
 
