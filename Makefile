@@ -15,11 +15,26 @@ VENV_PY3_CMD=virtualenv-python3.2
 
 BUILD_CMD=./setup.py sdist --formats gztar,zip bdist_wininst --plat-name win32
 
+# ============================================================================
+
 build:
 	$(BUILD_CMD)
 
 upload:
 	$(BUILD_CMD) upload
+
+upload_doc: doc
+	$(PY2_CMD) setup.py upload_sphinx
+
+# ============================================================================
+
+doc: smartypants_command.py
+	make -C docs html
+
+smartypants_command.py: smartypants
+	ln -sf smartypants $@
+
+# ============================================================================
 
 test: test_pep8 test_pyflakes test_test install_test
 
@@ -40,4 +55,13 @@ $(VENV_PY2_CMD) $(VENV_PY3_CMD):
 	. $(INSTALL_TEST_DIR)/bin/activate ; type $(SCRIPT)
 	$(INSTALL_TEST_DIR)/bin/$(SCRIPT) --version
 
-.PHONY: build upload install_test $(VENV_PY2_CMD) $(VENV_PY3_CMD)
+# ============================================================================
+
+clean:
+	rm -rf *.pyc build dist __pycache__
+	rm smartypants_command.py
+	make -C docs clean
+
+# ============================================================================
+
+.PHONY: build upload doc install_test $(VENV_PY2_CMD) $(VENV_PY3_CMD) clean

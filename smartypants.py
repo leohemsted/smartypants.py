@@ -4,6 +4,13 @@
 # Copyright (c) 2003 John Gruber
 # Licensed under the BSD License, for detailed license information, see COPYING
 
+"""
+smartypants module
+==================
+
+:func:`smartypants` is the core of smartypants module.
+"""
+
 __author__ = 'Yu-Jie Lin'
 __author_email__ = 'livibetter@gmail.com'
 __version__ = '1.8.1'
@@ -16,33 +23,102 @@ import warnings
 
 
 class _Attr(object):
+    """
+    class used to initalize module attribute :attr:`Attr`
+    """
+    q = 0b000000001
+    """
+    flag for normal quotes (``"``) and (``'``) to curly ones.
 
-    q = 0b000000001         # quotes
+    .. seealso:: :func:`educateQuotes`
+    """
 
-    b = 0b000000010         # backtick quotes (``double'' only)
-    B = 0b000000110         # backtick quotes (``double'' and `single')
+    b = 0b000000010
+    """
+    flag for double quotes (````backticks''``) to curly ones.
+
+    .. seealso:: :func:`educateBackticks`
+    """
+    B = 0b000000110
+    """
+    flag for double quotes (````backticks''``) and single quotes
+    (```single'``) to curly ones.
+
+    .. seealso:: :func:`educateBackticks` and :func:`educateSingleBackticks`
+    """
     mask_b = b | B
 
-    d = 0b000001000         # dashes
-    D = 0b000011000         # old school dashes
-    i = 0b000101000         # inverted old school dashes
+    d = 0b000001000
+    """
+    flag for dashes (``--``) to em-dashes.
+
+    .. seealso:: :func:`educateDashes`
+    """
+    D = 0b000011000
+    """
+    flag for old-school typewriter dashes (``--``) to en-dashes and dashes
+    (``---``) to em-dashes.
+
+    .. seealso:: :func:`educateDashesOldSchool`
+    """
+    i = 0b000101000
+    """
+    flag for inverted old-school typewriter dashes (``--``) to em-dashes and
+    dashes (``---``) to en-dashes.
+
+    .. seealso:: :func:`educateDashesOldSchoolInverted`
+    """
     mask_d = d | D | i
 
-    e = 0b001000000         # ellipses
-    w = 0b010000000         # convert &quot; entities to "
+    e = 0b001000000
+    """
+    flag for dashes (``...``) to ellipses.
 
-    s = 0b100000000         # special "stupefy" mode.
+    .. seealso:: :func:`educateEllipses`
+    """
+    w = 0b010000000
+    """
+    flag for dashes (``&quot;``) to ASCII double quotes (``"``).
 
-    set0 = 0                # do nothing
-    set1 = q | b | d | e    # set all
-    set2 = q | b | D | e    # set all, using old school en- and em- dash
-                            # shortcuts
-    set3 = q | b | i | e    # set all, using inverted old school en & em- dash
-                            # shortcuts
+    This should be of no interest to most people, but of particular interest
+    to anyone who writes their posts using Dreamweaver, as Dreamweaver
+    inexplicably uses this entity to represent a literal double-quote
+    character. SmartyPants only educates normal quotes, not entities (because
+    ordinarily, entities are used for the explicit purpose of representing the
+    specific character they represent). The "w" option must be used in
+    conjunction with one (or both) of the other quote options ("q" or "b").
+    Thus, if you wish to apply all SmartyPants transformations (quotes, en-
+    and em-dashes, and ellipses) and also convert ``&quot;`` entities into
+    regular quotes so SmartyPants can educate them.
+    """
 
+    s = 0b100000000
+    """
+    Stupefy mode. Reverses the SmartyPants transformation process, turning
+    the HTML entities produced by SmartyPants into their ASCII equivalents.
+    E.g.  ``&#8220;`` is turned into a simple double-quote ("), ``&#8212;`` is
+    turned into two dashes, etc.
+    """
+
+    set0 = 0
+    "suppress all transformations. (Do nothing.)"
+    set1 = q | b | d | e
+    "equivalent to :attr:`q` | :attr:`b` | :attr:`d` | :attr:`e`"
+    set2 = q | b | D | e
+    """
+    equivalent to :attr:`q` | :attr:`b` | :attr:`D` | :attr:`e`
+
+    For old school en- and em- dash.
+    """
+    set3 = q | b | i | e
+    """
+    equivalent to :attr:`q` | :attr:`b` | :attr:`i` | :attr:`e`
+
+    For inverted old school en & em- dash."
+    """
     @property
     def default(self):
-
+        "Default value of attributes, same value as :attr:`set1`"
         global default_smartypants_attr
         return default_smartypants_attr
 
@@ -54,9 +130,15 @@ class _Attr(object):
 
 
 Attr = _Attr()
+"""
+Processing attributes, which tells :func:`smartypants` what to convert
+
+.. seealso:: :class:`_Attr`
+"""
 default_smartypants_attr = Attr.set1
 
 
+#: Skipped HTML elements
 tags_to_skip = ['pre', 'samp', 'code', 'tt', 'kbd', 'script', 'style', 'math']
 
 
@@ -375,9 +457,8 @@ def educateQuotes(text):
 
 def educateBackticks(text):
     """
-    Parameter:  String.
-    Returns:    The string, with ``backticks'' -style double quotes
-                translated into HTML curly quote entities.
+    Convert ````backticks''``-style double quotes in *text* into HTML curly
+    quote entities.
 
     >>> print(educateBackticks("``Isn't this fun?''"))
     &#8220;Isn't this fun?&#8221;
@@ -390,9 +471,8 @@ def educateBackticks(text):
 
 def educateSingleBackticks(text):
     """
-    Parameter:  String.
-    Returns:    The string, with `backticks' -style single quotes
-                translated into HTML curly quote entities.
+    Convert ```backticks'``-style single quotes in *text* into HTML curly
+    quote entities.
 
     >>> print(educateSingleBackticks("`Isn't this fun?'"))
     &#8216;Isn&#8217;t this fun?&#8217;
@@ -405,57 +485,49 @@ def educateSingleBackticks(text):
 
 def educateDashes(text):
     """
-    Parameter:  String.
-
-    Returns:    The string, with each instance of "--" translated to
-                an em-dash HTML entity.
+    Convert ``--`` in *text* into em-dash HTML entities.
     """
 
-    text = re.sub('---', '&#8211;', text)  # en  (yes, backwards)
+    text = re.sub('---', '&#8211;', text)  # en (yes, backwards)
     text = re.sub('--', '&#8212;', text)   # em (yes, backwards)
     return text
 
 
 def educateDashesOldSchool(text):
     """
-    Parameter:  String.
-
-    Returns:    The string, with each instance of "--" translated to
-                an en-dash HTML entity, and each "---" translated to
-                an em-dash HTML entity.
+    Convert ``--`` and ``---`` in *text* into en-dash and em-dash HTML
+    entities, respectively.
     """
 
-    text = re.sub('---', '&#8212;', text)    # em (yes, backwards)
-    text = re.sub('--', '&#8211;', text)    # en (yes, backwards)
+    text = re.sub('---', '&#8212;', text)  # em (yes, backwards)
+    text = re.sub('--', '&#8211;', text)   # en (yes, backwards)
     return text
 
 
 def educateDashesOldSchoolInverted(text):
     """
-    Parameter:  String.
+    Convert ``--`` and ``---`` in *text* into em-dash and en-dash HTML
+    entities, respectively.
 
-    Returns:    The string, with each instance of "--" translated to
-                an em-dash HTML entity, and each "---" translated to
-                an en-dash HTML entity. Two reasons why: First, unlike the
-                en- and em-dash syntax supported by
-                EducateDashesOldSchool(), it's compatible with existing
-                entries written before SmartyPants 1.1, back when "--" was
-                only used for em-dashes.  Second, em-dashes are more
-                common than en-dashes, and so it sort of makes sense that
-                the shortcut should be shorter to type. (Thanks to Aaron
-                Swartz for the idea.)
+    Two reasons why:
+
+    * First, unlike the en- and em-dash syntax supported by
+      :func:`educateDashesOldSchool`, it's compatible with existing entries
+      written before SmartyPants 1.1, back when ``--`` was only used for
+      em-dashes.
+    * Second, em-dashes are more common than en-dashes, and so it sort of
+      makes sense that the shortcut should be shorter to type. (Thanks to Aaron
+      Swartz for the idea.)
     """
 
-    text = re.sub('---', '&#8211;', text)    # em
-    text = re.sub('--', '&#8212;', text)    # en
+    text = re.sub('---', '&#8211;', text)  # em
+    text = re.sub('--', '&#8212;', text)   # en
     return text
 
 
 def educateEllipses(text):
     """
-    Parameter:  String.
-    Returns:    The string, with each instance of "..." translated to
-                an ellipsis HTML entity.
+    Convert ``...`` in *text* into ellipsis HTML entities
 
     >>> print(educateEllipses('Huh...?'))
     Huh&#8230;?
@@ -468,9 +540,7 @@ def educateEllipses(text):
 
 def stupefyEntities(text):
     """
-    Parameter:  String.
-    Returns:    The string, with each SmartyPants HTML entity translated to
-                its ASCII counterpart.
+    Convert SmartyPants HTML entities in *text* into their ASCII counterparts.
 
     >>> print(stupefyEntities('&#8220;Hello &#8212; world.&#8221;'))
     "Hello -- world."
@@ -492,19 +562,24 @@ def stupefyEntities(text):
 
 def processEscapes(text):
     r"""
-    Parameter:  String.
-    Returns:    The string, with after processing the following backslash
-                escape sequences. This is useful if you want to force a "dumb"
-                quote or other character to appear.
+    Processe the following backslash escape sequences in *text*. This is useful
+    if you want to force a "dumb" quote or other character to appear.
 
-                Escape  Value
-                ------  -----
-                \\      &#92;
-                \"      &#34;
-                \'      &#39;
-                \.      &#46;
-                \-      &#45;
-                \`      &#96;
+    +--------+----------+-------------+
+    | Escape | Value    | Character   |
+    +========+==========+=============+
+    | ``\\`` | ``#92;`` | ``\``       |
+    +--------+----------+-------------+
+    | ``\"`` | ``#34;`` | ``"``       |
+    +--------+----------+-------------+
+    | ``\'`` | ``#39;`` | ``'``       |
+    +--------+----------+-------------+
+    | ``\.`` | ``#46;`` | ``.``       |
+    +--------+----------+-------------+
+    | ``\-`` | ``#45;`` | ``-``       |
+    +--------+----------+-------------+
+    | ``\``` | ``#96;`` | ``\```      |
+    +--------+----------+-------------+
     """
 
     text = re.sub(r'\\\\', '&#92;', text)
@@ -519,16 +594,15 @@ def processEscapes(text):
 
 def _tokenize(text):
     """
-    Parameter:  String containing HTML markup.
-    Returns:    Reference to an array of the tokens comprising the input
-                string. Each token is either a tag (possibly with nested,
-                tags contained therein, such as <a href="<MTFoo>">, or a
-                run of text between tags. Each element of the array is a
-                two-element array; the first is either 'tag' or 'text';
-                the second is the actual value.
+    Reference to an array of the tokens comprising the input string. Each token
+    is either a tag (possibly with nested, tags contained therein, such as
+    ``<a href="<MTFoo>">``, or a run of text between tags. Each element of the
+    array is a two-element array; the first is either 'tag' or 'text'; the
+    second is the actual value.
 
-    Based on the _tokenize() subroutine from Brad Choate's MTRegex plugin.
-        <http://www.bradchoate.com/past/mtregex.php>
+    Based on the _tokenize() subroutine from `Brad Choate's MTRegex plugin`__.
+
+    __ http://www.bradchoate.com/past/mtregex.php
     """
 
     tokens = []

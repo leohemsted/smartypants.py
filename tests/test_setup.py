@@ -9,7 +9,7 @@ class SetupTestCase(unittest.TestCase):
 
     def test_long_description(self):
         """Ensure long description can be generated"""
-        with open('README-PyPI.rst') as f:
+        with open('README.rst') as f:
             long_description = f.read()
 
         overrides = {

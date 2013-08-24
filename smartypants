@@ -2,6 +2,68 @@
 # Copyright (c) 2013 Yu-Jie Lin
 # Licensed under the BSD License, for detailed license information, see COPYING
 
+"""
+============
+Command-line
+============
+
+smartypants
+===========
+
+``smartypants`` provides a command-line interface for :py:mod:`smartypants`
+module, which is named as same as the module.
+
+It takes input from either standard input or files and output the result to
+standard output.
+
+
+Usage
+=====
+
+Syntax::
+
+  smartypants [-h] [-v] [-a ATTR] [-s SKIP] [FILE [FILE ...]]
+
+Some examples::
+
+  $ smartypants inputfile
+
+  $ command-foo inputfile | command-bar | smartypants
+
+
+Options
+=======
+
+``-a``, ``--attr``:
+  processe attrbutes tells smartypants how to translate,
+
+  The attributes is a string of characters, which are taken from the names of
+  attributes of :py:class:`smartypants.Attr <smartypants._Attr>`.
+
+  For example, the default attribute is
+  :py:attr:`smartypants.Attr.set1 <smartypants._Attr.set1>`::
+
+    smartypants -a 1
+
+  If you want :py:attr:`smartypants.Attr.q <smartypants._Attr.q>` and
+  :py:attr:`smartypants.Attr.w <smartypants._Attr.w>` then it would be invoked
+  as::
+
+    smartypants -a qw
+
+``-s``, ``--skip``:
+  skip specified HTML elements.
+
+  It is a comma-separated string. For example::
+
+    smartypants -s tag1,tag2,tag3
+
+``FILE``:
+  files to be processed.
+
+  If no ``FILE`` is specified, the input is taken from standard input.
+"""
+
 from __future__ import print_function
 import argparse
 import sys

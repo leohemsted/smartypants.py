@@ -1,4 +1,6 @@
 syntax: glob
 build
+docs/_build
 dist
 MANIFEST
+smartypants_command.py
