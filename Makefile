@@ -15,6 +15,8 @@ VENV_PY3_CMD=virtualenv-python3.2
 
 BUILD_CMD=./setup.py sdist --formats gztar,zip bdist_wininst --plat-name win32
 
+DOC_FILES = docs/conf.py $(wildcard docs/*.rst)
+
 # ============================================================================
 
 build:
@@ -28,7 +30,9 @@ upload_doc: doc
 
 # ============================================================================
 
-doc: smartypants_command.py
+doc: docs/_build/html
+
+docs/_build/html: $(DOC_FILES) smartypants.py smartypants_command.py
 	make -C docs html
 
 smartypants_command.py: smartypants

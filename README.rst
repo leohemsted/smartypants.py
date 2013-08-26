@@ -44,6 +44,6 @@ Both produce::
 More information
 ----------------
 
-You can read smartypants' documentation_ or  visit smartypants_ on Bitbucket.
+You can read smartypants' documentation_ or visit smartypants_ on Bitbucket.
 
 .. _documentation: http://pythonhosted.org/smartypants/
