@@ -75,4 +75,4 @@ If you need to use literal straight quotes (or plain hyphens and periods), for
 example, text like ``6'2"`` may become ``6‘2”``. To avoid such situation, you
 can use backslash escapes like ``6\'2\"``.
 
-.. seealso:: :func:`smartypants.processEscapes` for a complete list of backslash escapes.
+.. seealso:: :func:`smartypants.process_escapes` for a complete list of backslash escapes.
