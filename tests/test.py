@@ -35,7 +35,7 @@ class SmartyPantsTestCase(unittest.TestCase):
 
         self.assertEqual(sp("1440-80's"), "1440-80&#8217;s")
         self.assertEqual(sp("1440-'80s"), "1440-&#8216;80s")
-        self.assertEqual(sp("1440---'80s"), "1440&#8211;&#8216;80s")
+        self.assertEqual(sp("1440--'80s"), "1440&#8212;&#8216;80s")
         self.assertEqual(sp("1960s"), "1960s")  # no effect.
         self.assertEqual(sp("1960's"), "1960&#8217;s")
         self.assertEqual(sp("one two '60s"), "one two &#8216;60s")

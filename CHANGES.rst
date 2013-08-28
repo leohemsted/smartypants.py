@@ -17,6 +17,13 @@ development:
         - add ``doc`` for documentation generation
         - add ``upload_doc`` for uploading to PyPI
         - add ``clean`` for cleaning up built files
+    - fix ``---`` being converted in ``educateDashes``
+
+        The Perl doesn't do such, and it's possibly a mistaken in
+        version v1.5_1.5 (eed4a8a16f11).
+
+        If you want the same behavior with default attributes, you need to use
+        ``Attr.q | Attr.b | Attr.i | Attr.e``.
 
 1.8.1: 2013-08-20T02:27:35Z
 

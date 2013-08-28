@@ -488,8 +488,7 @@ def educateDashes(text):
     Convert ``--`` in *text* into em-dash HTML entities.
     """
 
-    text = re.sub('---', '&#8211;', text)  # en (yes, backwards)
-    text = re.sub('--', '&#8212;', text)   # em (yes, backwards)
+    text = re.sub('--', '&#8212;', text)
     return text
 
 
