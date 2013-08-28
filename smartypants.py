@@ -31,21 +31,21 @@ class _Attr(object):
     """
     flag for normal quotes (``"``) and (``'``) to curly ones.
 
-    .. seealso:: :func:`educateQuotes`
+    .. seealso:: :func:`convert_quotes`
     """
 
     b = 0b000000010
     """
     flag for double quotes (````backticks''``) to curly ones.
 
-    .. seealso:: :func:`educateBackticks`
+    .. seealso:: :func:`convert_backticks`
     """
     B = 0b000000110
     """
     flag for double quotes (````backticks''``) and single quotes
     (```single'``) to curly ones.
 
-    .. seealso:: :func:`educateBackticks` and :func:`educateSingleBackticks`
+    .. seealso:: :func:`convert_backticks` and :func:`convert_single_backticks`
     """
     mask_b = b | B
 
@@ -53,21 +53,21 @@ class _Attr(object):
     """
     flag for dashes (``--``) to em-dashes.
 
-    .. seealso:: :func:`educateDashes`
+    .. seealso:: :func:`convert_dashes`
     """
     D = 0b000011000
     """
     flag for old-school typewriter dashes (``--``) to en-dashes and dashes
     (``---``) to em-dashes.
 
-    .. seealso:: :func:`educateDashesOldSchool`
+    .. seealso:: :func:`convert_dashes_oldschool`
     """
     i = 0b000101000
     """
     flag for inverted old-school typewriter dashes (``--``) to em-dashes and
     dashes (``---``) to en-dashes.
 
-    .. seealso:: :func:`educateDashesOldSchoolInverted`
+    .. seealso:: :func:`convert_dashes_oldschool_inverted`
     """
     mask_d = d | D | i
 
@@ -75,7 +75,7 @@ class _Attr(object):
     """
     flag for dashes (``...``) to ellipses.
 
-    .. seealso:: :func:`educateEllipses`
+    .. seealso:: :func:`convert_ellipses`
     """
     w = 0b010000000
     """
@@ -316,28 +316,28 @@ def smartypants(text, attr=None):
             # Remember last char of this token before processing.
             last_char = t[-1:]
             if not in_pre:
-                t = processEscapes(t)
+                t = process_escapes(t)
 
                 if convert_quot:
                     t = re.sub('&quot;', '"', t)
 
                 if do_dashes:
                     if do_dashes == Attr.d:
-                        t = educateDashes(t)
+                        t = convert_dashes(t)
                     if do_dashes == Attr.D:
-                        t = educateDashesOldSchool(t)
+                        t = convert_dashes_oldschool(t)
                     if do_dashes == Attr.i:
-                        t = educateDashesOldSchoolInverted(t)
+                        t = convert_dashes_oldschool_inverted(t)
 
                 if do_ellipses:
-                    t = educateEllipses(t)
+                    t = convert_ellipses(t)
 
                 # Note: backticks need to be processed before quotes.
                 if do_backticks == Attr.b:
-                    t = educateBackticks(t)
+                    t = convert_backticks(t)
 
                 if do_backticks == Attr.B:
-                    t = educateSingleBackticks(t)
+                    t = convert_single_backticks(t)
 
                 if do_quotes:
                     if t == "'":
@@ -355,10 +355,10 @@ def smartypants(text, attr=None):
 
                     else:
                         # Normal case:
-                        t = educateQuotes(t)
+                        t = convert_quotes(t)
 
                 if do_stupefy:
-                    t = stupefyEntities(t)
+                    t = stupefy_entities(t)
 
             prev_token_last_char = last_char
             result.append(t)
@@ -367,10 +367,19 @@ def smartypants(text, attr=None):
 
 
 def educateQuotes(text):
+
+    msg = 'educateQuotes will be removed at Version 2.0.0'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
+
+    return convert_quotes(text)
+
+
+def convert_quotes(text):
     """
     Convert quotes in *text* into HTML curly quote entities.
 
-    >>> print(educateQuotes('"Isn\\'t this fun?"'))
+    >>> print(convert_quotes('"Isn\\'t this fun?"'))
     &#8220;Isn&#8217;t this fun?&#8221;
     """
 
@@ -461,11 +470,20 @@ def educateQuotes(text):
 
 
 def educateBackticks(text):
+
+    msg = 'educateBackticks will be removed at Version 2.0.0'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
+
+    return convert_backticks(text)
+
+
+def convert_backticks(text):
     """
     Convert ````backticks''``-style double quotes in *text* into HTML curly
     quote entities.
 
-    >>> print(educateBackticks("``Isn't this fun?''"))
+    >>> print(convert_backticks("``Isn't this fun?''"))
     &#8220;Isn't this fun?&#8221;
     """
 
@@ -475,11 +493,20 @@ def educateBackticks(text):
 
 
 def educateSingleBackticks(text):
+
+    msg = 'educateSingleBackticks will be removed at Version 2.0.0'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
+
+    return convert_single_backticks(text)
+
+
+def convert_single_backticks(text):
     """
     Convert ```backticks'``-style single quotes in *text* into HTML curly
     quote entities.
 
-    >>> print(educateSingleBackticks("`Isn't this fun?'"))
+    >>> print(convert_single_backticks("`Isn't this fun?'"))
     &#8216;Isn&#8217;t this fun?&#8217;
     """
 
@@ -489,11 +516,20 @@ def educateSingleBackticks(text):
 
 
 def educateDashes(text):
+
+    msg = 'educateDashes will be removed at Version 2.0.0'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
+
+    return convert_dashes(text)
+
+
+def convert_dashes(text):
     """
     Convert ``--`` in *text* into em-dash HTML entities.
 
     >>> quote = 'Nothing endures but change. -- Heraclitus'
-    >>> print(educateDashes(quote))
+    >>> print(convert_dashes(quote))
     Nothing endures but change. &#8212; Heraclitus
     """
 
@@ -502,12 +538,21 @@ def educateDashes(text):
 
 
 def educateDashesOldSchool(text):
+
+    msg = 'educateDashesOldSchool will be removed at Version 2.0.0'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
+
+    return convert_dashes_oldschool(text)
+
+
+def convert_dashes_oldschool(text):
     """
     Convert ``--`` and ``---`` in *text* into en-dash and em-dash HTML
     entities, respectively.
 
     >>> quote = 'Life itself is the proper binge. --- Julia Child (1912--2004)'
-    >>> print(educateDashesOldSchool(quote))
+    >>> print(convert_dashes_oldschool(quote))
     Life itself is the proper binge. &#8212; Julia Child (1912&#8211;2004)
     """
 
@@ -517,6 +562,15 @@ def educateDashesOldSchool(text):
 
 
 def educateDashesOldSchoolInverted(text):
+
+    msg = 'educateDashesOldSchoolInverted will be removed at Version 2.0.0'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
+
+    return convert_dashes_oldschool_inverted(text)
+
+
+def convert_dashes_oldschool_inverted(text):
     """
     Convert ``--`` and ``---`` in *text* into em-dash and en-dash HTML
     entities, respectively.
@@ -524,7 +578,7 @@ def educateDashesOldSchoolInverted(text):
     Two reasons why:
 
     * First, unlike the en- and em-dash syntax supported by
-      :func:`educateDashesOldSchool`, it's compatible with existing entries
+      :func:`convert_dashes_oldschool`, it's compatible with existing entries
       written before SmartyPants 1.1, back when ``--`` was only used for
       em-dashes.
     * Second, em-dashes are more common than en-dashes, and so it sort of
@@ -532,7 +586,7 @@ def educateDashesOldSchoolInverted(text):
       Swartz for the idea.)
 
     >>> quote = 'Dare to be naïve. -- Buckminster Fuller (1895---1983)'
-    >>> print(educateDashesOldSchoolInverted(quote))
+    >>> print(convert_dashes_oldschool_inverted(quote))
     Dare to be naïve. &#8212; Buckminster Fuller (1895&#8211;1983)
     """
 
@@ -542,10 +596,19 @@ def educateDashesOldSchoolInverted(text):
 
 
 def educateEllipses(text):
+
+    msg = 'educateEllipses will be removed at Version 2.0.0'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
+
+    return convert_ellipses(text)
+
+
+def convert_ellipses(text):
     """
     Convert ``...`` in *text* into ellipsis HTML entities
 
-    >>> print(educateEllipses('Huh...?'))
+    >>> print(convert_ellipses('Huh...?'))
     Huh&#8230;?
     """
 
@@ -555,10 +618,19 @@ def educateEllipses(text):
 
 
 def stupefyEntities(text):
+
+    msg = 'stupefyEntities will be removed at Version 2.0.0'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
+
+    return stupefy_entities(text)
+
+
+def stupefy_entities(text):
     """
     Convert SmartyPants HTML entities in *text* into their ASCII counterparts.
 
-    >>> print(stupefyEntities('&#8220;Hello &#8212; world.&#8221;'))
+    >>> print(stupefy_entities('&#8220;Hello &#8212; world.&#8221;'))
     "Hello -- world."
     """
 
@@ -577,6 +649,15 @@ def stupefyEntities(text):
 
 
 def processEscapes(text):
+
+    msg = 'processEscapes will be removed at Version 2.0.0'
+    warnings.filterwarnings('once', msg, DeprecationWarning)
+    warnings.warn(msg, DeprecationWarning)
+
+    return process_escapes(text)
+
+
+def process_escapes(text):
     r"""
     Processe the following backslash escape sequences in *text*. This is useful
     if you want to force a "dumb" quote or other character to appear.

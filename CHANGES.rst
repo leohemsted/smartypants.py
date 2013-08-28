@@ -7,7 +7,8 @@ Versions without timestamps mean they are future releases.
     - drop Pyblosxom support
     - drop str-type ``attr``
         - use ``Attr.default`` instead of ``default_smartypants_attr``
-    - drop ``smartyPants()``
+    - drop fooBarXyz functions, such as  ``smartyPants()``, ``educateQuotes``,
+      and ``processEscapes``
 
 development:
     - add documentation generation
@@ -24,6 +25,9 @@ development:
 
         If you want the same behavior with default attributes, you need to use
         ``Attr.q | Attr.b | Attr.i | Attr.e``.
+
+    - deprecate fooBarXyz functions, such as ``educateQuotes`` and
+      ``processEscapes``
 
 1.8.1: 2013-08-20T02:27:35Z
 
