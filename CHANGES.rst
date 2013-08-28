@@ -7,10 +7,12 @@ Versions without timestamps mean they are future releases.
     - drop Pyblosxom support
     - drop str-type ``attr``
         - use ``Attr.default`` instead of ``default_smartypants_attr``
-    - drop fooBarXyz functions, such as  ``smartyPants()``, ``educateQuotes``,
+    - drop fooBarXyz functions, such as  ``smartyPants``, ``educateQuotes``,
       and ``processEscapes``
 
 development:
+
+1.8.2: 2013-08-28T11:38:42Z
     - add documentation generation
     - setup.py
         - add ``build_sphinx`` and ``upload_sphinx`` commands
@@ -30,7 +32,6 @@ development:
       ``processEscapes``
 
 1.8.1: 2013-08-20T02:27:35Z
-
     - fix deprecated ``smartyPants`` returns nothing (#2)
     - add test file for deprecated stuff
 
