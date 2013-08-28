@@ -368,9 +368,7 @@ def smartypants(text, attr=None):
 
 def educateQuotes(text):
     """
-    Parameter:  String.
-
-    Returns:    The string, with "educated" curly quote HTML entities.
+    Convert quotes in *text* into HTML curly quote entities.
 
     >>> print(educateQuotes('"Isn\\'t this fun?"'))
     &#8220;Isn&#8217;t this fun?&#8221;
