@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 # Copyright (c) 2013 Yu-Jie Lin
 # Copyright (c) 2004, 2005, 2007, 2013 Chad Miller
 # Copyright (c) 2003 John Gruber
@@ -138,13 +139,19 @@ Processing attributes, which tells :func:`smartypants` what to convert
 default_smartypants_attr = Attr.set1
 
 
-#: Skipped HTML elements
 tags_to_skip = ['pre', 'samp', 'code', 'tt', 'kbd', 'script', 'style', 'math']
+"""
+Skipped HTML elements
+
+.. seealso:: :ref:`skip-html`
+"""
 
 
 def _tags_to_skip_regex(tags=None):
     """
     Convert a list of skipped tags into regular expression
+
+    The default *tags* are :attr:`tags_to_skip`.
 
     >>> f = _tags_to_skip_regex
     >>> print(f(['foo', 'bar']).pattern)
@@ -486,6 +493,10 @@ def educateSingleBackticks(text):
 def educateDashes(text):
     """
     Convert ``--`` in *text* into em-dash HTML entities.
+
+    >>> quote = 'Nothing endures but change. -- Heraclitus'
+    >>> print(educateDashes(quote))
+    Nothing endures but change. &#8212; Heraclitus
     """
 
     text = re.sub('--', '&#8212;', text)
@@ -496,6 +507,10 @@ def educateDashesOldSchool(text):
     """
     Convert ``--`` and ``---`` in *text* into en-dash and em-dash HTML
     entities, respectively.
+
+    >>> quote = 'Life itself is the proper binge. --- Julia Child (1912--2004)'
+    >>> print(educateDashesOldSchool(quote))
+    Life itself is the proper binge. &#8212; Julia Child (1912&#8211;2004)
     """
 
     text = re.sub('---', '&#8212;', text)  # em (yes, backwards)
@@ -517,6 +532,10 @@ def educateDashesOldSchoolInverted(text):
     * Second, em-dashes are more common than en-dashes, and so it sort of
       makes sense that the shortcut should be shorter to type. (Thanks to Aaron
       Swartz for the idea.)
+
+    >>> quote = 'Dare to be naïve. -- Buckminster Fuller (1895---1983)'
+    >>> print(educateDashesOldSchoolInverted(quote))
+    Dare to be naïve. &#8212; Buckminster Fuller (1895&#8211;1983)
     """
 
     text = re.sub('---', '&#8211;', text)  # em
