@@ -1,7 +1,7 @@
 smartypants
 ===========
 
-smartypants_ is a Python port of SmartyPants__.
+smartypants_ is a Python fork of SmartyPants__.
 
 .. _smartypants: https://bitbucket.org/livibetter/smartypants.py
 __ SmartyPantsPerl_
@@ -44,6 +44,10 @@ Both produce::
 More information
 ----------------
 
-You can read smartypants' documentation_ or visit smartypants_ on Bitbucket.
+* Documentation_
+* `Source code`_
+* PyPI_
 
 .. _documentation: http://pythonhosted.org/smartypants/
+.. _Source code: smartypants_
+.. _PyPI: https://pypi.python.org/pypi/smartypants/

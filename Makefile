@@ -15,7 +15,7 @@ VENV_PY3_CMD=virtualenv-python3.2
 
 BUILD_CMD=./setup.py sdist --formats gztar,zip bdist_wininst --plat-name win32
 
-DOC_FILES = docs/conf.py $(wildcard docs/*.rst)
+DOC_FILES = CHANGES.rst docs/conf.py $(wildcard docs/*.rst)
 
 # ============================================================================
 
