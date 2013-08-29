@@ -1,4 +1,5 @@
-CHANGES
+=======
+Changes
 =======
 
 Versions without timestamps mean they are future releases.

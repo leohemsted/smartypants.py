@@ -2,7 +2,7 @@
 Introduction
 ============
 
-smartypants_ is a Python port of SmartyPants__.
+smartypants_ is a Python fork of SmartyPants__.
 
 .. _smartypants: https://bitbucket.org/livibetter/smartypants.py
 __ SmartyPantsPerl_
@@ -52,6 +52,6 @@ Both produce::
 Installation
 ============
 
-smartypants.py can be installed vi pip::
+smartypants can be installed via ``pip``::
 
   $ pip install smartypants
