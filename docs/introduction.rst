@@ -52,6 +52,16 @@ Both produce::
 Installation
 ============
 
-smartypants can be installed via ``pip``::
+smartypants package on PyPI_ can be installed via ``pip``::
 
-  $ pip install smartypants
+  pip install smartypants
+
+.. _PyPI: https://pypi.python.org/pypi/smartypants/
+
+If you want to install latest development code, you can run::
+
+  pip install hg+https://bitbucket.org/livibetter/smartypants.py
+
+or::
+
+  pip install hg+ssh://hg@bitbucket.org/livibetter/smartypants.py
