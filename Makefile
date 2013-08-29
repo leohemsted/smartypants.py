@@ -35,6 +35,20 @@ doc: docs/_build/html
 docs/_build/html: $(DOC_FILES) smartypants.py smartypants_command.py
 	make -C docs html
 
+# FIXME making a symlink is just an workaround since smartypants script isn't
+# importable, therefore Sphinx autodoc cannot pick it up. There are a couple of
+# options:
+#
+# 1. making a `main()` function in smartypants.py, the module file. However,
+#    you can't use section heading inside the docstring of a function, or it
+#    would result an error about unexpected section heading.
+#
+#	2. making a smartypants.py as a package, so a new module like
+#	   smartypants.cli, just for the command-line script
+#
+# If you know a better solution for making documentation for smartypants
+# command, please open an issue to discuss. Right now, stick with this ugly
+# symlink.
 smartypants_command.py: smartypants
 	ln -sf smartypants $@
 
@@ -56,8 +70,14 @@ $(VENV_PY2_CMD) $(VENV_PY3_CMD):
 	$@ $(INSTALL_TEST_DIR)
 	./setup.py sdist --dist-dir $(INSTALL_TEST_DIR)
 	$(INSTALL_TEST_DIR)/bin/pip install $(INSTALL_TEST_DIR)/*.tar.gz
-	. $(INSTALL_TEST_DIR)/bin/activate ; type $(SCRIPT)
-	$(INSTALL_TEST_DIR)/bin/$(SCRIPT) --version
+	@\
+		CHK_VER="`$(PY2_CMD) $(SCRIPT) --version 2>&1`";\
+		cd $(INSTALL_TEST_DIR);\
+		. bin/activate;\
+		[ "`type $(SCRIPT)`" = "$(SCRIPT) is $(INSTALL_TEST_DIR)/bin/$(SCRIPT)" ];\
+		[ "$$CHK_VER" = "`bin/$(SCRIPT) --version 2>&1`" ];\
+		[ "`echo '"foobar"' | bin/$(SCRIPT)`" = '&#8220;foobar&#8221;' ]
+	rm -rf $(INSTALL_TEST_DIR)
 
 # ============================================================================
 
