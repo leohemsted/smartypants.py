@@ -12,6 +12,7 @@ Versions without timestamps mean they are future releases.
       and ``processEscapes``
 
 development:
+    - fix tags in comments (pull request #1)
 
 1.8.2: 2013-08-28T11:38:42Z
     - add documentation generation
