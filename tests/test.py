@@ -88,9 +88,39 @@ document.write('<a href="' + href + '">' + linktext + "</a>");
 
         self.assertEqual(sp("--"), "&#8212;")
         self.assertEqual(sp("-->"), "&#8212;>")
-        self.assertEqual(sp("<!-- comment -->"), "<!-- comment -->")
-        self.assertEqual(sp("<!-- <li>Fee-fi-of-fum</li> -->"),
-                         "<!-- <li>Fee-fi-of-fum</li> -->")
+        self.assertEqual(sp("-- \t  >"), "&#8212; \t  >")
+
+        TEXT = '<!-- "foo" --> blah--blah <!-- "bar" -->'
+        T = sp(TEXT)
+        E = '<!-- "foo" --> blah&#8212;blah <!-- "bar" -->'
+        self.assertEqual(T, E)
+
+        TEXT = (
+            '<p>foo -- "bar"<!-- foo-bar\n'
+            '<p>blah "this"</p>\n'
+            '-->\n'
+            '</p>'
+        )
+
+        T = sp(TEXT)
+        E = (
+            '<p>foo &#8212; &#8220;bar&#8221;<!-- foo-bar\n'
+            '<p>blah "this"</p>\n'
+            '-->\n'
+            '</p>'
+        )
+        self.assertEqual(T, E)
+
+        # nothing should be converted
+        for TEXT in ('<!-- comment -->',
+                     '<!-- <li>Fee-fi-of-fum</li> -->',
+                     '<!-- "foo" --> <!-- "bar" -->'):
+            self.assertEqual(sp(TEXT), TEXT)
+
+        # not comments
+        self.assertEqual(sp('<!-- -- -->'), '<!&#8212; &#8212; &#8212;>')
+        self.assertEqual(sp('<!-- -- -- \t >'),
+                         '<!&#8212; &#8212; &#8212; \t >')
 
     def test_ordinal_numbers(self):
 

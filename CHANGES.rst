@@ -14,8 +14,10 @@ Versions without timestamps mean they are future releases.
       and ``processEscapes``
 
 development:
-    - fix ``_tokenize`` turning ``--`` of HTML comment end tag ``-->``
-      (pull request #1)
+    - fix ``_tokenize`` can not handle HTML comment properly
+
+        This fix includes pull request #1 with modification for handling
+        ``--`` appears in a comment, which makes the comment not a comment.
 
 1.8.2: 2013-08-28T11:38:42Z
     - add documentation generation
