@@ -7,7 +7,9 @@ Versions without timestamps mean they are future releases.
 2.0.0:
     - drop Pyblosxom support
     - drop str-type ``attr``
+
         - use ``Attr.default`` instead of ``default_smartypants_attr``
+
     - drop fooBarXyz functions, such as  ``smartyPants``, ``educateQuotes``,
       and ``processEscapes``
 
@@ -17,11 +19,15 @@ development:
 1.8.2: 2013-08-28T11:38:42Z
     - add documentation generation
     - setup.py
+
         - add ``build_sphinx`` and ``upload_sphinx`` commands
+
     - Makefile
+
         - add ``doc`` for documentation generation
         - add ``upload_doc`` for uploading to PyPI
         - add ``clean`` for cleaning up built files
+
     - fix ``---`` being converted in ``educateDashes``
 
         The Perl doesn't do such, and it's possibly a mistaken in
@@ -39,20 +45,28 @@ development:
 
 1.8.0: 2013-08-18T11:47:27Z
     - command-line
+
         - add ``--version``
         - add ``--skip`` for skipped elements
+
     - add Makefile:
+
         - ``test_pep8``, ``test_pyflakes``, and ``test_test`` (unittest)
           targets
         - ``install_test`` target for checking package installation
         - ``test`` target for all tests above
+
     - add ``style``, ``samp``, and ``tt`` to be skipped HTML elements
     - remove ``tags_to_skip_regex`` and add ``tags_to_skip`` as a list of
       skipped HTML with a helper function to compile a regular expreesion
     - deprecate str-type ``attr`` with:
+
         - redesign attr input with new ``Attr`` object
+
             - ``"-1"`` now is ``Attr.s`` (``"s"``)
+
         - ``_str_attr_to_int()`` to handle str-type before the removal
+
     - deprecate function name ``smartyPants``, now ``smartypants``
 
 1.7.1: 2013-08-14T06:45:59Z
