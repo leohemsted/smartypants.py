@@ -44,6 +44,9 @@ To use these attributes, simply using bitwise *OR* operator, that is ``A | B``:
 Skipped HTML elements
 =====================
 
+Elements
+--------
+
 By default, there are a few HTML elements that :func:`smartypants.smartypants`
 do not try to be smart with them:
 
@@ -66,6 +69,28 @@ The :attr:`smartypants.tags_to_skip` is compiled into a regular expression for
 being used by :func:`smartypants.smartypants`. You could actually overwrite
 :func:`smartypants._tags_to_skip_regex` and return with your own regular
 expression.
+
+
+Comments
+--------
+
+HTML comments are always skipped since they are not rendered in browsers.
+
+.. code:: python
+
+  >>> from smartypants import smartypants as sp
+  >>> print(sp('<!-- <span>"foobar"</span> -->'))
+  <!-- <span>"foobar"</span> -->
+
+.. important::
+  
+  Beware of ``--``, which should not or must not be in a HTML comment.
+
+  .. code:: python
+
+    >>> from smartypants import smartypants as sp
+    >>> print(sp('<!-- <span>"foo--bar"</span> -->'))
+    <!&#8212; <span>&#8221;foo&#8212;bar&#8221;</span> &#8212;>
 
 
 Backslash escapes
