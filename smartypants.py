@@ -709,7 +709,7 @@ def _tokenize(text):
 
     tokens = []
 
-    tag_soup = re.compile(r"""(?s)([^<]*)(<!--.*?--\s*>|<[^>]*>)""")
+    tag_soup = re.compile(r'([^<]*)(<!--.*?--\s*>|<[^>]*>)', re.S)
 
     token_match = tag_soup.search(text)
 
@@ -718,7 +718,27 @@ def _tokenize(text):
         if token_match.group(1):
             tokens.append(['text', token_match.group(1)])
 
-        tokens.append(['tag', token_match.group(2)])
+        # if -- in text part of comment, then it's not a comment, therefore it
+        # should be converted.
+        #
+        # In HTML4 [1]:
+        #   [...] Authors should avoid putting two or more adjacent hyphens
+        #   inside comments.
+        #
+        # In HTML5 [2]:
+        #   [...] the comment may have text, with the additional restriction
+        #   that the text must not [...], nor contain two consecutive U+002D
+        #   HYPHEN-MINUS characters (--)
+        #
+        # [1]: http://www.w3.org/TR/REC-html40/intro/sgmltut.html#h-3.2.4
+        # [2]: http://www.w3.org/TR/html5/syntax.html#comments
+        tag = token_match.group(2)
+        type_ = 'tag'
+        if tag.startswith('<!--'):
+            # remove --[white space]> from the end of tag
+            if '--' in tag[4:].rstrip('>').rstrip().rstrip('-'):
+                type_ = 'text'
+        tokens.append([type_, tag])
 
         previous_end = token_match.end()
         token_match = tag_soup.search(text, token_match.end())
