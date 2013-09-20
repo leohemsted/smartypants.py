@@ -709,7 +709,7 @@ def _tokenize(text):
 
     tokens = []
 
-    tag_soup = re.compile('([^<]*)(<[^>]*>)')
+    tag_soup = re.compile(r"""(?s)([^<]*)(<!--.*?--\s*>|<[^>]*>)""")
 
     token_match = tag_soup.search(text)
 

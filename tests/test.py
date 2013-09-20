@@ -84,6 +84,13 @@ document.write('<a href="' + href + '">' + linktext + "</a>");
              "is python code.</p>")
         self.assertEqual(T, E)
 
+    def test_comments(self):
+
+        self.assertEqual(sp("--"), "&#8212;")
+        self.assertEqual(sp("-->"), "&#8212;>")
+        self.assertEqual(sp("<!-- comment -->"), "<!-- comment -->")
+        self.assertEqual(sp("<!-- <li>Fee-fi-of-fum</li> -->"), "<!-- <li>Fee-fi-of-fum</li> -->")
+
     def test_ordinal_numbers(self):
 
         self.assertEqual(sp("21st century"), "21st century")  # no effect.
