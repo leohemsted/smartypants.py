@@ -89,7 +89,8 @@ document.write('<a href="' + href + '">' + linktext + "</a>");
         self.assertEqual(sp("--"), "&#8212;")
         self.assertEqual(sp("-->"), "&#8212;>")
         self.assertEqual(sp("<!-- comment -->"), "<!-- comment -->")
-        self.assertEqual(sp("<!-- <li>Fee-fi-of-fum</li> -->"), "<!-- <li>Fee-fi-of-fum</li> -->")
+        self.assertEqual(sp("<!-- <li>Fee-fi-of-fum</li> -->"),
+                         "<!-- <li>Fee-fi-of-fum</li> -->")
 
     def test_ordinal_numbers(self):
 
