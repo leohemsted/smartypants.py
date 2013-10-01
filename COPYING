@@ -1,4 +1,11 @@
-SmartyPants license::
+=========
+Copyright
+=========
+
+SmartyPants
+===========
+
+::
 
   Copyright (c) 2003 John Gruber
   (http://daringfireball.net/)
@@ -33,9 +40,12 @@ SmartyPants license::
   of this software, even if advised of the possibility of such damage.
 
 
-smartypants.py license::
+smartypants
+===========
 
-  smartypants.py is a derivative work of SmartyPants.
+::
+
+  smartypants is a derivative work of SmartyPants.
   
   Copyright (c) 2013 Yu-Jie Lin
   Copyright (c) 2004, 2005, 2007, 2013 Chad Miller
