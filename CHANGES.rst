@@ -10,28 +10,28 @@ Changes
   - line wrapping at 80 characters, i.e. max line length is 79 characters
   - use symbols, even though they look same in Sphinx doc
 
-      - "*" for modifications, fixes, or a set of grouped changes
-      - "+" for additions
-      - "-" for removals
+    - "*" for modifications, fixes, or a set of grouped changes
+    - "+" for additions
+    - "-" for removals
 
-      .. note:: need to group each type into block, if without blank lines to
-                separate, Sphinx gives warnings.
+    .. note:: need to group each type into block, if without blank lines to
+              separate, Sphinx gives warnings.
 
-      Normally, they should be ordered in and separated by blank lines
-      
-      - deprecates
+    Normally, they should be ordered in and separated by blank lines
+    
+    - deprecates
+
+    - removals
+
+    * fixes
+
+    * sets
 
       - removals
 
-      * fixes
-
-      * sets
-
-          - removals
-
-          + additions
-
       + additions
+
+    + additions
 
 
 Future
