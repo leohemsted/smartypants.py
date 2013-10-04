@@ -44,7 +44,7 @@ Release 2.0.0
 
 - drop str-type ``attr``
 
-    - use ``Attr.default`` instead of ``default_smartypants_attr``
+  - use ``Attr.default`` instead of ``default_smartypants_attr``
 
 - drop fooBarXyz functions, such as  ``smartyPants``, ``educateQuotes``,
   and ``processEscapes``
@@ -55,8 +55,8 @@ Development
 
 * fix ``_tokenize`` can not handle HTML comment properly
 
-    This fix includes pull request #1 with modification for handling
-    ``--`` appears in a comment, which makes the comment not a comment
+  This fix includes pull request #1 with modification for handling
+  ``--`` appears in a comment, which makes the comment not a comment
 
 
 Releases 1.7 and greater
@@ -70,21 +70,21 @@ Release 1.8.2: 2013-08-28T11:38:42Z
 
 * fix ``---`` being converted in ``educateDashes``
 
-    The Perl doesn't do such, and it's possibly a mistaken in
-    version v1.5_1.5 (eed4a8a16f11)
+  The Perl doesn't do such, and it's possibly a mistaken in
+  version v1.5_1.5 (eed4a8a16f11)
 
-    If you want the same behavior with default attributes, you need to use
-    ``Attr.q | Attr.b | Attr.i | Attr.e``
+  If you want the same behavior with default attributes, you need to use
+  ``Attr.q | Attr.b | Attr.i | Attr.e``
 
 * setup.py
 
-    - add ``build_sphinx`` and ``upload_sphinx`` commands
+  - add ``build_sphinx`` and ``upload_sphinx`` commands
 
 * Makefile
 
-    - add ``doc`` for documentation generation
-    - add ``upload_doc`` for uploading to PyPI
-    - add ``clean`` for cleaning up built files
+  - add ``doc`` for documentation generation
+  - add ``upload_doc`` for uploading to PyPI
+  - add ``clean`` for cleaning up built files
 
 + add documentation generation
 
@@ -100,11 +100,11 @@ Release 1.8.0: 2013-08-18T11:47:27Z
 
 - deprecate str-type ``attr`` with:
 
-    - redesign attr input with new ``Attr`` object
+  - redesign attr input with new ``Attr`` object
 
-        - ``"-1"`` now is ``Attr.s`` (``"s"``)
+    - ``"-1"`` now is ``Attr.s`` (``"s"``)
 
-    - ``_str_attr_to_int()`` to handle str-type before the removal
+  - ``_str_attr_to_int()`` to handle str-type before the removal
 
 - deprecate function name ``smartyPants``, now ``smartypants``
 
@@ -113,14 +113,15 @@ Release 1.8.0: 2013-08-18T11:47:27Z
 
 * command-line
 
-    - add ``--version``
-    - add ``--skip`` for skipped elements
+  - add ``--version``
+  - add ``--skip`` for skipped elements
 
 * add Makefile:
 
-    - ``test_pep8``, ``test_pyflakes``, and ``test_test`` (unittest)
-      targets
-    - ``install_test`` target for checking package installation
+  - ``test_pep8``, ``test_pyflakes``, and ``test_test`` (unittest)
+    targets
+  - ``install_test`` target for checking package installation
+
     - ``test`` target for all tests above
 
 + add ``style``, ``samp``, and ``tt`` to be skipped HTML elements
