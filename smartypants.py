@@ -14,7 +14,7 @@ smartypants module
 
 __author__ = 'Yu-Jie Lin'
 __author_email__ = 'livibetter@gmail.com'
-__version__ = '1.8.2'
+__version__ = '1.8.3'
 __license__ = 'BSD License'
 __url__ = 'https://bitbucket.org/livibetter/smartypants.py'
 __description__ = 'Python with the SmartyPants'

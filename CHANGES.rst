@@ -33,9 +33,15 @@ Changes
 
     + additions
 
+.. note::
 
-Future
-======
+  Releases without timestamps mean they will be released in the future.
+
+  *Development* means it's current changes in development repository.
+
+
+Releases 1.7 and greater
+========================
 
 Release 2.0.0
 -------------
@@ -49,18 +55,17 @@ Release 2.0.0
 - drop fooBarXyz functions, such as  ``smartyPants``, ``educateQuotes``,
   and ``processEscapes``
 
-
 Development
-===========
+-----------
+
+
+Release 1.8.3: 2013-11-08T03:03:43Z
+-----------------------------------
 
 * fix ``_tokenize`` can not handle HTML comment properly
 
   This fix includes pull request #1 with modification for handling
   ``--`` appears in a comment, which makes the comment not a comment
-
-
-Releases 1.7 and greater
-========================
 
 Release 1.8.2: 2013-08-28T11:38:42Z
 -----------------------------------
