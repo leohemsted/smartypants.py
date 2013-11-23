@@ -54,7 +54,7 @@ smartypants_command.py: smartypants
 
 # ============================================================================
 
-test: test_pep8 test_pyflakes test_test install_test
+test: test_isort test_pep8 test_pyflakes test_test install_test
 
 test_%:
 	@echo '========================================================================================='

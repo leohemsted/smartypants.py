@@ -3,9 +3,10 @@
 # For detail license information, See COPYING
 
 from __future__ import print_function
+
+import sys
 from distutils.core import Command, setup
 from unittest import TestLoader, TextTestRunner
-import sys
 
 try:
     from sphinx.setup_command import BuildDoc
@@ -54,6 +55,59 @@ class cmd_test(Command):
         tests = loader.discover(start_dir='tests')
         runner = TextTestRunner(verbosity=2)
         runner.run(tests)
+
+
+class cmd_isort(Command):
+
+    description = 'run isort'
+    user_options = []
+
+    def initialize_options(self):
+
+        pass
+
+    def finalize_options(self):
+
+        pass
+
+    def run(self):
+
+        try:
+            import isort
+        except ImportError:
+            print(('Cannot import isort, you forgot to install?\n'
+                   'run `pip install isort` to install.'), file=sys.stderr)
+            sys.exit(1)
+
+        from glob import glob
+
+        print()
+        print('Options')
+        print('=======')
+        print()
+        print('Exclude:', EXCLUDE_SCRIPTS)
+        print()
+
+        files = ['setup.py', CLI_script, module_file] + glob('tests/*.py')
+
+        print('Results')
+        print('=======')
+        print()
+
+        fails = 0
+        for f in files:
+            # unfortunately, we have to do it twice
+            if isort.SortImports(f, check=True).incorrectly_sorted:
+                fails += 1
+                print()
+                isort.SortImports(f, show_diff=True)
+                print()
+
+        print()
+        print('Statistics')
+        print('==========')
+        print()
+        print('%d files failed to pass' % fails)
 
 
 class cmd_pep8(Command):
@@ -228,6 +282,7 @@ setup_d = dict(
     name=module_name,
     long_description=long_description,
     cmdclass={
+        'isort': cmd_isort,
         'pep8': cmd_pep8,
         'pyflakes': cmd_pyflakes,
         'pylint': cmd_pylint,
