@@ -2,11 +2,11 @@
 # Licensed under the BSD License, for detailed license information, see COPYING
 
 from __future__ import unicode_literals
+
 import os
-from subprocess import Popen, PIPE
 import tempfile
 import unittest
-
+from subprocess import PIPE, Popen
 
 CLI_SCRIPT = './smartypants'
 

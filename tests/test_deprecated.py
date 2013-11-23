@@ -6,7 +6,9 @@ import unittest
 import warnings
 
 import smartypants as sps
-from smartypants import Attr, smartypants as sp, smartyPants as sP
+from smartypants import smartypants as sp
+from smartypants import smartyPants as sP
+from smartypants import Attr
 
 
 class SmartyPantsDeprecatedTestCase(unittest.TestCase):

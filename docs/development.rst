@@ -26,6 +26,7 @@ be able to run all tests with::
 
 It will test PEP8, pyflakes, unittest, and package installation::
 
+  make test_isort
   make test_pep8
   make test_pyflakes
   make test_test
@@ -36,6 +37,7 @@ It will test PEP8, pyflakes, unittest, and package installation::
 
 If ``make`` isn't available, ``setup.py`` can be used::
 
+  python setup.py isort
   python setup.py pep8
   python setup.py pyflakes
   python setup.py test

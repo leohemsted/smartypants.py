@@ -1,8 +1,9 @@
 # Copyright (c) 2013 Yu-Jie Lin
 # Licensed under the BSD License, for detailed license information, see COPYING
 
-from docutils.core import publish_string
 import unittest
+
+from docutils.core import publish_string
 
 
 class SetupTestCase(unittest.TestCase):
