@@ -58,6 +58,7 @@ Release 2.0.0
 Development
 -----------
 
+- add missing ``COPYING`` and ``CHANGES.rst`` to package (#3)
 
 Release 1.8.3: 2013-11-08T03:03:43Z
 -----------------------------------
