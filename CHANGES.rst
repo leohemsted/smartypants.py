@@ -18,7 +18,7 @@ Changes
               separate, Sphinx gives warnings.
 
     Normally, they should be ordered in and separated by blank lines
-    
+
     - deprecates
 
     - removals

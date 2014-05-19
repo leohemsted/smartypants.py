@@ -83,7 +83,7 @@ HTML comments are always skipped since they are not rendered in browsers.
   <!-- <span>"foobar"</span> -->
 
 .. important::
-  
+
   Beware of ``--``, which should not or must not be in a HTML comment.
 
   .. code:: python

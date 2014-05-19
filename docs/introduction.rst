@@ -20,10 +20,10 @@ ASCII straight quotes, plain dashes, and plain dots, but your published
 posts (and final HTML output) will appear with smart quotes, em-dashes,
 and proper ellipses.
 
-smartypants does not modify contents in some HTML element, see :ref:`Skipped HTML
-Elements <skip-html>`. Typically, these tags are used to display text where
-smart quotes and other "smart punctuation" would not be appropriate, such as
-source code or example markup.
+smartypants does not modify contents in some HTML element, see :ref:`Skipped
+HTML Elements <skip-html>`. Typically, these tags are used to display text
+where smart quotes and other "smart punctuation" would not be appropriate, such
+as source code or example markup.
 
 
 Quick usage
