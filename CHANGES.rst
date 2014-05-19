@@ -60,6 +60,7 @@ Development
 
 + add missing ``COPYING`` and ``CHANGES.rst`` to package (#3)
 + add ``bdist_wheel`` to the building process for Python Wheel format
++ add ``test_doc8`` target
 
 Release 1.8.3: 2013-11-08T03:03:43Z
 -----------------------------------

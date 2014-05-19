@@ -54,13 +54,17 @@ smartypants_command.py: smartypants
 
 # ============================================================================
 
-test: test_isort test_pep8 test_pyflakes test_test install_test
+test: test_isort test_doc8 test_pep8 test_pyflakes test_test install_test
 
 test_%:
 	@echo '========================================================================================='
 	$(PY2_CMD) setup.py $(subst test_,,$@)
 	@echo '-----------------------------------------------------------------------------------------'
 	$(PY3_CMD) setup.py $(subst test_,,$@)
+
+test_doc8:
+	@echo '========================================================================================='
+	doc8 $(filter %.rst,$(DOC_FILES))
 
 install_test: $(VENV_PY2_CMD) $(VENV_PY3_CMD)
 
