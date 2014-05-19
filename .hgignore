@@ -3,4 +3,5 @@ build
 docs/_build
 dist
 MANIFEST
+PKG-INFO
 smartypants_command.py
