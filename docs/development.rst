@@ -24,9 +24,10 @@ be able to run all tests with::
 
   make test
 
-It will test PEP8, pyflakes, unittest, and package installation::
+It will test DOC8, PEP8, pyflakes, unittest, and package installation::
 
   make test_isort
+  make test_doc8
   make test_pep8
   make test_pyflakes
   make test_test
