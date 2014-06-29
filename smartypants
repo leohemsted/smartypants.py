@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) 2013 Yu-Jie Lin
+# Copyright (c) 2013, 2014 Yu-Jie Lin
 # Licensed under the BSD License, for detailed license information, see COPYING
 
 """
@@ -75,8 +75,9 @@ import smartypants
 
 def main():
 
-    parser = argparse.ArgumentParser(description=smartypants.__description__,
-                                     version=smartypants.__version__)
+    parser = argparse.ArgumentParser(description=smartypants.__description__)
+    parser.add_argument('-v', '--version', action='version',
+                        version=smartypants.__version__)
     parser.add_argument('-a', '--attr', default='1',
                         help='processing attributes (Default: %(default)s)')
     parser.add_argument('-s', '--skip',
