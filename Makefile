@@ -73,6 +73,7 @@ $(VENV_PY2_CMD) $(VENV_PY3_CMD):
 	rm -rf $(INSTALL_TEST_DIR)
 	$@ $(INSTALL_TEST_DIR)
 	./setup.py sdist --dist-dir $(INSTALL_TEST_DIR)
+	$(INSTALL_TEST_DIR)/bin/pip install wheel
 	$(INSTALL_TEST_DIR)/bin/pip install $(INSTALL_TEST_DIR)/*.tar.gz
 	@\
 		CHK_VER="`$(PY2_CMD) $(SCRIPT) --version 2>&1`";\
