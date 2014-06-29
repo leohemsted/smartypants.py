@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2013 Yu-Jie Lin
+# Copyright (c) 2013, 2014 Yu-Jie Lin
 # Copyright (c) 2004, 2005, 2007, 2013 Chad Miller
 # Copyright (c) 2003 John Gruber
 # Licensed under the BSD License, for detailed license information, see COPYING
@@ -14,7 +14,7 @@ smartypants module
 
 __author__ = 'Yu-Jie Lin'
 __author_email__ = 'livibetter@gmail.com'
-__version__ = '1.8.3'
+__version__ = '1.8.4'
 __license__ = 'BSD License'
 __url__ = 'https://bitbucket.org/livibetter/smartypants.py'
 __description__ = 'Python with the SmartyPants'

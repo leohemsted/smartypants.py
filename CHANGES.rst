@@ -58,6 +58,9 @@ Release 2.0.0
 Development
 -----------
 
+Release 1.8.4: 2014-06-29T04:39:59Z
+-----------------------------------
+
 + add missing ``COPYING`` and ``CHANGES.rst`` to package (#3)
 + add ``bdist_wheel`` to the building process for Python Wheel format
 + add ``test_doc8`` target
