@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (C) 2013 by Yu-Jie Lin
+# Copyright (C) 2013, 2014 by Yu-Jie Lin
 # For detail license information, See COPYING
 
 from __future__ import print_function
@@ -8,7 +8,10 @@ import sys
 from distutils.core import Command, setup
 from unittest import TestLoader, TextTestRunner
 
-from wheel.bdist_wheel import bdist_wheel
+try:
+    from wheel.bdist_wheel import bdist_wheel
+except ImportError:
+    bdist_wheel = None
 
 try:
     from sphinx.setup_command import BuildDoc
@@ -284,7 +287,6 @@ setup_d = dict(
     name=module_name,
     long_description=long_description,
     cmdclass={
-        'bdist_wheel': bdist_wheel,
         'isort': cmd_isort,
         'pep8': cmd_pep8,
         'pyflakes': cmd_pyflakes,
@@ -297,6 +299,8 @@ setup_d = dict(
     **meta
 )
 
+if bdist_wheel:
+    setup_d['cmdclass']['bdist_wheel'] = bdist_wheel
 if BuildDoc:
     setup_d['cmdclass']['build_sphinx'] = BuildDoc
 if UploadDoc:
