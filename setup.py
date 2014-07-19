@@ -40,6 +40,19 @@ EXCLUDE_SCRIPTS = (
 
 
 # ============================================================================
+# https://groups.google.com/d/msg/comp.lang.python/pAeiF0qwtY0/H9Ki0WOctBkJ
+# Work around mbcs bug in distutils.
+# http://bugs.python.org/issue10945
+
+try:
+    codecs.lookup('mbcs')
+except LookupError:
+    ascii = codecs.lookup('ascii')
+    func = lambda name, enc=ascii: {True: enc}.get(name == 'mbcs')
+    codecs.register(func)
+
+
+# ============================================================================
 
 
 class cmd_test(Command):
