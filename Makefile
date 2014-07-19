@@ -1,4 +1,4 @@
-# Copyright (c) 2013 Yu-Jie Lin
+# Copyright (c) 2013, 2014 Yu-Jie Lin
 # Licensed under the BSD License, for detailed license information, see COPYING
 
 PACKAGE=smartypants
@@ -7,11 +7,6 @@ SCRIPT=smartypants
 PY2_CMD=python2
 PY3_CMD=python3
 INSTALL_TEST_DIR=/tmp/$(PACKAGE)_install_test
-# if version or naming isn't matched to environment, for example, Python 2.6,
-# run the following to override:
-#   make VENV_PY2_CMD=virtualenv-python2.6 install_test
-VENV_PY2_CMD=virtualenv-python2.7
-VENV_PY3_CMD=virtualenv-python3.2
 
 BUILD_CMD=./setup.py sdist --formats gztar,zip bdist_wheel bdist_wininst --plat-name win32
 
@@ -66,20 +61,22 @@ test_doc8:
 	@echo '========================================================================================='
 	doc8 $(filter %.rst,$(DOC_FILES))
 
-install_test: $(VENV_PY2_CMD) $(VENV_PY3_CMD)
+install_test: install_test_$(PY2_CMD) install_test_$(PY3_CMD)
 
-$(VENV_PY2_CMD) $(VENV_PY3_CMD):
+install_test_$(PY2_CMD) install_test_$(PY3_CMD):
 	@echo '========================================================================================='
 	rm -rf $(INSTALL_TEST_DIR)
-	$@ $(INSTALL_TEST_DIR)
-	./setup.py sdist --dist-dir $(INSTALL_TEST_DIR)
+	$(eval PY_CMD = $(subst install_test_,,$@))
+	$(PY_CMD) -m virtualenv $(INSTALL_TEST_DIR)
+	LC_ALL=C $(PY_CMD) setup.py --version >/dev/null
+	$(PY_CMD) setup.py sdist --dist-dir $(INSTALL_TEST_DIR)
 	$(INSTALL_TEST_DIR)/bin/pip install $(INSTALL_TEST_DIR)/*.tar.gz
 	@\
-		CHK_VER="`$(PY2_CMD) $(SCRIPT) --version 2>&1`";\
+		CHK_VER="`$(PY_CMD) $(SCRIPT) --version 2>&1`";\
 		cd $(INSTALL_TEST_DIR);\
 		. bin/activate;\
-		[ "`type $(SCRIPT)`" = "$(SCRIPT) is $(INSTALL_TEST_DIR)/bin/$(SCRIPT)" ];\
-		[ "$$CHK_VER" = "`bin/$(SCRIPT) --version 2>&1`" ];\
+		[ "`type $(SCRIPT)`" = "$(SCRIPT) is $(INSTALL_TEST_DIR)/bin/$(SCRIPT)" ] &&\
+		[ "$$CHK_VER" = "`bin/$(SCRIPT) --version 2>&1`" ] &&\
 		[ "`echo '"foobar"' | bin/$(SCRIPT)`" = '&#8220;foobar&#8221;' ]
 	rm -rf $(INSTALL_TEST_DIR)
 
@@ -92,4 +89,4 @@ clean:
 
 # ============================================================================
 
-.PHONY: build upload doc install_test $(VENV_PY2_CMD) $(VENV_PY3_CMD) clean
+.PHONY: build upload doc install_test install_test_$(PY2_CMD) install_test_$(PY3_CMD) clean

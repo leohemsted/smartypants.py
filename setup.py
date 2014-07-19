@@ -4,6 +4,7 @@
 
 from __future__ import print_function
 
+import codecs
 import sys
 from distutils.core import Command, setup
 from unittest import TestLoader, TextTestRunner
@@ -257,7 +258,7 @@ class cmd_pylint(Command):
 
 # ============================================================================
 
-with open(module_file) as f:
+with codecs.open(module_file, encoding='utf-8') as f:
     meta = dict(
         (k.strip(' _'), eval(v)) for k, v in
         # There will be a '\n', with eval(), it's safe to ignore
@@ -269,7 +270,7 @@ with open(module_file) as f:
                  'author_email']
     meta = dict([m for m in meta.items() if m[0] in meta_keys])
 
-with open('README.rst') as f:
+with codecs.open('README.rst', encoding='utf-8') as f:
     long_description = f.read()
 
 classifiers = [
