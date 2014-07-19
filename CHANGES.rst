@@ -58,6 +58,9 @@ Release 2.0.0
 Development
 -----------
 
+Release 1.8.6: 2014-07-19T11:20:52Z
+-----------------------------------
+
 * Makefile
 
   + add ``LC_ALL=C`` test for locale setting on ``setup.py`` wrt #5
