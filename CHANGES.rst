@@ -58,6 +58,16 @@ Release 2.0.0
 Development
 -----------
 
+* Makefile
+
+  + add ``LC_ALL=C`` test for locale setting on ``setup.py`` wrt #5
+  * change virtualenv invocation method in ``install_test`` target
+
+* fix UnicodeDecodeError on opening ``smartypants.py``, which includes Unicode
+  characters, when running ``setup.py`` with Python 3 and specific locales
+  (#5, patch by Benoît Monin)
+
+
 Release 1.8.5: 2014-07-03T01:56:03Z
 -----------------------------------
 
