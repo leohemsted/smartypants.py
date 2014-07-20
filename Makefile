@@ -61,12 +61,20 @@ test_doc8:
 	@echo '========================================================================================='
 	doc8 $(filter %.rst,$(DOC_FILES))
 
-install_test: install_test_$(PY2_CMD) install_test_$(PY3_CMD)
+install_test: install_test_py2 install_test_py3
 
-install_test_$(PY2_CMD) install_test_$(PY3_CMD):
+install_test_py2 install_test_py3:
 	@echo '========================================================================================='
 	rm -rf $(INSTALL_TEST_DIR)
-	$(eval PY_CMD = $(subst install_test_,,$@))
+	$(eval PY_CMD = \
+		$(if $(findstring py2,$@),\
+			$(PY2_CMD),\
+			$(if $(findstring py3,$@),\
+				$(PY3_CMD),\
+				$(error Do not know what to do with $@)\
+			)\
+		)\
+	)
 	$(PY_CMD) -m virtualenv $(INSTALL_TEST_DIR)
 	LC_ALL=C $(PY_CMD) setup.py --version >/dev/null
 	$(PY_CMD) setup.py sdist --dist-dir $(INSTALL_TEST_DIR)
@@ -89,4 +97,4 @@ clean:
 
 # ============================================================================
 
-.PHONY: build upload doc install_test install_test_$(PY2_CMD) install_test_$(PY3_CMD) clean
+.PHONY: build upload doc install_test install_test_py2 install_test_py3 clean
