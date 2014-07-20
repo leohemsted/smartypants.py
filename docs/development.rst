@@ -31,7 +31,7 @@ It will test DOC8, PEP8, pyflakes, unittest, and package installation::
   make test_pep8
   make test_pyflakes
   make test_test
-  make install_test
+  make test_setup
 
 .. note:: They will all be tested with both Python 2 and Python 3. You may need
           to override ``PY2_CMD`` and/or ``PY3_CMD``.
