@@ -77,6 +77,7 @@ test_setup_py2 test_setup_py3:
 	)
 	$(PY_CMD) -m virtualenv $(INSTALL_TEST_DIR)
 	LC_ALL=C $(PY_CMD) setup.py --version >/dev/null
+	$(PY_CMD) $(BUILD_CMD)
 	$(PY_CMD) setup.py sdist --dist-dir $(INSTALL_TEST_DIR)
 	$(INSTALL_TEST_DIR)/bin/pip install $(INSTALL_TEST_DIR)/*.tar.gz
 	@\
