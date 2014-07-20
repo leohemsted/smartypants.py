@@ -60,6 +60,7 @@ Development
 
 * Makefile
 
+  + test packages build in ``test_setup`` target
   * rename target ``install_test`` to ``test_setup``
 
 
