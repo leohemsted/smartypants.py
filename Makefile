@@ -49,7 +49,7 @@ smartypants_command.py: smartypants
 
 # ============================================================================
 
-test: test_isort test_doc8 test_pep8 test_pyflakes test_test install_test
+test: test_isort test_doc8 test_pep8 test_pyflakes test_test test_setup
 
 test_%:
 	@echo '========================================================================================='
@@ -61,9 +61,9 @@ test_doc8:
 	@echo '========================================================================================='
 	doc8 $(filter %.rst,$(DOC_FILES))
 
-install_test: install_test_py2 install_test_py3
+test_setup: test_setup_py2 test_setup_py3
 
-install_test_py2 install_test_py3:
+test_setup_py2 test_setup_py3:
 	@echo '========================================================================================='
 	rm -rf $(INSTALL_TEST_DIR)
 	$(eval PY_CMD = \
@@ -97,4 +97,4 @@ clean:
 
 # ============================================================================
 
-.PHONY: build upload doc install_test install_test_py2 install_test_py3 clean
+.PHONY: build upload doc test_setup test_setup_py2 test_setup_py3 clean

@@ -58,6 +58,11 @@ Release 2.0.0
 Development
 -----------
 
+* Makefile
+
+  * rename target ``install_test`` to ``test_setup``
+
+
 Release 1.8.6: 2014-07-19T11:20:52Z
 -----------------------------------
 
