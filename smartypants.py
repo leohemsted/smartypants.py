@@ -26,20 +26,20 @@ class _Attr(object):
     """
     class for instantiation of module attribute :attr:`Attr`.
     """
-    q = 0b000000001
+    q = 1 << 0
     """
     flag for normal quotes (``"``) and (``'``) to curly ones.
 
     .. seealso:: :func:`convert_quotes`
     """
 
-    b = 0b000000010
+    b = 1 << 1
     """
     flag for double quotes (````backticks''``) to curly ones.
 
     .. seealso:: :func:`convert_backticks`
     """
-    B = 0b000000110
+    B = 1 << 2 | b
     """
     flag for double quotes (````backticks''``) and single quotes
     (```single'``) to curly ones.
@@ -48,20 +48,20 @@ class _Attr(object):
     """
     mask_b = b | B
 
-    d = 0b000001000
+    d = 1 << 3
     """
     flag for dashes (``--``) to em-dashes.
 
     .. seealso:: :func:`convert_dashes`
     """
-    D = 0b000011000
+    D = 1 << 4 | d
     """
     flag for old-school typewriter dashes (``--``) to en-dashes and dashes
     (``---``) to em-dashes.
 
     .. seealso:: :func:`convert_dashes_oldschool`
     """
-    i = 0b000101000
+    i = 1 << 5 | d
     """
     flag for inverted old-school typewriter dashes (``--``) to em-dashes and
     dashes (``---``) to en-dashes.
@@ -70,13 +70,13 @@ class _Attr(object):
     """
     mask_d = d | D | i
 
-    e = 0b001000000
+    e = 1 << 6
     """
     flag for dashes (``...``) to ellipses.
 
     .. seealso:: :func:`convert_ellipses`
     """
-    w = 0b010000000
+    w = 1 << 7
     """
     flag for dashes (``&quot;``) to ASCII double quotes (``"``).
 
@@ -92,7 +92,7 @@ class _Attr(object):
     regular quotes so SmartyPants can educate them.
     """
 
-    s = 0b100000000
+    s = 1 << 8
     """
     Stupefy mode. Reverses the SmartyPants transformation process, turning
     the HTML entities produced by SmartyPants into their ASCII equivalents.
