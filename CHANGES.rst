@@ -61,6 +61,7 @@ Development
 * Makefile
 
   + test packages build in ``test_setup`` target
+
   * rename target ``install_test`` to ``test_setup``
 
 
@@ -70,6 +71,7 @@ Release 1.8.6: 2014-07-19T11:20:52Z
 * Makefile
 
   + add ``LC_ALL=C`` test for locale setting on ``setup.py`` wrt #5
+
   * change virtualenv invocation method in ``install_test`` target
 
 * fix UnicodeDecodeError on opening ``smartypants.py``, which includes Unicode
@@ -89,6 +91,7 @@ Release 1.8.4: 2014-06-29T04:39:59Z
 + add missing ``COPYING`` and ``CHANGES.rst`` to package (#3)
 + add ``bdist_wheel`` to the building process for Python Wheel format
 + add ``test_doc8`` target
+
 * fix ``install_test`` on missing of Wheel package
 * fix argparse version option breaks CLI on Python 3
 
