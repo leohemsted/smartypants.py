@@ -92,13 +92,28 @@ class _Attr(object):
     regular quotes so SmartyPants can educate them.
     """
 
-    s = 1 << 8
+    u = 0 << 9 | 1 << 8
     """
-    Stupefy mode. Reverses the SmartyPants transformation process, turning
-    the HTML entities produced by SmartyPants into their ASCII equivalents.
-    E.g.  ``&#8220;`` is turned into a simple double-quote ("), ``&#8212;`` is
-    turned into two dashes, etc.
+    Output Unicode characters instead of numeric character references, for
+    example, from ``&#8220;`` to left double quotation mark (``“``) (U+201C).
+
+    .. seealso:: :func:`convert_entities`
     """
+    h = 1 << 9 | 0 << 8
+    """
+    Output HTML named entities instead of numeric character references, for
+    example, from ``&#8220;`` to ``&ldquo;``.
+
+    .. seealso:: :func:`convert_entities`
+    """
+    s = 1 << 9 | 1 << 8
+    """
+    Output ASCII equivalents instead of numeric character references, for
+    example, from ``&#8212;`` to ``--``.
+
+    .. seealso:: :func:`convert_entities`
+    """
+    mask_o = u | h | s
 
     set0 = 0
     "suppress all transformations. (Do nothing.)"
@@ -183,7 +198,7 @@ def smartypants(text, attr=None):
     do_backticks = attr & Attr.mask_b
     do_dashes = attr & Attr.mask_d
     do_ellipses = attr & Attr.e
-    do_stupefy = attr & Attr.s
+    do_entities = attr & Attr.mask_o
     convert_quot = attr & Attr.w
 
     tokens = _tokenize(text)
@@ -267,8 +282,12 @@ def smartypants(text, attr=None):
                         # Normal case:
                         t = convert_quotes(t)
 
-                if do_stupefy:
-                    t = stupefy_entities(t)
+                if do_entities:
+                    mode = (0 if do_entities == Attr.u else
+                            1 if do_entities == Attr.h else
+                            2 if do_entities == Attr.s else
+                            3)  # would result in key error
+                    t = convert_entities(t, mode)
 
             prev_token_last_char = last_char
             result.append(t)
@@ -464,24 +483,34 @@ def convert_ellipses(text):
     return text
 
 
-def stupefy_entities(text):
+def convert_entities(text, mode):
     """
-    Convert SmartyPants HTML entities in *text* into their ASCII counterparts.
+    Convert numeric character references to, if *mode* is
 
-    >>> print(stupefy_entities('&#8220;Hello &#8212; world.&#8221;'))
+    - *0*: Unicode characters
+    - *1*: HTML named entities
+    - *2*: ASCII equivalents
+
+    >>> print(convert_entities('&#8216;', 0))
+    ‘
+    >>> print(convert_entities('&#8216;SmartyPants&#8217;', 1))
+    &lsquo;SmartyPants&rsquo;
+    >>> print(convert_entities('&#8220;Hello &#8212; world.&#8221;', 2))
     "Hello -- world."
     """
 
-    text = re.sub('&#8211;', '-', text)  # en-dash
-    text = re.sub('&#8212;', '--', text)  # em-dash
+    CTBL = {
+        '&#8211;': ('–', '&ndash;', '-'),
+        '&#8212;': ('—', '&mdash;', '--'),
+        '&#8216;': ('‘', '&lsquo;', "'"),
+        '&#8217;': ('’', '&rsquo;', "'"),
+        '&#8220;': ('“', '&ldquo;', '"'),
+        '&#8221;': ('”', '&rdquo;', '"'),
+        '&#8230;': ('…', '&hellip;', '...'),
+    }
 
-    text = re.sub('&#8216;', "'", text)  # open single quote
-    text = re.sub('&#8217;', "'", text)  # close single quote
-
-    text = re.sub('&#8220;', '"', text)  # open double quote
-    text = re.sub('&#8221;', '"', text)  # close double quote
-
-    text = re.sub('&#8230;', '...', text)  # ellipsis
+    for k, v in CTBL.items():
+        text = text.replace(k, v[mode])
 
     return text
 

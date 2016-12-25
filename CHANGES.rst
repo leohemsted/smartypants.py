@@ -58,6 +58,10 @@ Development
 - drop fooBarXyz functions, such as  ``smartyPants``, ``educateQuotes``,
   and ``processEscapes``
 
++ add ``Attr.u`` and ``Attr.h`` for Unicode characters and HTML named entities
+  outputs, respectively. The ``stupefy_entities`` has become
+  ``convert_entities`` to support all three types of conversions. (#6)
+
 * Makefile
 
   + test packages build in ``test_setup`` target

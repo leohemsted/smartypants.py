@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# Copyright (c) 2013 Yu-Jie Lin
+# -*- coding: utf-8 -*-
+# Copyright (c) 2013, 2016 Yu-Jie Lin
 # Licensed under the BSD License, for detailed license information, see COPYING
 
 import doctest
@@ -132,6 +133,19 @@ document.write('<a href="' + href + '">' + linktext + "</a>");
 
         self.assertEqual(sp('"Isn\'t this fun?"'),
                          '&#8220;Isn&#8217;t this fun?&#8221;')
+
+    def test_convert_entities(self):
+
+        self.assertEqual(sp('"quote here"', Attr.set1 | Attr.u),
+                         '“quote here”')
+        self.assertEqual(sp('"quote&ndash;here"', Attr.set1 | Attr.u),
+                         '“quote&ndash;here”')
+
+        self.assertEqual(sp('"quote here"', Attr.set1 | Attr.h),
+                         '&ldquo;quote here&rdquo;')
+
+        self.assertEqual(sp('"quote here"', Attr.set1 | Attr.s),
+                         '"quote here"')
 
 
 def load_tests(loader, tests, pattern):
