@@ -46,6 +46,9 @@ Releases 1.7 and greater
 Release 2.0.0
 -------------
 
+Development
+-----------
+
 - drop Pyblosxom support
 
 - drop str-type ``attr``
@@ -54,9 +57,6 @@ Release 2.0.0
 
 - drop fooBarXyz functions, such as  ``smartyPants``, ``educateQuotes``,
   and ``processEscapes``
-
-Development
------------
 
 * Makefile
 
