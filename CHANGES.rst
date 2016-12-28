@@ -67,6 +67,9 @@ Development
   - do not build ``bdist_wininst --plat-name win32`` per
     :pep:`527#bdist-dmg-bdist-msi-and-bdist-wininst`
 
+  - do not make ``sdist --format=zip``, it would get a duplicate warning on
+    PyPI
+
   + test packages build in ``test_setup`` target
 
   * rename target ``install_test`` to ``test_setup``
