@@ -64,6 +64,9 @@ Development
 
 * Makefile
 
+  - do not build ``bdist_wininst --plat-name win32`` per
+    :pep:`527#bdist-dmg-bdist-msi-and-bdist-wininst`
+
   + test packages build in ``test_setup`` target
 
   * rename target ``install_test`` to ``test_setup``
