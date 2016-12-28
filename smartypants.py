@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2013, 2014 Yu-Jie Lin
+# Copyright (c) 2013, 2014, 2016 Yu-Jie Lin
 # Copyright (c) 2004, 2005, 2007, 2013 Chad Miller
 # Copyright (c) 2003 John Gruber
 # Licensed under the BSD License, for detailed license information, see COPYING
@@ -14,33 +14,32 @@ smartypants module
 
 __author__ = 'Yu-Jie Lin'
 __author_email__ = 'livibetter@gmail.com'
-__version__ = '1.8.6'
+__version__ = '2.0.0dev'
 __license__ = 'BSD License'
 __url__ = 'https://bitbucket.org/livibetter/smartypants.py'
 __description__ = 'Python with the SmartyPants'
 
 import re
-import warnings
 
 
 class _Attr(object):
     """
     class for instantiation of module attribute :attr:`Attr`.
     """
-    q = 0b000000001
+    q = 1 << 0
     """
     flag for normal quotes (``"``) and (``'``) to curly ones.
 
     .. seealso:: :func:`convert_quotes`
     """
 
-    b = 0b000000010
+    b = 1 << 1
     """
     flag for double quotes (````backticks''``) to curly ones.
 
     .. seealso:: :func:`convert_backticks`
     """
-    B = 0b000000110
+    B = 1 << 2 | b
     """
     flag for double quotes (````backticks''``) and single quotes
     (```single'``) to curly ones.
@@ -49,20 +48,20 @@ class _Attr(object):
     """
     mask_b = b | B
 
-    d = 0b000001000
+    d = 1 << 3
     """
     flag for dashes (``--``) to em-dashes.
 
     .. seealso:: :func:`convert_dashes`
     """
-    D = 0b000011000
+    D = 1 << 4 | d
     """
     flag for old-school typewriter dashes (``--``) to en-dashes and dashes
     (``---``) to em-dashes.
 
     .. seealso:: :func:`convert_dashes_oldschool`
     """
-    i = 0b000101000
+    i = 1 << 5 | d
     """
     flag for inverted old-school typewriter dashes (``--``) to em-dashes and
     dashes (``---``) to en-dashes.
@@ -71,13 +70,13 @@ class _Attr(object):
     """
     mask_d = d | D | i
 
-    e = 0b001000000
+    e = 1 << 6
     """
     flag for dashes (``...``) to ellipses.
 
     .. seealso:: :func:`convert_ellipses`
     """
-    w = 0b010000000
+    w = 1 << 7
     """
     flag for dashes (``&quot;``) to ASCII double quotes (``"``).
 
@@ -93,13 +92,28 @@ class _Attr(object):
     regular quotes so SmartyPants can educate them.
     """
 
-    s = 0b100000000
+    u = 0 << 9 | 1 << 8
     """
-    Stupefy mode. Reverses the SmartyPants transformation process, turning
-    the HTML entities produced by SmartyPants into their ASCII equivalents.
-    E.g.  ``&#8220;`` is turned into a simple double-quote ("), ``&#8212;`` is
-    turned into two dashes, etc.
+    Output Unicode characters instead of numeric character references, for
+    example, from ``&#8220;`` to left double quotation mark (``“``) (U+201C).
+
+    .. seealso:: :func:`convert_entities`
     """
+    h = 1 << 9 | 0 << 8
+    """
+    Output HTML named entities instead of numeric character references, for
+    example, from ``&#8220;`` to ``&ldquo;``.
+
+    .. seealso:: :func:`convert_entities`
+    """
+    s = 1 << 9 | 1 << 8
+    """
+    Output ASCII equivalents instead of numeric character references, for
+    example, from ``&#8212;`` to ``--``.
+
+    .. seealso:: :func:`convert_entities`
+    """
+    mask_o = u | h | s
 
     set0 = 0
     "suppress all transformations. (Do nothing.)"
@@ -166,89 +180,6 @@ def _tags_to_skip_regex(tags=None):
     return re.compile('<(/)?(%s)[^>]*>' % tags, re.I)
 
 
-def verify_installation(request):
-
-    msg = 'Pyblosxom support will be removed at Version 2.0.0'
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-    return 1
-    # assert the plugin is functional
-
-
-def cb_story(args):
-
-    msg = 'Pyblosxom support will be removed at Version 2.0.0'
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-
-    global default_smartypants_attr
-
-    try:
-        forbidden_flavours = args["entry"]["smartypants_forbidden_flavours"]
-    except KeyError:
-        forbidden_flavours = ["rss"]
-
-    try:
-        attributes = args["entry"]["smartypants_attributes"]
-    except KeyError:
-        attributes = default_smartypants_attr
-
-    if attributes is None:
-        attributes = default_smartypants_attr
-
-    entryData = args["entry"].getData()
-
-    try:
-        if args["request"]["flavour"] in forbidden_flavours:
-            return
-    except KeyError:
-        if "&lt;" in args["entry"]["body"][0:15]:  # sniff the stream
-            return  # abort if it looks like escaped HTML.  FIXME
-
-    # FIXME: make these configurable, perhaps?
-    args["entry"]["body"] = smartypants(entryData, attributes)
-    args["entry"]["title"] = smartypants(args["entry"]["title"], attributes)
-
-
-def _str_attr_to_int(str_attr):
-    """
-    Convert deprecated str-type attr into int
-
-    >>> f = _str_attr_to_int
-    >>> f('q') == Attr.q
-    True
-    >>> f('1') == Attr.set1
-    True
-    >>> with warnings.catch_warnings(record=True) as w:
-    ...     f('bz')
-    ...     len(w)
-    ...     print(w[-1].message)
-    2
-    1
-    Unknown attribute: z
-    """
-    attr = 0
-    for c in str_attr:
-        if '0' <= c <= '3':
-            c = 'set' + c
-        if not hasattr(Attr, c):
-            warnings.warn('Unknown attribute: %s' % c, Warning)
-            continue
-        attr |= getattr(Attr, c)
-
-    return attr
-
-
-def smartyPants(text, attr=None):
-
-    msg = ('smartyPants function will be removed at Version 2.0.0, '
-           'use smartypants, instead')
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-
-    return smartypants(text, attr)
-
-
 def smartypants(text, attr=None):
     """
     SmartyPants function
@@ -263,17 +194,11 @@ def smartypants(text, attr=None):
     if attr is None:
         attr = Attr.default
 
-    if isinstance(attr, str):
-        msg = 'str-type attr will be removed at Version 2.0.0'
-        warnings.filterwarnings('once', msg, DeprecationWarning)
-        warnings.warn(msg, DeprecationWarning)
-        attr = _str_attr_to_int(attr)
-
     do_quotes = attr & Attr.q
     do_backticks = attr & Attr.mask_b
     do_dashes = attr & Attr.mask_d
     do_ellipses = attr & Attr.e
-    do_stupefy = attr & Attr.s
+    do_entities = attr & Attr.mask_o
     convert_quot = attr & Attr.w
 
     tokens = _tokenize(text)
@@ -357,22 +282,17 @@ def smartypants(text, attr=None):
                         # Normal case:
                         t = convert_quotes(t)
 
-                if do_stupefy:
-                    t = stupefy_entities(t)
+                if do_entities:
+                    mode = (0 if do_entities == Attr.u else
+                            1 if do_entities == Attr.h else
+                            2 if do_entities == Attr.s else
+                            3)  # would result in key error
+                    t = convert_entities(t, mode)
 
             prev_token_last_char = last_char
             result.append(t)
 
     return "".join(result)
-
-
-def educateQuotes(text):
-
-    msg = 'educateQuotes will be removed at Version 2.0.0'
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-
-    return convert_quotes(text)
 
 
 def convert_quotes(text):
@@ -469,15 +389,6 @@ def convert_quotes(text):
     return text
 
 
-def educateBackticks(text):
-
-    msg = 'educateBackticks will be removed at Version 2.0.0'
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-
-    return convert_backticks(text)
-
-
 def convert_backticks(text):
     """
     Convert ````backticks''``-style double quotes in *text* into HTML curly
@@ -490,15 +401,6 @@ def convert_backticks(text):
     text = re.sub('``', '&#8220;', text)
     text = re.sub("''", '&#8221;', text)
     return text
-
-
-def educateSingleBackticks(text):
-
-    msg = 'educateSingleBackticks will be removed at Version 2.0.0'
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-
-    return convert_single_backticks(text)
 
 
 def convert_single_backticks(text):
@@ -515,15 +417,6 @@ def convert_single_backticks(text):
     return text
 
 
-def educateDashes(text):
-
-    msg = 'educateDashes will be removed at Version 2.0.0'
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-
-    return convert_dashes(text)
-
-
 def convert_dashes(text):
     """
     Convert ``--`` in *text* into em-dash HTML entities.
@@ -535,15 +428,6 @@ def convert_dashes(text):
 
     text = re.sub('--', '&#8212;', text)
     return text
-
-
-def educateDashesOldSchool(text):
-
-    msg = 'educateDashesOldSchool will be removed at Version 2.0.0'
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-
-    return convert_dashes_oldschool(text)
 
 
 def convert_dashes_oldschool(text):
@@ -559,15 +443,6 @@ def convert_dashes_oldschool(text):
     text = re.sub('---', '&#8212;', text)  # em (yes, backwards)
     text = re.sub('--', '&#8211;', text)   # en (yes, backwards)
     return text
-
-
-def educateDashesOldSchoolInverted(text):
-
-    msg = 'educateDashesOldSchoolInverted will be removed at Version 2.0.0'
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-
-    return convert_dashes_oldschool_inverted(text)
 
 
 def convert_dashes_oldschool_inverted(text):
@@ -595,15 +470,6 @@ def convert_dashes_oldschool_inverted(text):
     return text
 
 
-def educateEllipses(text):
-
-    msg = 'educateEllipses will be removed at Version 2.0.0'
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-
-    return convert_ellipses(text)
-
-
 def convert_ellipses(text):
     """
     Convert ``...`` in *text* into ellipsis HTML entities
@@ -617,44 +483,36 @@ def convert_ellipses(text):
     return text
 
 
-def stupefyEntities(text):
-
-    msg = 'stupefyEntities will be removed at Version 2.0.0'
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-
-    return stupefy_entities(text)
-
-
-def stupefy_entities(text):
+def convert_entities(text, mode):
     """
-    Convert SmartyPants HTML entities in *text* into their ASCII counterparts.
+    Convert numeric character references to, if *mode* is
 
-    >>> print(stupefy_entities('&#8220;Hello &#8212; world.&#8221;'))
+    - *0*: Unicode characters
+    - *1*: HTML named entities
+    - *2*: ASCII equivalents
+
+    >>> print(convert_entities('&#8216;', 0))
+    ‘
+    >>> print(convert_entities('&#8216;SmartyPants&#8217;', 1))
+    &lsquo;SmartyPants&rsquo;
+    >>> print(convert_entities('&#8220;Hello &#8212; world.&#8221;', 2))
     "Hello -- world."
     """
 
-    text = re.sub('&#8211;', '-', text)  # en-dash
-    text = re.sub('&#8212;', '--', text)  # em-dash
+    CTBL = {
+        '&#8211;': ('–', '&ndash;', '-'),
+        '&#8212;': ('—', '&mdash;', '--'),
+        '&#8216;': ('‘', '&lsquo;', "'"),
+        '&#8217;': ('’', '&rsquo;', "'"),
+        '&#8220;': ('“', '&ldquo;', '"'),
+        '&#8221;': ('”', '&rdquo;', '"'),
+        '&#8230;': ('…', '&hellip;', '...'),
+    }
 
-    text = re.sub('&#8216;', "'", text)  # open single quote
-    text = re.sub('&#8217;', "'", text)  # close single quote
-
-    text = re.sub('&#8220;', '"', text)  # open double quote
-    text = re.sub('&#8221;', '"', text)  # close double quote
-
-    text = re.sub('&#8230;', '...', text)  # ellipsis
+    for k, v in CTBL.items():
+        text = text.replace(k, v[mode])
 
     return text
-
-
-def processEscapes(text):
-
-    msg = 'processEscapes will be removed at Version 2.0.0'
-    warnings.filterwarnings('once', msg, DeprecationWarning)
-    warnings.warn(msg, DeprecationWarning)
-
-    return process_escapes(text)
 
 
 def process_escapes(text):

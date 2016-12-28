@@ -73,6 +73,35 @@ import warnings
 import smartypants
 
 
+def _str_attr_to_int(str_attr):
+    """
+    Convert str-type attr into int
+
+    >>> f = _str_attr_to_int
+    >>> f('q') == Attr.q
+    True
+    >>> f('1') == Attr.set1
+    True
+    >>> with warnings.catch_warnings(record=True) as w:
+    ...     f('bz')
+    ...     len(w)
+    ...     print(w[-1].message)
+    2
+    1
+    Unknown attribute: z
+    """
+    attr = 0
+    for c in str_attr:
+        if '0' <= c <= '3':
+            c = 'set' + c
+        if not hasattr(smartypants.Attr, c):
+            warnings.warn('Unknown attribute: %s' % c, Warning)
+            continue
+        attr |= getattr(smartypants.Attr, c)
+
+    return attr
+
+
 def main():
 
     parser = argparse.ArgumentParser(description=smartypants.__description__)
@@ -88,7 +117,7 @@ def main():
     args = parser.parse_args()
 
     with warnings.catch_warnings(record=True) as w:
-        attr = smartypants._str_attr_to_int(args.attr)
+        attr = _str_attr_to_int(args.attr)
         if len(w):
             print(w[-1].message)
             sys.exit(1)
