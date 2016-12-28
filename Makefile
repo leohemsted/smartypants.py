@@ -8,7 +8,7 @@ PY2_CMD=python2
 PY3_CMD=python3
 INSTALL_TEST_DIR=/tmp/$(PACKAGE)_install_test
 
-BUILD_CMD=./setup.py sdist --formats gztar,zip bdist_wheel
+BUILD_CMD=./setup.py sdist --formats gztar bdist_wheel
 
 DOC_FILES = CHANGES.rst COPYING docs/conf.py $(wildcard docs/*.rst)
 
