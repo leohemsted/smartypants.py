@@ -7,6 +7,11 @@ smartypants_ is a Python fork of SmartyPants__.
 __ SmartyPantsPerl_
 .. _SmartyPantsPerl: http://daringfireball.net/projects/smartypants/
 
+.. important::
+
+   As of 2016-12-28, smartypants is looking for new maintainer to take over,
+   please contact project owner on Bitbucket.
+
 
 Installation
 ------------
