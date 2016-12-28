@@ -1,4 +1,4 @@
-# Copyright (c) 2013, 2014 Yu-Jie Lin
+# Copyright (c) 2013, 2014, 2016 Yu-Jie Lin
 # Licensed under the BSD License, for detailed license information, see COPYING
 
 PACKAGE=smartypants
@@ -8,7 +8,7 @@ PY2_CMD=python2
 PY3_CMD=python3
 INSTALL_TEST_DIR=/tmp/$(PACKAGE)_install_test
 
-BUILD_CMD=./setup.py sdist --formats gztar,zip bdist_wheel bdist_wininst --plat-name win32
+BUILD_CMD=./setup.py sdist --formats gztar,zip bdist_wheel
 
 DOC_FILES = CHANGES.rst COPYING docs/conf.py $(wildcard docs/*.rst)
 

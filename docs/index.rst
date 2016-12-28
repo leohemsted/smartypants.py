@@ -6,6 +6,12 @@
 Welcome to smartypants documentation!
 =====================================
 
+.. important::
+
+   As of 2016-12-28, smartypants is looking for new maintainer to take over,
+   please contact project owner on Bitbucket.
+
+
 Contents:
 
 .. toctree::
