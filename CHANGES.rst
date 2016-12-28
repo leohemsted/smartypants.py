@@ -40,14 +40,15 @@ Changes
   *Development* means it's current changes in development repository.
 
 
-Releases 1.7 and greater
+Releases 2.0 and greater
 ========================
-
-Release 2.0.0
--------------
 
 Development
 -----------
+
+
+Release 2.0.0 (2016-12-28T06:18:42Z)
+------------------------------------
 
 - drop Pyblosxom support
 
@@ -73,6 +74,10 @@ Development
   + test packages build in ``test_setup`` target
 
   * rename target ``install_test`` to ``test_setup``
+
+
+Releases 1.7 and greater
+========================
 
 
 Release 1.8.6: 2014-07-19T11:20:52Z
