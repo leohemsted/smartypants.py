@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2013, 2016 Yu-Jie Lin
+# Copyright (c) 2017 Leo Hemsted
 # Licensed under the BSD License, for detailed license information, see COPYING
 
 import doctest
