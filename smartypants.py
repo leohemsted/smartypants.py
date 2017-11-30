@@ -20,7 +20,13 @@ __license__ = 'BSD License'
 __url__ = 'https://github.com/leohemsted/smartypants.py'
 __description__ = 'Python with the SmartyPants'
 
-import re
+try:
+    import regex as re
+    # regex uses atomics to improve performance
+    TAG_REGEX = r'((?>[^<]*))(<!--.*?--\s*>|<[^>]*>)'
+except ImportError:
+    import re
+    TAG_REGEX = r'([^<]*)(<!--.*?--\s*>|<[^>]*>)'
 
 
 class _Attr(object):
@@ -213,7 +219,6 @@ def smartypants(text, attr=None):
     # the last character of the previous text
     # token, to use as context to curl single-
     # character quote tokens correctly.
-
     tags_to_skip_regex = _tags_to_skip_regex()
 
     for cur_token in tokens:
@@ -564,11 +569,15 @@ def _tokenize(text):
     Based on the _tokenize() subroutine from `Brad Choate's MTRegex plugin`__.
 
     __ http://www.bradchoate.com/past/mtregex.php
-    """
 
+
+    If you have the ``regex`` library (https://pypi.python.org/pypi/regex/),
+    this function will use an alternative regex to perform significantly faster
+    on large input texts.
+    """
     tokens = []
 
-    tag_soup = re.compile(r'([^<]*)(<!--.*?--\s*>|<[^>]*>)', re.S)
+    tag_soup = re.compile(TAG_REGEX, re.S)
 
     token_match = tag_soup.search(text)
 
