@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+# Copyright (c) 2017 Leo Hemsted
 # Copyright (c) 2013, 2014, 2016 Yu-Jie Lin
 # Copyright (c) 2004, 2005, 2007, 2013 Chad Miller
 # Copyright (c) 2003 John Gruber
@@ -12,14 +13,20 @@ smartypants module
 :func:`smartypants` is the core of smartypants module.
 """
 
-__author__ = 'Yu-Jie Lin'
-__author_email__ = 'livibetter@gmail.com'
-__version__ = '2.0.0'
+__author__ = 'Leo Hemsted'
+__author_email__ = 'leohemsted@gmail.com'
+__version__ = '2.1.0'
 __license__ = 'BSD License'
-__url__ = 'https://bitbucket.org/livibetter/smartypants.py'
+__url__ = 'https://github.com/leohemsted/smartypants.py'
 __description__ = 'Python with the SmartyPants'
 
-import re
+try:
+    import regex as re
+    # regex uses atomics to improve performance
+    TAG_REGEX = r'((?>[^<]*))(<!--.*?--\s*>|<[^>]*>)'
+except ImportError:
+    import re
+    TAG_REGEX = r'([^<]*)(<!--.*?--\s*>|<[^>]*>)'
 
 
 class _Attr(object):
@@ -212,7 +219,6 @@ def smartypants(text, attr=None):
     # the last character of the previous text
     # token, to use as context to curl single-
     # character quote tokens correctly.
-
     tags_to_skip_regex = _tags_to_skip_regex()
 
     for cur_token in tokens:
@@ -563,11 +569,15 @@ def _tokenize(text):
     Based on the _tokenize() subroutine from `Brad Choate's MTRegex plugin`__.
 
     __ http://www.bradchoate.com/past/mtregex.php
-    """
 
+
+    If you have the ``regex`` library (https://pypi.python.org/pypi/regex/),
+    this function will use an alternative regex to perform significantly faster
+    on large input texts.
+    """
     tokens = []
 
-    tag_soup = re.compile(r'([^<]*)(<!--.*?--\s*>|<[^>]*>)', re.S)
+    tag_soup = re.compile(TAG_REGEX, re.S)
 
     token_match = tag_soup.search(text)
 

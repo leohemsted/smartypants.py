@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (C) 2013, 2014 by Yu-Jie Lin
+# Copyright (C) 2017 by Leo Hemsted
 # For detail license information, See COPYING
 
 from __future__ import print_function
