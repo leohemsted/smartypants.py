@@ -5,6 +5,7 @@
 
 import doctest
 import unittest
+from time import time
 
 import smartypants
 from smartypants import smartypants as sp
@@ -146,6 +147,16 @@ document.write('<a href="' + href + '">' + linktext + "</a>");
 
         self.assertEqual(sp('"quote here"', Attr.set1 | Attr.s),
                          '"quote here"')
+
+    def test_incredibly_long_string(self):
+        # make sure it doesn't take too long with a long string
+        start = time()
+
+        sp("a" * 10000)
+
+        end = time()
+
+        self.assertLess(end - start, 0.2)
 
 
 def load_tests(loader, tests, pattern):
