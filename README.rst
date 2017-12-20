@@ -1,16 +1,18 @@
+.. image:: https://badge.fury.io/py/smartypants.svg
+    :target: PyPI_
+
+.. image:: https://secure.travis-ci.org/leohemsted/smartypants.py.png
+    :target: https://travis-ci.org/leohemsted/smartypants.py
+
 smartypants
 ===========
 
 smartypants_ is a Python fork of SmartyPants__.
 
-.. _smartypants: https://bitbucket.org/livibetter/smartypants.py
+.. _smartypants: https://github.com/leohemsted/smartypants.py
 __ SmartyPantsPerl_
 .. _SmartyPantsPerl: http://daringfireball.net/projects/smartypants/
 
-.. important::
-
-   As of 2016-12-28, smartypants is looking for new maintainer to take over,
-   please contact project owner on Bitbucket.
 
 
 Installation
