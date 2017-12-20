@@ -43,7 +43,7 @@ Changes
 Releases 2.0 and greater
 ========================
 
-Development
+Release 2.0.1 (2017-12-20)
 -----------
 
 * use `re.match` instead of `re.search` to improve performance on large strings
