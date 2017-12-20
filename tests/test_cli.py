@@ -1,4 +1,4 @@
-# Copyright (c) 2013 Yu-Jie Lin
+# Copyright (c) 2017 Leo Hemsted
 # Licensed under the BSD License, for detailed license information, see COPYING
 
 from __future__ import unicode_literals

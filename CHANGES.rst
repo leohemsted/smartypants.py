@@ -46,6 +46,7 @@ Releases 2.0 and greater
 Development
 -----------
 
+* use `re.match` instead of `re.search` to improve performance on large strings
 
 Release 2.0.0 (2016-12-28T06:18:42Z)
 ------------------------------------

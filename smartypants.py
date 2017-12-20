@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+# Copyright (c) 2017 Leo Hemsted
 # Copyright (c) 2013, 2014, 2016 Yu-Jie Lin
 # Copyright (c) 2004, 2005, 2007, 2013 Chad Miller
 # Copyright (c) 2003 John Gruber
@@ -12,11 +13,11 @@ smartypants module
 :func:`smartypants` is the core of smartypants module.
 """
 
-__author__ = 'Yu-Jie Lin'
-__author_email__ = 'livibetter@gmail.com'
-__version__ = '2.0.0'
+__author__ = 'Leo Hemsted'
+__author_email__ = 'leohemsted@gmail.com'
+__version__ = '2.0.1'
 __license__ = 'BSD License'
-__url__ = 'https://bitbucket.org/livibetter/smartypants.py'
+__url__ = 'https://github.com/leohemsted/smartypants.py'
 __description__ = 'Python with the SmartyPants'
 
 import re
@@ -569,7 +570,7 @@ def _tokenize(text):
 
     tag_soup = re.compile(r'([^<]*)(<!--.*?--\s*>|<[^>]*>)', re.S)
 
-    token_match = tag_soup.search(text)
+    token_match = tag_soup.match(text)
 
     previous_end = 0
     while token_match:
@@ -599,7 +600,7 @@ def _tokenize(text):
         tokens.append([type_, tag])
 
         previous_end = token_match.end()
-        token_match = tag_soup.search(text, token_match.end())
+        token_match = tag_soup.match(text, token_match.end())
 
     if previous_end < len(text):
         tokens.append(['text', text[previous_end:]])
