@@ -46,12 +46,15 @@ smartypants
 
 **smartypants, Python [fork of] SmartyPants.**
 
-Since August 2013, smartypants has been managed by `Yu-Jie Lin`_ after
+In August 2013, smartypants became managed by `Yu-Jie Lin`_ after they
 contacted Chad Miller and Hao Lian. Lin took over the project manager role and
 the package ownership on PyPI. It has since then also officially supported
 Python 3.
 
+Since December 2017, smartypants has been managed by `Leo Hemsted`_.
+
 .. _Yu-Jie Lin: http://yjl.im/
+.. _Leo Hemsted: https://github.com/leohemsted
 
 At this point, smartpants is heading towards as a *fork* of SmartyPants. The
 ".py" part is dropped from the project name, ".py" or "port" sometimes is still
