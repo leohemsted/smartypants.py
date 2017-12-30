@@ -49,6 +49,20 @@ class _Attr(object):
     """
     mask_b = b | B
 
+    c = 1 << 10
+    """
+    flag for comma quotes (``,,``) and (``````) to curly ones.
+
+    .. seealso:: :func:`convert_comma_quotes`
+    """
+
+    g = 1 << 11
+    """
+    flag for less-than and greater-than signs (``<<``) and (``>>``) to
+    guillemets.
+
+    .. seealso:: :func:`convert_guillemets`
+    """
     d = 1 << 3
     """
     flag for dashes (``--``) to em-dashes.
@@ -118,8 +132,11 @@ class _Attr(object):
 
     set0 = 0
     "suppress all transformations. (Do nothing.)"
-    set1 = q | b | d | e
-    "equivalent to :attr:`q` | :attr:`b` | :attr:`d` | :attr:`e`"
+    set1 = q | b | c | g | d | e
+    """
+    equivalent to :attr:`q` | :attr:`b` | :attr:`c`| :attr:`g`| :attr:`d`
+    | :attr:`e`
+    """
     set2 = q | b | D | e
     """
     equivalent to :attr:`q` | :attr:`b` | :attr:`D` | :attr:`e`
@@ -197,6 +214,8 @@ def smartypants(text, attr=None):
 
     do_quotes = attr & Attr.q
     do_backticks = attr & Attr.mask_b
+    do_commas = attr & Attr.c
+    do_guillemets = attr & Attr.g
     do_dashes = attr & Attr.mask_d
     do_ellipses = attr & Attr.e
     do_entities = attr & Attr.mask_o
@@ -257,6 +276,12 @@ def smartypants(text, attr=None):
 
                 if do_ellipses:
                     t = convert_ellipses(t)
+
+                if do_commas == Attr.c:
+                    t = convert_comma_quotes(t)
+
+                if do_guillemets == Attr.g:
+                    t = convert_guillemets(t)
 
                 # Note: backticks need to be processed before quotes.
                 if do_backticks == Attr.b:
@@ -418,6 +443,32 @@ def convert_single_backticks(text):
     return text
 
 
+def convert_comma_quotes(text):
+    """
+    Convert ``,,comma````-style double quotes in *test* into HTML curly quote
+    entities (low-9 aka German style).
+
+    >>> print(convert_comma_quotes(",,Isn't this fun?``"))
+    &#8222;Isn't this fun?&#8220;
+    """
+    text = re.sub(',,', '&#8222;', text)
+    text = re.sub('``', '&#8220;', text)
+    return text
+
+
+def convert_guillemets(text):
+    """
+    Convert ``<<angle>>``-style double quotes in *test* into HTML guillemet
+    entities (French style).
+
+    >>> print(convert_guillemets("<<Isn't this fun?>>"))
+    &#171;Isn't this fun?&#187;
+    """
+    text = re.sub('<<', '&#171;', text)
+    text = re.sub('>>', '&#187;', text)
+    return text
+
+
 def convert_dashes(text):
     """
     Convert ``--`` in *text* into em-dash HTML entities.
@@ -568,7 +619,7 @@ def _tokenize(text):
 
     tokens = []
 
-    tag_soup = re.compile(r'([^<]*)(<!--.*?--\s*>|<[^>]*>)', re.S)
+    tag_soup = re.compile(r'([^<]*)(<!--.*?--\s*>|<[^<>]*>)', re.S)
 
     token_match = tag_soup.match(text)
 
