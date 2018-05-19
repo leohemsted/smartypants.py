@@ -135,6 +135,20 @@ document.write('<a href="' + href + '">' + linktext + "</a>");
         self.assertEqual(sp('"Isn\'t this fun?"'),
                          '&#8220;Isn&#8217;t this fun?&#8221;')
 
+    def test_quotes_punctuation(self):
+
+        self.assertEqual(sp('You should use ";" here'),
+                         'You should use &#8220;;&#8221; here')
+
+    def test_quotes_and_html(self):
+
+        self.assertEqual(
+            sp('Take a look at the "<a>Essay on quoting</a>" paper.'),
+            'Take a look at the &#8220;<a>Essay on quoting</a>&#8221; paper.')
+        self.assertEqual(
+            sp('Take a look at "<a>Essay on quoting</a>".'),
+            'Take a look at &#8220;<a>Essay on quoting</a>&#8221;.')
+
     def test_convert_entities(self):
 
         self.assertEqual(sp('"quote here"', Attr.set1 | Attr.u),

@@ -379,6 +379,13 @@ def convert_quotes(text):
     text = closing_double_quotes_regex.sub('&#8221;', text)
 
     closing_double_quotes_regex = re.compile(r"""
+            ^
+            "
+            (?=%s)
+            """ % (punct_class,), re.VERBOSE)
+    text = closing_double_quotes_regex.sub('&#8221;', text)
+
+    closing_double_quotes_regex = re.compile(r"""
             (%s)   # character that indicates the quote should be closing
             "
             """ % (close_class,), re.VERBOSE)
