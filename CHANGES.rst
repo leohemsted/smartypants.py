@@ -43,6 +43,11 @@ Changes
 Releases 2.0 and greater
 ========================
 
+Unreleased
+----------
+
++ Add ``Attr.n`` to disable escape processing.
+
 Release 2.0.1 (2017-12-20)
 --------------------------
 
