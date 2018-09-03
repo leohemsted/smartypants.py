@@ -158,6 +158,17 @@ document.write('<a href="' + href + '">' + linktext + "</a>");
 
         self.assertLess(end - start, 0.2)
 
+    def test_escapes(self):
+        TEXT = r'"smarty" regex: "[\-\.]"'
+
+        T = sp(TEXT)
+        E = r'&#8220;smarty&#8221; regex: &#8220;[&#45;&#46;]&#8221;'
+        self.assertEqual(T, E)
+
+        T = sp(TEXT, Attr.q | Attr.n)
+        E = r'&#8220;smarty&#8221; regex: &#8220;[\-\.]&#8221;'
+        self.assertEqual(T, E)
+
 
 def load_tests(loader, tests, pattern):
 

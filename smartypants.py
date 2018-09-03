@@ -114,6 +114,11 @@ class _Attr(object):
 
     .. seealso:: :func:`convert_entities`
     """
+    n = 1 << 10
+    """
+    Disable backslash escape processing by :func:`process_escapes`.
+    """
+
     mask_o = u | h | s
 
     set0 = 0
@@ -201,6 +206,7 @@ def smartypants(text, attr=None):
     do_ellipses = attr & Attr.e
     do_entities = attr & Attr.mask_o
     convert_quot = attr & Attr.w
+    do_escapes = not(attr & Attr.n)
 
     tokens = _tokenize(text)
     result = []
@@ -242,7 +248,8 @@ def smartypants(text, attr=None):
             # Remember last char of this token before processing.
             last_char = t[-1:]
             if not in_pre:
-                t = process_escapes(t)
+                if do_escapes:
+                    t = process_escapes(t)
 
                 if convert_quot:
                     t = re.sub('&quot;', '"', t)
@@ -518,7 +525,7 @@ def convert_entities(text, mode):
 
 def process_escapes(text):
     r"""
-    Processe the following backslash escape sequences in *text*. This is useful
+    Process the following backslash escape sequences in *text*. This is useful
     if you want to force a "dumb" quote or other character to appear.
 
     +--------+-----------+-----------+
@@ -541,6 +548,9 @@ def process_escapes(text):
     &#92;
     >>> print(smartypants(r'"smarty" \"pants\"'))
     &#8220;smarty&#8221; &#34;pants&#34;
+
+    This processing can be disabled with the ``Attr.n`` flag.
+
     """
 
     text = re.sub(r'\\\\', '&#92;', text)
