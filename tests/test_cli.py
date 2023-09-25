@@ -34,7 +34,7 @@ class TestCLI(unittest.TestCase):
         E = '&#8220;foobar&#8221;'
 
         output = self._p([CLI_SCRIPT], T)
-        self.assertEquals(output, E)
+        self.assertEqual(output, E)
 
     def test_pipe_attr(self):
 
@@ -42,11 +42,11 @@ class TestCLI(unittest.TestCase):
 
         E = T
         output = self._p([CLI_SCRIPT, '--attr', '0'], T)
-        self.assertEquals(output, E)
+        self.assertEqual(output, E)
 
         E = """"foo" &#8220;bar&#8221;"""
         output = self._p([CLI_SCRIPT, '--attr', 'b'], T)
-        self.assertEquals(output, E)
+        self.assertEqual(output, E)
 
     def test_skipped_elements(self):
 
@@ -54,19 +54,19 @@ class TestCLI(unittest.TestCase):
 
         E = '<a>&#8220;foo&#8221;</a> <b>&#8220;bar&#8221;</b>'
         output = self._p([CLI_SCRIPT], T)
-        self.assertEquals(output, E)
+        self.assertEqual(output, E)
 
         E = '<a>"foo"</a> <b>&#8220;bar&#8221;</b>'
         output = self._p([CLI_SCRIPT, '--skip', 'a'], T)
-        self.assertEquals(output, E)
+        self.assertEqual(output, E)
 
         E = '<a>&#8220;foo&#8221;</a> <b>"bar"</b>'
         output = self._p([CLI_SCRIPT, '--skip', 'b'], T)
-        self.assertEquals(output, E)
+        self.assertEqual(output, E)
 
         E = T
         output = self._p([CLI_SCRIPT, '--skip', 'a,b'], T)
-        self.assertEquals(output, E)
+        self.assertEqual(output, E)
 
     def test_file(self):
 
@@ -81,4 +81,4 @@ class TestCLI(unittest.TestCase):
             output = self._p([CLI_SCRIPT, F])
         finally:
             os.remove(F)
-        self.assertEquals(output, E)
+        self.assertEqual(output, E)

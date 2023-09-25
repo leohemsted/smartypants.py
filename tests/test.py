@@ -24,7 +24,7 @@ class SmartyPantsTestCase(unittest.TestCase):
 
         T = sp(TEXT)
         E = '&#8220;foo&#8221; -- bar'
-        self.assertEquals(T, E)
+        self.assertEqual(T, E)
 
         attr = Attr.q | Attr.d
         Attr.default = attr
@@ -32,7 +32,7 @@ class SmartyPantsTestCase(unittest.TestCase):
 
         T = sp(TEXT)
         E = '&#8220;foo&#8221; &#8212; bar'
-        self.assertEquals(T, E)
+        self.assertEqual(T, E)
 
     def test_dates(self):
 
